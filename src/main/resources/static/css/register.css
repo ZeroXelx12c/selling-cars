@@ -1,0 +1,72 @@
+body {
+    background-color: #1a1a1a;
+    color: #e0e0e0;
+    font-family: 'Roboto', sans-serif;
+}
+.card {
+    background-color: #262626;
+    border: none;
+    border-radius: 15px;
+}
+.card-header {
+    background-color: #333333;
+    border-radius: 15px 15px 0 0 !important;
+    color: #ffffff;
+    font-family: 'Playfair Display', serif;
+}
+.form-control {
+    background-color: #333333;
+    border: 1px solid #444444;
+    color: #e0e0e0;
+    border-radius: 8px;
+}
+.form-control:focus {
+    background-color: #444444;
+    border-color: #555555;
+    color: #ffffff;
+}
+.btn {
+    border-radius: 8px;
+}
+.btn-primary {
+    background-color: #8B4513;
+    border: none;
+}
+.btn-primary:hover {
+    background-color: #A0522D;
+}
+.btn-facebook {
+    background-color: #3b5998;
+    color: white;
+}
+.btn-facebook:hover {
+    background-color: #2d4373;
+    color: white;
+}
+.btn-google {
+    background-color: #dd4b39;
+    color: white;
+}
+.btn-google:hover {
+    background-color: #c23321;
+    color: white;
+}
+.password-requirements {
+    font-size: 0.85rem;
+    color: #6c757d;
+}
+.requirement-item {
+    margin-bottom: 0.25rem;
+}
+.requirement-item i {
+    margin-right: 0.5rem;
+}
+.text-primary {
+    color: #8B4513 !important;
+}
+.text-primary:hover {
+    color: #A0522D !important;
+}
+.img-fluid {
+    border-radius: 10px;
+}

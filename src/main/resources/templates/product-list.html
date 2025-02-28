@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh sách sản phẩm - Luxury Auto Gallery</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link href="css/product-list.css" rel="stylesheet">
+    
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">LUXURY AUTO</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Trang chủ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Sản phẩm</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Dịch vụ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Tin tức</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Liên hệ</a>
+                    </li>
+                </ul>
+                <div class="ms-3">
+                    <a href="login.html" class="btn btn-custom">Đăng nhập</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Product Listing Section -->
+    <section class="product-listing">
+        <div class="container">
+            <div class="section-title" data-aos="fade-up">
+                <h1>Danh sách sản phẩm</h1>
+                <p>Khám phá bộ sưu tập xe sang đẳng cấp của chúng tôi</p>
+            </div>
+
+            <!-- Filter Section -->
+            <div class="filter-section" data-aos="fade-up" data-aos-delay="200">
+                <div class="row">
+                    <div class="col-md-3 col-sm-6">
+                        <label>Hãng xe:</label>
+                        <select id="filterBrand" onchange="filterAndSortCars()">
+                            <option value="all">Tất cả</option>
+                            <option value="Mercedes-Benz">Mercedes-Benz</option>
+                            <option value="BMW">BMW</option>
+                            <option value="Audi">Audi</option>
+                            <option value="Porsche">Porsche</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <label>Năm sản xuất:</label>
+                        <select id="filterYear" onchange="filterAndSortCars()">
+                            <option value="all">Tất cả</option>
+                            <option value="2025">2025</option>
+                            <option value="2024">2024</option>
+                            <option value="2023">2023</option>
+                            <option value="2022">2022</option>
+                            <option value="2021">2021</option>
+                            <option value="older">Trước 2021</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <label>Giá:</label>
+                        <select id="filterPrice" onchange="filterAndSortCars()">
+                            <option value="all">Tất cả</option>
+                            <option value="under5">Dưới 5 tỷ</option>
+                            <option value="5to10">5 - 10 tỷ</option>
+                            <option value="over10">Trên 10 tỷ</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <label>Sắp xếp:</label>
+                        <select id="sortOrder" onchange="filterAndSortCars()">
+                            <option value="latest">Mới nhất</option>
+                            <option value="priceAsc">Giá thấp đến cao</option>
+                            <option value="priceDesc">Giá cao đến thấp</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product Grid -->
+            <div class="row" id="carList">
+                <!-- Car Card 1 -->
+                <div class="col-md-4 car-item" data-brand="Mercedes-Benz" data-year="2024" data-price="8999000000" data-aos="fade-up">
+                    <div class="car-card">
+                        <div class="car-image">
+                            <img src="https://images.unsplash.com/photo-1555652736-e92021d28643?ixlib=rb-4.0.3" alt="Mercedes-Benz S-Class">
+                        </div>
+                        <div class="car-details">
+                            <h3 class="car-title">Mercedes-Benz S-Class</h3>
+                            <div class="car-price">₫8.999.000.000</div>
+                            <div class="car-specs">
+                                <span><i class="fas fa-road"></i> 0 km</span>
+                                <span><i class="fas fa-calendar"></i> 2024</span>
+                                <span><i class="fas fa-gas-pump"></i> 3.0L</span>
+                            </div>
+                            <a href="#" class="btn btn-custom">Xem chi tiết</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Car Card 2 -->
+                <div class="col-md-4 car-item" data-brand="BMW" data-year="2024" data-price="7499000000" data-aos="fade-up" data-aos-delay="200">
+                    <div class="car-card">
+                        <div class="car-image">
+                            <img src="https://images.unsplash.com/photo-1555215695-3004980ad54e?ixlib=rb-4.0.3" alt="BMW 7 Series">
+                        </div>
+                        <div class="car-details">
+                            <h3 class="car-title">BMW 7 Series</h3>
+                            <div class="car-price">₫7.499.000.000</div>
+                            <div class="car-specs">
+                                <span><i class="fas fa-road"></i> 0 km</span>
+                                <span><i class="fas fa-calendar"></i> 2024</span>
+                                <span><i class="fas fa-gas-pump"></i> 4.4L</span>
+                            </div>
+                            <a href="#" class="btn btn-custom">Xem chi tiết</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Car Card 3 -->
+                <div class="col-md-4 car-item" data-brand="Audi" data-year="2024" data-price="6999000000" data-aos="fade-up" data-aos-delay="400">
+                    <div class="car-card">
+                        <div class="car-image">
+                            <img src="https://images.unsplash.com/photo-1553440569-bcc63803a83d?ixlib=rb-4.0.3" alt="Audi A8 L">
+                        </div>
+                        <div class="car-details">
+                            <h3 class="car-title">Audi A8 L</h3>
+                            <div class="car-price">₫6.999.000.000</div>
+                            <div class="car-specs">
+                                <span><i class="fas fa-road"></i> 0 km</span>
+                                <span><i class="fas fa-calendar"></i> 2024</span>
+                                <span><i class="fas fa-gas-pump"></i> 3.0L</span>
+                            </div>
+                            <a href="#" class="btn btn-custom">Xem chi tiết</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Car Card 4 -->
+                <div class="col-md-4 car-item" data-brand="Porsche" data-year="2024" data-price="9500000000" data-aos="fade-up">
+                    <div class="car-card">
+                        <div class="car-image">
+                            <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?ixlib=rb-4.0.3" alt="Porsche Panamera">
+                        </div>
+                        <div class="car-details">
+                            <h3 class="car-title">Porsche Panamera</h3>
+                            <div class="car-price">₫9.500.000.000</div>
+                            <div class="car-specs">
+                                <span><i class="fas fa-road"></i> 0 km</span>
+                                <span><i class="fas fa-calendar"></i> 2024</span>
+                                <span><i class="fas fa-gas-pump"></i> 4.0L</span>
+                            </div>
+                            <a href="#" class="btn btn-custom">Xem chi tiết</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Car Card 5: Dưới 5 tỷ, năm 2022 -->
+                <div class="col-md-4 car-item" data-brand="Mercedes-Benz" data-year="2022" data-price="3999000000" data-aos="fade-up">
+                    <div class="car-card">
+                        <div class="car-image">
+                            <img src="https://images.unsplash.com/photo-1616788494707-ec28f08d05a1?ixlib=rb-4.0.3" alt="Mercedes-Benz C-Class">
+                        </div>
+                        <div class="car-details">
+                            <h3 class="car-title">Mercedes-Benz C-Class</h3>
+                            <div class="car-price">₫3.999.000.000</div>
+                            <div class="car-specs">
+                                <span><i class="fas fa-road"></i> 15,000 km</span>
+                                <span><i class="fas fa-calendar"></i> 2022</span>
+                                <span><i class="fas fa-gas-pump"></i> 2.0L</span>
+                            </div>
+                            <a href="#" class="btn btn-custom">Xem chi tiết</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Car Card 6: Trên 10 tỷ, năm 2025 -->
+                <div class="col-md-4 car-item" data-brand="Porsche" data-year="2025" data-price="12500000000" data-aos="fade-up" data-aos-delay="200">
+                    <div class="car-card">
+                        <div class="car-image">
+                            <img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?ixlib=rb-4.0.3" alt="Porsche 911 Turbo S">
+                        </div>
+                        <div class="car-details">
+                            <h3 class="car-title">Porsche 911 Turbo S</h3>
+                            <div class="car-price">₫12.500.000.000</div>
+                            <div class="car-specs">
+                                <span><i class="fas fa-road"></i> 0 km</span>
+                                <span><i class="fas fa-calendar"></i> 2025</span>
+                                <span><i class="fas fa-gas-pump"></i> 3.8L</span>
+                            </div>
+                            <a href="#" class="btn btn-custom">Xem chi tiết</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Car Card 7: Trước 2021, dưới 5 tỷ -->
+                <div class="col-md-4 car-item" data-brand="BMW" data-year="2020" data-price="2999000000" data-aos="fade-up" data-aos-delay="400">
+                    <div class="car-card">
+                        <div class="car-image">
+                            <img src="https://images.unsplash.com/photo-1556228453-3a356a6eb4b4?ixlib=rb-4.0.3" alt="BMW 5 Series">
+                        </div>
+                        <div class="car-details">
+                            <h3 class="car-title">BMW 5 Series</h3>
+                            <div class="car-price">₫2.999.000.000</div>
+                            <div class="car-specs">
+                                <span><i class="fas fa-road"></i> 30,000 km</span>
+                                <span><i class="fas fa-calendar"></i> 2020</span>
+                                <span><i class="fas fa-gas-pump"></i> 2.0L</span>
+                            </div>
+                            <a href="#" class="btn btn-custom">Xem chi tiết</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pagination -->
+            <nav aria-label="Page navigation" data-aos="fade-up" data-aos-delay="600">
+                <ul class="pagination">
+                    <li class="page-item">
+                        <a class="page-link" href="#" aria-label="Previous">
+                            <span aria-hidden="true">«</span>
+                        </a>
+                    </li>
+                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item">
+                        <a class="page-link" href="#" aria-label="Next">
+                            <span aria-hidden="true">»</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="footer-content">
+                        <h3 class="footer-title">Về chúng tôi</h3>
+                        <p>Luxury Auto Gallery - Nơi những giấc mơ về xe sang trở thành hiện thực. Chúng tôi tự hào mang đến những sản phẩm và dịch vụ cao cấp nhất.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="footer-content">
+                        <h3 class="footer-title">Liên kết nhanh</h3>
+                        <div class="footer-links">
+                            <a href="#">Sản phẩm</a>
+                            <a href="#">Dịch vụ</a>
+                            <a href="#">Tin tức</a>
+                            <a href="#">Liên hệ</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="footer-content">
+                        <h3 class="footer-title">Kết nối với chúng tôi</h3>
+                        <div class="social-links">
+                            <a href="#"><i class="fab fa-facebook"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-youtube"></i></a>
+                            <a href="#"><i class="fab fa-linkedin"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>© 2025 Luxury Auto Gallery. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- AOS Animation -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init();
+    </script>
+    <script src="js/product-list.js"></script>
+</body>
+</html>
