@@ -383,9 +383,14 @@
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Tên sản phẩm</th>
+                        <th>Danh mục</th>
+                        <th>Tên xe</th>
                         <th>Giá</th>
                         <th>Hình ảnh</th>
+                        <th>Model</th>
+                        <th>Năm SX</th>
+                        <th>Động cơ</th>
+                        <th>Số KM</th>
                         <th>Trạng thái</th>
                         <th>Hành động</th>
                     </tr>
@@ -393,23 +398,33 @@
                 <tbody id="productTable">
                     <tr>
                         <td>001</td>
+                        <td>Sedan Hạng Sang</td>
                         <td>Mercedes-Benz S-Class</td>
                         <td>₫8.999.000.000</td>
                         <td><img src="https://images.unsplash.com/photo-1555652736-e92021d28643?ixlib=rb-4.0.3" alt="Mercedes-Benz S-Class"></td>
+                        <td>S500</td>
+                        <td>2023</td>
+                        <td>3.0L V6</td>
+                        <td>0</td>
                         <td>Còn hàng</td>
                         <td>
-                            <button class="btn-action btn-edit" onclick="editProduct(this)">Sửa</button>
+                            <button class="btn-action btn-edit" onclick="editProduct(this)" data-description="Mercedes-Benz S-Class 2023 phiên bản S500 mới nhất với động cơ 3.0L V6 mạnh mẽ, nội thất sang trọng và công nghệ hiện đại.">Sửa</button>
                             <button class="btn-action btn-delete" onclick="deleteProduct(this)">Xóa</button>
                         </td>
                     </tr>
                     <tr>
                         <td>002</td>
+                        <td>Sedan Hạng Sang</td>
                         <td>BMW 7 Series</td>
                         <td>₫7.499.000.000</td>
                         <td><img src="https://images.unsplash.com/photo-1555215695-3004980ad54e?ixlib=rb-4.0.3" alt="BMW 7 Series"></td>
+                        <td>740i</td>
+                        <td>2023</td>
+                        <td>2.9L I6</td>
+                        <td>1500</td>
                         <td>Còn hàng</td>
                         <td>
-                            <button class="btn-action btn-edit" onclick="editProduct(this)">Sửa</button>
+                            <button class="btn-action btn-edit" onclick="editProduct(this)" data-description="BMW 7 Series 2023 phiên bản 740i với động cơ 2.9L I6 hiệu suất cao, thiết kế sang trọng và các tính năng an toàn tiên tiến.">Sửa</button>
                             <button class="btn-action btn-delete" onclick="deleteProduct(this)">Xóa</button>
                         </td>
                     </tr>
@@ -552,17 +567,50 @@
                 <div class="modal-body">
                     <form id="addProductForm">
                         <div class="mb-3">
-                            <label for="productName" class="form-label">Tên sản phẩm</label>
+                            <label for="productCategory" class="form-label">Danh mục</label>
+                            <select class="form-control" id="productCategory" required>
+                                <option value="">Chọn danh mục</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="productName" class="form-label">Tên xe</label>
                             <input type="text" class="form-control" id="productName" required>
                         </div>
                         <div class="mb-3">
                             <label for="productPrice" class="form-label">Giá</label>
-                            <input type="text" class="form-control" id="productPrice" required>
+                            <input type="number" class="form-control" id="productPrice" required>
                         </div>
                         <div class="mb-3">
                             <label for="productImage" class="form-label">Hình ảnh</label>
                             <input type="file" class="form-control" id="productImage" accept="image/*" required onchange="previewImage(this, 'addImagePreview')">
                             <img id="addImagePreview" style="display: none; width: 100px; height: 100px; margin-top: 10px;" alt="Preview">
+                        </div>
+                        <div class="mb-3">
+                            <label for="productModel" class="form-label">Model</label>
+                            <input type="text" class="form-control" id="productModel" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="productYear" class="form-label">Năm sản xuất</label>
+                            <input type="number" class="form-control" id="productYear" required min="1900" max="2100">
+                        </div>
+                        <div class="mb-3">
+                            <label for="productEngine" class="form-label">Động cơ</label>
+                            <input type="text" class="form-control" id="productEngine" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="productMileage" class="form-label">Số KM đã đi</label>
+                            <input type="number" class="form-control" id="productMileage" required min="0">
+                        </div>
+                        <div class="mb-3">
+                            <label for="productStatus" class="form-label">Trạng thái</label>
+                            <select class="form-control" id="productStatus" required>
+                                <option value="InStock">Còn hàng</option>
+                                <option value="SoldOut">Đã bán</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="productDescription" class="form-label">Mô tả chi tiết</label>
+                            <textarea class="form-control" id="productDescription" rows="3" required></textarea>
                         </div>
                     </form>
                 </div>
@@ -586,17 +634,50 @@
                     <form id="editProductForm">
                         <input type="hidden" id="editProductId">
                         <div class="mb-3">
-                            <label for="editProductName" class="form-label">Tên sản phẩm</label>
+                            <label for="editProductCategory" class="form-label">Danh mục</label>
+                            <select class="form-control" id="editProductCategory" required>
+                                <option value="">Chọn danh mục</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editProductName" class="form-label">Tên xe</label>
                             <input type="text" class="form-control" id="editProductName" required>
                         </div>
                         <div class="mb-3">
                             <label for="editProductPrice" class="form-label">Giá</label>
-                            <input type="text" class="form-control" id="editProductPrice" required>
+                            <input type="number" class="form-control" id="editProductPrice" required>
                         </div>
                         <div class="mb-3">
                             <label for="editProductImage" class="form-label">Hình ảnh</label>
                             <input type="file" class="form-control" id="editProductImage" accept="image/*" onchange="previewImage(this, 'editImagePreview')">
                             <img id="editImagePreview" style="width: 100px; height: 100px; margin-top: 10px;" alt="Current Image">
+                        </div>
+                        <div class="mb-3">
+                            <label for="editProductModel" class="form-label">Model</label>
+                            <input type="text" class="form-control" id="editProductModel" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editProductYear" class="form-label">Năm sản xuất</label>
+                            <input type="number" class="form-control" id="editProductYear" required min="1900" max="2100">
+                        </div>
+                        <div class="mb-3">
+                            <label for="editProductEngine" class="form-label">Động cơ</label>
+                            <input type="text" class="form-control" id="editProductEngine" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editProductMileage" class="form-label">Số KM đã đi</label>
+                            <input type="number" class="form-control" id="editProductMileage" required min="0">
+                        </div>
+                        <div class="mb-3">
+                            <label for="editProductStatus" class="form-label">Trạng thái</label>
+                            <select class="form-control" id="editProductStatus" required>
+                                <option value="InStock">Còn hàng</option>
+                                <option value="SoldOut">Đã bán</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editProductDescription" class="form-label">Mô tả chi tiết</label>
+                            <textarea class="form-control" id="editProductDescription" rows="3" required></textarea>
                         </div>
                     </form>
                 </div>
@@ -692,9 +773,16 @@
 
         // Thêm sản phẩm
         function addProduct() {
+            const category = document.getElementById('productCategory').value;
             const name = document.getElementById('productName').value;
             const price = document.getElementById('productPrice').value;
             const imageInput = document.getElementById('productImage');
+            const model = document.getElementById('productModel').value;
+            const year = document.getElementById('productYear').value;
+            const engine = document.getElementById('productEngine').value;
+            const mileage = document.getElementById('productMileage').value;
+            const status = document.getElementById('productStatus').value;
+            const description = document.getElementById('productDescription').value;
             const file = imageInput.files[0];
 
             if (name && price && file) {
@@ -706,12 +794,17 @@
                     const row = `
                         <tr>
                             <td>${id}</td>
+                            <td>${category}</td>
                             <td>${name}</td>
-                            <td>${price}</td>
+                            <td>${new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price)}</td>
                             <td><img src="${imageData}" alt="${name}"></td>
-                            <td>Có sẵn</td>
+                            <td>${model}</td>
+                            <td>${year}</td>
+                            <td>${engine}</td>
+                            <td>${mileage}</td>
+                            <td>${status === 'InStock' ? 'Còn hàng' : 'Đã bán'}</td>
                             <td>
-                                <button class="btn-action btn-edit" onclick="editProduct(this)">Sửa</button>
+                                <button class="btn-action btn-edit" onclick="editProduct(this)" data-description="${description}">Sửa</button>
                                 <button class="btn-action btn-delete" onclick="deleteProduct(this)">Xóa</button>
                             </td>
                         </tr>
@@ -728,39 +821,63 @@
         // Sửa sản phẩm
         function editProduct(button) {
             const row = button.closest('tr');
-            const id = row.cells[0].innerText;
-            const name = row.cells[1].innerText;
-            const price = row.cells[2].innerText;
-            const image = row.cells[3].querySelector('img').src;
-
-            document.getElementById('editProductId').value = id;
-            document.getElementById('editProductName').value = name;
-            document.getElementById('editProductPrice').value = price;
+            const cells = row.cells;
+            document.getElementById('editProductId').value = cells[0].innerText;
+            document.getElementById('editProductCategory').value = cells[1].innerText;
+            document.getElementById('editProductName').value = cells[2].innerText;
+            document.getElementById('editProductPrice').value = cells[3].innerText.replace(/[^\d]/g, '');
             document.getElementById('editProductImage').value = '';
-            document.getElementById('editImagePreview').src = image;
+            document.getElementById('editImagePreview').src = cells[4].querySelector('img').src;
+            document.getElementById('editProductModel').value = cells[5].innerText;
+            document.getElementById('editProductYear').value = cells[6].innerText;
+            document.getElementById('editProductEngine').value = cells[7].innerText;
+            document.getElementById('editProductMileage').value = cells[8].innerText;
+            document.getElementById('editProductStatus').value = cells[9].innerText === 'Còn hàng' ? 'InStock' : 'SoldOut';
+            document.getElementById('editProductDescription').value = button.dataset.description;
 
             new bootstrap.Modal(document.getElementById('editProductModal')).show();
         }
 
         function saveProduct() {
             const id = document.getElementById('editProductId').value;
+            const category = document.getElementById('editProductCategory').value;
             const name = document.getElementById('editProductName').value;
             const price = document.getElementById('editProductPrice').value;
+            const model = document.getElementById('editProductModel').value;
+            const year = document.getElementById('editProductYear').value;
+            const engine = document.getElementById('editProductEngine').value;
+            const mileage = document.getElementById('editProductMileage').value;
+            const status = document.getElementById('editProductStatus').value;
+            const description = document.getElementById('editProductDescription').value;
             const imageInput = document.getElementById('editProductImage');
             const file = imageInput.files[0];
             const currentImage = document.getElementById('editImagePreview').src;
 
+            const formatPrice = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
             const rows = document.getElementById('productTable').rows;
+
+            const updateRow = (row, imageUrl) => {
+                row.cells[1].innerText = category;
+                row.cells[2].innerText = name;
+                row.cells[3].innerText = formatPrice;
+                row.cells[4].innerHTML = `<img src="${imageUrl}" alt="${name}">`;
+                row.cells[5].innerText = model;
+                row.cells[6].innerText = year;
+                row.cells[7].innerText = engine;
+                row.cells[8].innerText = mileage;
+                row.cells[9].innerText = status === 'InStock' ? 'Còn hàng' : 'Đã bán';
+                row.cells[10].innerHTML = `
+                    <button class="btn-action btn-edit" onclick="editProduct(this)" data-description="${description}">Sửa</button>
+                    <button class="btn-action btn-delete" onclick="deleteProduct(this)">Xóa</button>
+                `;
+            };
+
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    const imageData = e.target.result;
                     for (let row of rows) {
                         if (row.cells[0].innerText === id) {
-                            row.cells[1].innerText = name;
-                            row.cells[2].innerText = price;
-                            row.cells[3].innerHTML = `<img src="${imageData}" alt="${name}">`;
-                            row.cells[4].innerText = 'Có sẵn';
+                            updateRow(row, e.target.result);
                             break;
                         }
                     }
@@ -770,10 +887,7 @@
             } else {
                 for (let row of rows) {
                     if (row.cells[0].innerText === id) {
-                        row.cells[1].innerText = name;
-                        row.cells[2].innerText = price;
-                        row.cells[3].innerHTML = `<img src="${currentImage}" alt="${name}">`;
-                        row.cells[4].innerText = 'Có sẵn';
+                        updateRow(row, currentImage);
                         break;
                     }
                 }
