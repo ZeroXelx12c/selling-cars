@@ -23,10 +23,10 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .authorizeHttpRequests(authorize -> authorize
-                .requestMatchers("/login", "/register", "/forgot-password", "/css/**", "/js/**").permitAll()
-                .requestMatchers("/admin/**").hasRole("Admin")
-                .anyRequest().authenticated()
-            )
+            .requestMatchers("/login", "/register", "/forgot-password", "/css/**", "/js/**").permitAll()
+            .requestMatchers("/admin/**").hasRole("Admin")
+            .anyRequest().authenticated()
+        )
             .formLogin(form -> form
                 .loginPage("/login")
                 .defaultSuccessUrl("/", true)
