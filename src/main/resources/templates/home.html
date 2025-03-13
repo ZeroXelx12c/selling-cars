@@ -337,8 +337,9 @@
                         <a class="nav-link" href="#contact">Liên hệ</a>
                     </li>
                 </ul>
-                <div class="ms-3">
-                    <a href="login.html" class="btn btn-custom">Đăng nhập</a>
+                <div class="ms-3" id="auth-buttons">
+                    <a href="login.html" class="btn btn-custom" id="login-btn">Đăng nhập</a>
+                    <a href="#" class="btn btn-custom" id="logout-btn" style="display: none;">Đăng xuất</a>
                 </div>
             </div>
         </div>
@@ -350,74 +351,21 @@
             <h1 class="hero-title" data-aos="fade-up">LUXURY AUTO GALLERY</h1>
             <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="200">Trải nghiệm đẳng cấp xe sang</p>
             <div data-aos="fade-up" data-aos-delay="400">
-                <button class="btn btn-custom me-3">Khám phá ngay</button>
+                <button class="btn btn-custom me-3" onclick="scrollToFeatured()">Khám phá ngay</button>
                 <button class="btn btn-custom btn-outline">Liên hệ tư vấn</button>
             </div>
         </div>
     </section>
 
     <!-- Featured Cars -->
-    <section class="featured-cars">
+    <section class="featured-cars" id="featured-cars">
         <div class="container">
             <div class="section-title" data-aos="fade-up">
                 <h2>Sản phẩm nổi bật</h2>
                 <p>Khám phá bộ sưu tập xe sang đẳng cấp</p>
             </div>
-            
-            <div class="row">
-                <!-- Car Card 1 -->
-                <div class="col-md-4" data-aos="fade-up">
-                    <div class="car-card">
-                        <div class="car-image">
-                            <img src="https://images.unsplash.com/photo-1555652736-e92021d28643?ixlib=rb-4.0.3" alt="Luxury Car">
-                        </div>
-                        <div class="car-details">
-                            <h3 class="car-title">Mercedes-Benz S-Class</h3>
-                            <div class="car-price">₫8.999.000.000</div>
-                            <div class="car-specs">
-                                <span><i class="fas fa-road"></i> 0 km</span>
-                                <span><i class="fas fa-calendar"></i> 2024</span>
-                                <span><i class="fas fa-gas-pump"></i> 3.0L</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Car Card 2 -->
-                <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
-                    <div class="car-card">
-                        <div class="car-image">
-                            <img src="https://images.unsplash.com/photo-1555215695-3004980ad54e?ixlib=rb-4.0.3" alt="Luxury Car">
-                        </div>
-                        <div class="car-details">
-                            <h3 class="car-title">BMW 7 Series</h3>
-                            <div class="car-price">₫7.499.000.000</div>
-                            <div class="car-specs">
-                                <span><i class="fas fa-road"></i> 0 km</span>
-                                <span><i class="fas fa-calendar"></i> 2024</span>
-                                <span><i class="fas fa-gas-pump"></i> 4.4L</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Car Card 3 -->
-                <div class="col-md-4" data-aos="fade-up" data-aos-delay="400">
-                    <div class="car-card">
-                        <div class="car-image">
-                            <img src="https://images.unsplash.com/photo-1553440569-bcc63803a83d?ixlib=rb-4.0.3" alt="Luxury Car">
-                        </div>
-                        <div class="car-details">
-                            <h3 class="car-title">Audi A8 L</h3>
-                            <div class="car-price">₫6.999.000.000</div>
-                            <div class="car-specs">
-                                <span><i class="fas fa-road"></i> 0 km</span>
-                                <span><i class="fas fa-calendar"></i> 2024</span>
-                                <span><i class="fas fa-gas-pump"></i> 3.0L</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="row" id="featured-cars-container">
+                <!-- Danh sách xe sẽ được thêm động bằng JavaScript -->
             </div>
         </div>
     </section>
@@ -456,7 +404,7 @@
                 </div>
             </div>
             <div class="copyright">
-                <p>&copy; 2024 Luxury Auto Gallery. All rights reserved.</p>
+                <p>© 2025 Luxury Auto Gallery. All rights reserved.</p>
             </div>
         </div>
     </footer>
@@ -467,6 +415,79 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         AOS.init();
+
+        // Base URL của API
+        const API_BASE_URL = 'http://localhost:8080/api';
+
+        // Hàm định dạng tiền tệ VND
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
+        }
+
+        // Hàm cuộn đến phần Featured Cars
+        function scrollToFeatured() {
+            document.getElementById('featured-cars').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Lấy danh sách sản phẩm nổi bật từ API
+        async function loadFeaturedCars() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/products/featured`);
+                const cars = await response.json();
+                
+                const container = document.getElementById('featured-cars-container');
+                container.innerHTML = ''; // Xóa nội dung cũ
+
+                cars.slice(0, 3).forEach((car, index) => {
+                    const carCard = `
+                        <div class="col-md-4" data-aos="fade-up" data-aos-delay="${index * 200}">
+                            <div class="car-card">
+                                <div class="car-image">
+                                    <img src="${car.imageUrl || 'https://via.placeholder.com/400x250'}" alt="${car.productName}">
+                                </div>
+                                <div class="car-details">
+                                    <h3 class="car-title">${car.productName}</h3>
+                                    <div class="car-price">${formatCurrency(car.price)}</div>
+                                    <div class="car-specs">
+                                        <span><i class="fas fa-road"></i> ${car.mileage} km</span>
+                                        <span><i class="fas fa-calendar"></i> ${car.manufactureYear}</span>
+                                        <span><i class="fas fa-gas-pump"></i> ${car.engine || 'N/A'}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    container.innerHTML += carCard;
+                });
+            } catch (error) {
+                console.error('Lỗi khi tải sản phẩm nổi bật:', error);
+            }
+        }
+
+        // Xử lý đăng xuất
+        function logout() {
+            localStorage.removeItem('token');
+            localStorage.removeItem('role');
+            document.getElementById('login-btn').style.display = 'inline-block';
+            document.getElementById('logout-btn').style.display = 'none';
+            window.location.href = 'home.html';
+        }
+
+        // Kiểm tra trạng thái đăng nhập
+        function checkAuth() {
+            const token = localStorage.getItem('token');
+            if (token) {
+                document.getElementById('login-btn').style.display = 'none';
+                document.getElementById('logout-btn').style.display = 'inline-block';
+                document.getElementById('logout-btn').addEventListener('click', logout);
+            }
+        }
+
+        // Load dữ liệu khi trang được tải
+        window.onload = () => {
+            loadFeaturedCars();
+            checkAuth();
+        };
     </script>
 </body>
 </html>

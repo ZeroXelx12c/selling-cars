@@ -56,11 +56,6 @@ public class UsersService {
                 .orElseThrow(() -> new RuntimeException("Đăng ký thất bại!"));
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
     // Đăng nhập bằng số điện thoại và mật khẩu
     public UserDTO loginUser(String phoneNumber, String password) {
         Optional<Users> user = usersRepository.loginUser(phoneNumber, password);
