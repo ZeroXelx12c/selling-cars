@@ -1,5 +1,6 @@
 package com.example.selling_cars.service;
 
+import com.example.selling_cars.dto.CategoryDTO;
 import com.example.selling_cars.entity.Categories;
 import com.example.selling_cars.repository.CategoriesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CategoriesService {
@@ -15,18 +17,18 @@ public class CategoriesService {
     private CategoriesRepository categoriesRepository;
 
     // Lấy tất cả danh mục
-    public List<Categories> getAllCategories() {
-        return categoriesRepository.findAll();
+    public List<CategoryDTO> getAllCategories() {
+        return categoriesRepository.findAll().stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
     // Lấy danh mục theo ID
-    public Optional<Categories> getCategoryById(Integer id) {
-        return categoriesRepository.findById(id);
+    public Optional<CategoryDTO> getCategoryById(Integer id) {
+        return categoriesRepository.findById(id).map(this::convertToDTO);
     }
 
     // Tìm danh mục theo tên
-    public Optional<Categories> getCategoryByName(String name) {
-        return categoriesRepository.findByCategoryNameIgnoreCase(name);
+    public Optional<CategoryDTO> getCategoryByName(String name) {
+        return categoriesRepository.findByCategoryNameIgnoreCase(name).map(this::convertToDTO);
     }
 
     // Đếm số lượng danh mục
@@ -35,38 +37,56 @@ public class CategoriesService {
     }
 
     // Lấy danh mục có sản phẩm tồn kho
-    public List<Categories> getCategoriesWithInStockProducts() {
-        return categoriesRepository.findCategoriesWithInStockProducts();
+    public List<CategoryDTO> getCategoriesWithInStockProducts() {
+        return categoriesRepository.findCategoriesWithInStockProducts().stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
     }
 
     // Thêm danh mục mới
-    public Categories createCategory(Categories category) {
-        if (categoriesRepository.findByCategoryNameIgnoreCase(category.getCategoryName()).isPresent()) {
+    public CategoryDTO createCategory(CategoryDTO categoryDTO) {
+        if (categoriesRepository.findByCategoryNameIgnoreCase(categoryDTO.getCategoryName()).isPresent()) {
             throw new RuntimeException("Danh mục đã tồn tại!");
         }
-        return categoriesRepository.save(category);
+
+        Categories category = new Categories();
+        category.setCategoryName(categoryDTO.getCategoryName());
+        category.setDescription(categoryDTO.getDescription());
+
+        Categories savedCategory = categoriesRepository.save(category);
+        return convertToDTO(savedCategory);
     }
 
     // Cập nhật danh mục
-    public Categories updateCategory(Integer id, Categories categoryDetails) {
+    public CategoryDTO updateCategory(Integer id, CategoryDTO categoryDTO) {
         Categories category = categoriesRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy danh mục!"));
 
-        category.setCategoryName(categoryDetails.getCategoryName());
-        category.setDescription(categoryDetails.getDescription());
+        category.setCategoryName(categoryDTO.getCategoryName());
+        category.setDescription(categoryDTO.getDescription());
 
-        return categoriesRepository.save(category);
+        Categories updatedCategory = categoriesRepository.save(category);
+        return convertToDTO(updatedCategory);
     }
 
     // Xóa danh mục
     public void deleteCategory(Integer id) {
         Categories category = categoriesRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy danh mục!"));
-        
-        // Kiểm tra xem danh mục có sản phẩm không trước khi xóa
+
         if (!category.getProducts().isEmpty()) {
             throw new RuntimeException("Không thể xóa danh mục vì vẫn còn sản phẩm thuộc danh mục này!");
         }
         categoriesRepository.delete(category);
+    }
+
+    // Chuyển từ Entity sang DTO
+    private CategoryDTO convertToDTO(Categories category) {
+        CategoryDTO dto = new CategoryDTO();
+        dto.setCategoryId(category.getCategoryId());
+        dto.setCategoryName(category.getCategoryName());
+        dto.setDescription(category.getDescription());
+        // Có thể thêm thông tin bổ sung như số lượng sản phẩm nếu cần
+        return dto;
     }
 }

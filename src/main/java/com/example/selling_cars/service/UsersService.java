@@ -1,11 +1,14 @@
 package com.example.selling_cars.service;
 
+import com.example.selling_cars.dto.UserDTO;
 import com.example.selling_cars.entity.Users;
 import com.example.selling_cars.repository.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -17,52 +20,77 @@ public class UsersService {
     private UsersRepository usersRepository;
 
     // Lấy tất cả người dùng
-    public List<Users> getAllUsers() {
-        return usersRepository.findAll();
+    public List<UserDTO> getAllUsers() {
+        return usersRepository.findAll().stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
     // Lấy người dùng theo ID
-    public Optional<Users> getUserById(Integer id) {
-        return usersRepository.findById(id);
+    public Optional<UserDTO> getUserById(Integer id) {
+        return usersRepository.findById(id).map(this::convertToDTO);
     }
 
-    // Lấy người dùng theo username
-    public Optional<Users> getUserByUsername(String username) {
-        return usersRepository.findByUsername(username);
+    // Lấy người dùng theo số điện thoại
+    public Optional<UserDTO> getUserByPhoneNumber(String phoneNumber) {
+        return usersRepository.findByPhoneNumber(phoneNumber).map(this::convertToDTO);
     }
 
-    // Lấy người dùng theo email
-    public Optional<Users> getUserByEmail(String email) {
-        return usersRepository.findByEmail(email);
-    }
-
-    // Đếm tổng số khách hàng
-    public long getTotalCustomers() {
-        return usersRepository.countCustomers();
-    }
-
-    // Thêm người dùng mới (đăng ký)
-    public Users createUser(Users user) {
-        // Kiểm tra xem username hoặc email đã tồn tại chưa
-        if (usersRepository.findByUsername(user.getUsername()).isPresent() ||
-            usersRepository.findByEmail(user.getEmail()).isPresent()) {
-            throw new RuntimeException("Username hoặc email đã tồn tại!");
+    // Đăng ký người dùng
+    public UserDTO registerUser(UserDTO userDTO) {
+        if (usersRepository.findByPhoneNumber(userDTO.getPhoneNumber()).isPresent() ||
+            (userDTO.getEmail() != null && usersRepository.findByEmail(userDTO.getEmail()).isPresent())) {
+            throw new RuntimeException("Số điện thoại hoặc email đã tồn tại!");
         }
-        return usersRepository.save(user);
+
+        usersRepository.registerUser(
+                userDTO.getFullName(),
+                userDTO.getPhoneNumber(),
+                userDTO.getEmail(),
+                userDTO.getDateOfBirth(),
+                userDTO.getPassword(),
+                userDTO.getSocialProvider(),
+                userDTO.getSocialId()
+        );
+
+        return usersRepository.findByPhoneNumber(userDTO.getPhoneNumber())
+                .map(this::convertToDTO)
+                .orElseThrow(() -> new RuntimeException("Đăng ký thất bại!"));
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    // Đăng nhập bằng số điện thoại và mật khẩu
+    public UserDTO loginUser(String phoneNumber, String password) {
+        Optional<Users> user = usersRepository.loginUser(phoneNumber, password);
+        return user.map(this::convertToDTO)
+                .orElseThrow(() -> new RuntimeException("Số điện thoại hoặc mật khẩu không đúng!"));
+    }
+
+    // Đăng nhập qua mạng xã hội
+    public UserDTO loginSocialUser(String socialProvider, String socialId, UserDTO userDTO) {
+        Optional<Users> existingUser = usersRepository.loginSocialUser(socialProvider, socialId);
+        if (existingUser.isPresent()) {
+            return convertToDTO(existingUser.get());
+        } else {
+            return registerUser(userDTO); // Đăng ký nếu chưa tồn tại
+        }
     }
 
     // Cập nhật thông tin người dùng
-    public Users updateUser(Integer id, Users userDetails) {
+    public UserDTO updateUser(Integer id, UserDTO userDTO) {
         Users user = usersRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy người dùng!"));
 
-        user.setFullName(userDetails.getFullName());
-        user.setEmail(userDetails.getEmail());
-        user.setPhoneNumber(userDetails.getPhoneNumber());
-        user.setAddress(userDetails.getAddress());
-        // Không cho phép cập nhật username, password, role trực tiếp qua API này
+        user.setFullName(userDTO.getFullName());
+        user.setPhoneNumber(userDTO.getPhoneNumber());
+        user.setEmail(userDTO.getEmail());
+        user.setDateOfBirth(userDTO.getDateOfBirth());
+        user.setRememberMe(userDTO.isRememberMe());
 
-        return usersRepository.save(user);
+        Users updatedUser = usersRepository.save(user);
+        return convertToDTO(updatedUser);
     }
 
     // Xóa người dùng
@@ -72,30 +100,25 @@ public class UsersService {
         usersRepository.delete(user);
     }
 
-    // Đăng nhập qua Google/Facebook
-    public Users loginWithSocial(String socialLoginId, String socialLoginProvider, Users userDetails) {
-        Optional<Users> existingUser = usersRepository.findBySocialLoginIdAndSocialLoginProvider(socialLoginId, socialLoginProvider);
-        if (existingUser.isPresent()) {
-            return existingUser.get();
-        } else {
-            userDetails.setSocialLoginId(socialLoginId);
-            userDetails.setSocialLoginProvider(socialLoginProvider);
-            return usersRepository.save(userDetails);
-        }
+    // Đếm tổng số khách hàng
+    public long getTotalCustomers() {
+        return usersRepository.countCustomers();
     }
 
-    public List<Users> getCustomersFromStoredProcedure() {
-    List<Object[]> results = usersRepository.getCustomersNative();
-        return results.stream().map(row -> {
-            Users user = new Users();
-            user.setUserId((Integer) row[0]);
-            user.setUsername((String) row[1]);
-            user.setFullName((String) row[2]);
-            user.setEmail((String) row[3]);
-            user.setPhoneNumber((String) row[4]);
-            user.setAddress((String) row[5]);
-            user.setCreatedAt(((Timestamp) row[6]).toLocalDateTime());
-            return user;
-        }).collect(Collectors.toList());
+    // Chuyển từ Entity sang DTO
+    private UserDTO convertToDTO(Users user) {
+        UserDTO dto = new UserDTO();
+        dto.setUserId(user.getUserId());
+        dto.setFullName(user.getFullName());
+        dto.setPhoneNumber(user.getPhoneNumber());
+        dto.setEmail(user.getEmail());
+        dto.setDateOfBirth(user.getDateOfBirth());
+        dto.setRole(user.getRole());
+        dto.setRememberMe(user.getRememberMe());
+        dto.setSocialProvider(user.getSocialProvider());
+        dto.setSocialId(user.getSocialId());
+        dto.setCreatedAt(user.getCreatedAt());
+        // Thêm các trường bổ sung nếu cần (orderCount, totalSpending) bằng cách truy vấn từ Orders/Payments
+        return dto;
     }
 }

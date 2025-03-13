@@ -19,7 +19,7 @@ public class Categories {
     @Column(length = 255)
     private String description;
 
-    // Quan hệ 1-n với Products
+    // Quan hệ 1-n với Products (không bắt buộc tải ngay danh sách sản phẩm)
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Products> products;
 }

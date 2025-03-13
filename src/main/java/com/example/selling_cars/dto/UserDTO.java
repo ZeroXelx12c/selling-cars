@@ -1,5 +1,6 @@
 package com.example.selling_cars.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -14,6 +15,10 @@ public class UserDTO {
     private LocalDate dateOfBirth;
     private String role;
     private boolean rememberMe;
+    
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private String password;
+    
     private String socialProvider;
     private String socialId;
     private LocalDateTime createdAt;

@@ -24,14 +24,14 @@ public class Orders {
     @Column(nullable = false)
     private Double totalAmount;
 
-    @Column(nullable = false, length = 50)
-    private String paymentMethod;
+    @Column(nullable = false)
+    private Double depositAmount;
 
-    @Column(length = 20)
-    private String paymentStatus = "Pending";
+    @Column(length = 255)
+    private String deliveryArea;
 
-    @Column(length = 20)
-    private String orderStatus = "Processing";
+    @Column(nullable = false, length = 20)
+    private String orderStatus = "Pending";
 
     @Column(length = 255)
     private String notes;
@@ -39,4 +39,8 @@ public class Orders {
     // Quan hệ 1-n với OrderDetails
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<OrderDetails> orderDetails;
+
+    // Quan hệ 1-1 với Payments
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Payments payment;
 }

@@ -5,7 +5,8 @@ import lombok.Data;
 @Data
 public class ProductOptionDTO {
     private Integer optionId;
-    private String optionType; // Exterior, Interior
+    private Integer productId;
+    private String optionType; // "Exterior" hoặc "Interior"
     private String optionName;
     private Double additionalPrice;
 }

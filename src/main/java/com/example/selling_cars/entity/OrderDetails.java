@@ -20,8 +20,16 @@ public class OrderDetails {
     private Products product;
 
     @Column(nullable = false)
-    private Integer quantity = 1; // Mặc định là 1 với ô tô
+    private Integer quantity = 1;
 
     @Column(nullable = false)
     private Double unitPrice;
+
+    @ManyToOne
+    @JoinColumn(name = "ExteriorOptionID")
+    private ProductOptions exteriorOption;
+
+    @ManyToOne
+    @JoinColumn(name = "InteriorOptionID")
+    private ProductOptions interiorOption;
 }

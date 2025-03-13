@@ -1,9 +1,8 @@
 package com.example.selling_cars.controller;
 
-import com.example.selling_cars.entity.Payments;
+import com.example.selling_cars.dto.PaymentDTO;
 import com.example.selling_cars.service.PaymentsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,56 +18,56 @@ public class PaymentsController {
 
     // Lấy tất cả thanh toán (cho admin)
     @GetMapping
-    public ResponseEntity<List<Payments>> getAllPayments() {
+    public ResponseEntity<List<PaymentDTO>> getAllPayments() {
         return ResponseEntity.ok(paymentsService.getAllPayments());
     }
 
     // Lấy thanh toán theo ID
     @GetMapping("/{id}")
-    public ResponseEntity<Payments> getPaymentById(@PathVariable Integer id) {
+    public ResponseEntity<PaymentDTO> getPaymentById(@PathVariable Integer id) {
         return paymentsService.getPaymentById(id)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    // Lấy thanh toán theo OrderID (cho người dùng/admin)
+    // Lấy thanh toán theo đơn hàng (cho người dùng/admin)
     @GetMapping("/order/{orderId}")
-    public ResponseEntity<Payments> getPaymentByOrder(@PathVariable Integer orderId) {
+    public ResponseEntity<PaymentDTO> getPaymentByOrder(@PathVariable Integer orderId) {
         return ResponseEntity.ok(paymentsService.getPaymentByOrder(orderId));
     }
 
-    // Lấy thanh toán theo phương thức thanh toán (cho admin)
-    @GetMapping("/method/{paymentMethod}")
-    public ResponseEntity<List<Payments>> getPaymentsByMethod(@PathVariable String paymentMethod) {
-        return ResponseEntity.ok(paymentsService.getPaymentsByMethod(paymentMethod));
+    // Lấy danh sách thanh toán theo người dùng (cho người dùng)
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<PaymentDTO>> getPaymentsByUser(@PathVariable Integer userId) {
+        return ResponseEntity.ok(paymentsService.getPaymentsByUser(userId));
     }
 
-    // Tính tổng doanh thu theo tháng (cho admin dashboard)
-    @GetMapping("/monthly-revenue")
-    public ResponseEntity<Double> getMonthlyRevenue(
-            @RequestParam int month,
-            @RequestParam int year) {
-        return ResponseEntity.ok(paymentsService.getMonthlyRevenue(month, year));
+    // Tính tổng doanh thu trong khoảng thời gian (cho admin)
+    @GetMapping("/revenue")
+    public ResponseEntity<Double> getTotalRevenueBetweenDates(
+            @RequestParam String startDate,
+            @RequestParam String endDate) {
+        LocalDateTime start = LocalDateTime.parse(startDate);
+        LocalDateTime end = LocalDateTime.parse(endDate);
+        return ResponseEntity.ok(paymentsService.getTotalRevenueBetweenDates(start, end));
     }
 
-    // Lấy danh sách thanh toán trong khoảng thời gian (cho admin)
-    @GetMapping("/date-range")
-    public ResponseEntity<List<Payments>> getPaymentsByDateRange(
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate) {
-        return ResponseEntity.ok(paymentsService.getPaymentsByDateRange(startDate, endDate));
+    // Đếm số giao dịch trong ngày (cho admin)
+    @GetMapping("/count-today")
+    public ResponseEntity<Long> getPaymentsCountToday() {
+        return ResponseEntity.ok(paymentsService.getPaymentsCountToday());
     }
 
-    // Thêm thanh toán mới (cho admin hoặc tích hợp khi thanh toán đơn hàng)
+    // Ghi thanh toán mới (cho người dùng/admin)
     @PostMapping
-    public ResponseEntity<Payments> createPayment(@RequestBody Payments payment) {
-        return ResponseEntity.ok(paymentsService.createPayment(payment));
+    public ResponseEntity<PaymentDTO> createPayment(@RequestBody PaymentDTO paymentDTO) {
+        return ResponseEntity.ok(paymentsService.createPayment(paymentDTO));
     }
 
     // Cập nhật thanh toán (cho admin)
     @PutMapping("/{id}")
-    public ResponseEntity<Payments> updatePayment(@PathVariable Integer id, @RequestBody Payments paymentDetails) {
-        return ResponseEntity.ok(paymentsService.updatePayment(id, paymentDetails));
+    public ResponseEntity<PaymentDTO> updatePayment(@PathVariable Integer id, @RequestBody PaymentDTO paymentDTO) {
+        return ResponseEntity.ok(paymentsService.updatePayment(id, paymentDTO));
     }
 
     // Xóa thanh toán (cho admin)

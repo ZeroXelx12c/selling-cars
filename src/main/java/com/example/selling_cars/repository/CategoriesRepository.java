@@ -10,14 +10,14 @@ import java.util.Optional;
 
 @Repository
 public interface CategoriesRepository extends JpaRepository<Categories, Integer> {
-    // Tìm danh mục theo tên (gần đúng)
+    // Tìm danh mục theo tên (không phân biệt hoa thường)
     Optional<Categories> findByCategoryNameIgnoreCase(String categoryName);
 
     // Đếm số lượng danh mục
     @Query("SELECT COUNT(c) FROM Categories c")
     long countCategories();
 
-    // Tìm tất cả danh mục có sản phẩm tồn kho
+    // Lấy danh sách danh mục có sản phẩm tồn kho
     @Query("SELECT DISTINCT c FROM Categories c JOIN c.products p WHERE p.status = 'InStock'")
     List<Categories> findCategoriesWithInStockProducts();
 }

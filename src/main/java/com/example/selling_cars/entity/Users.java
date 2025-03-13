@@ -3,43 +3,44 @@ package com.example.selling_cars.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "Users")
-@Data // Lombok tự động tạo getter, setter, toString...
+@Data
 public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer userId;
 
-    @Column(nullable = false, unique = true, length = 50)
-    private String username;
+    @Column(nullable = false, length = 100)
+    private String fullName;
+
+    @Column(nullable = false, unique = true, length = 15)
+    private String phoneNumber;
+
+    @Column(unique = true, length = 100)
+    private String email;
+
+    @Column
+    private LocalDate dateOfBirth;
 
     @Column(length = 255)
     private String password;
 
-    @Column(nullable = false, length = 100)
-    private String fullName;
+    @Column(nullable = false, length = 20)
+    private String role = "Customer";
 
-    @Column(nullable = false, unique = true, length = 100)
-    private String email;
+    @Column(nullable = false)
+    private Boolean rememberMe = false;
 
-    @Column(length = 15)
-    private String phoneNumber;
+    @Column(length = 50)
+    private String socialProvider;
 
     @Column(length = 255)
-    private String address;
-
-    @Column(nullable = false, length = 20)
-    private String role = "Customer"; // Giá trị mặc định là Customer
+    private String socialId;
 
     @Column(nullable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
-
-    @Column(length = 50)
-    private String socialLoginProvider;
-
-    @Column(length = 255)
-    private String socialLoginId;
 }

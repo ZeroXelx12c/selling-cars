@@ -8,6 +8,7 @@ import java.util.List;
 @Data
 public class ProductDTO {
     private Integer productId;
+    private Integer categoryId;
     private String categoryName;
     private String productName;
     private Double price;
@@ -21,7 +22,6 @@ public class ProductDTO {
     private LocalDateTime createdAt;
 
     // Chức năng bổ sung
-    private List<ProductOptionDTO> options; // Danh sách tùy chọn
-    private boolean isFeatured; // Là sản phẩm nổi bật không
-    private int orderCount; // Số lần được đặt mua
+    private List<ProductOptionDTO> options;
+    private boolean isFeatured;
 }
