@@ -22,7 +22,8 @@ Selling Cars là một nền tảng bán ô tô trực tuyến giúp khách hàn
 
 📷 Ảnh minh họa
 
-![image](https://github.com/user-attachments/assets/5dcb1b47-0781-4966-8ac9-6d26c6c8c045)
+![image](https://github.com/user-attachments/assets/cc7513d3-f542-48e2-89b0-9cfc29c53f28)
+
 
 🔥 Tính năng chính
 
