@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dịch vụ - Luxury Auto Gallery</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #c5a47e;
+            --secondary-color: #1a1a1a;
+        }
+
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        /* Navigation */
+        .navbar {
+            background-color: rgba(0, 0, 0, 0.9);
+            padding: 20px 0;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-brand {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary-color) !important;
+        }
+
+        .nav-link {
+            color: #fff !important;
+            margin: 0 15px;
+            position: relative;
+            font-weight: 500;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: var(--primary-color);
+            left: 0;
+            bottom: -5px;
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Services Section */
+        .services-section {
+            padding: 120px 0;
+            background-color: var(--secondary-color);
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title h1 {
+            color: var(--primary-color);
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .section-title p {
+            color: #ccc;
+            font-size: 1.1rem;
+        }
+
+        .service-category {
+            background: #2a2a2a;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 40px;
+            transition: transform 0.3s ease;
+        }
+
+        .service-category:hover {
+            transform: translateY(-10px);
+        }
+
+        .service-category h2 {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 15px;
+        }
+
+        .service-item {
+            margin-bottom: 25px;
+            padding-left: 45px;
+            position: relative;
+        }
+
+        .service-item i {
+            position: absolute;
+            left: 0;
+            top: 5px;
+            color: var(--primary-color);
+            font-size: 1.5rem;
+        }
+
+        .service-item h3 {
+            color: #fff;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .service-item p {
+            color: #ccc;
+            line-height: 1.6;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            background: #2a2a2a;
+            padding: 40px;
+            border-radius: 15px;
+            margin-top: 40px;
+        }
+
+        .contact-section h2 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        .btn-custom {
+            background-color: var(--primary-color);
+            color: #fff;
+            padding: 12px 30px;
+            border-radius: 30px;
+            border: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-custom:hover {
+            background-color: #fff;
+            color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #1a1a1a;
+            padding: 50px 0 20px;
+        }
+
+        .footer-title {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+
+        .footer-links a {
+            color: #888;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 10px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-links a {
+            color: #888;
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #333;
+            color: #888;
+        }
+
+        @media (max-width: 768px) {
+            .section-title h1 {
+                font-size: 2rem;
+            }
+
+            .service-category {
+                padding: 20px;
+            }
+
+            .service-category h2 {
+                font-size: 1.5rem;
+            }
+
+            .service-item h3 {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">LUXURY AUTO</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="home.html">Trang chủ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="product-list.html">Sản phẩm</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="services.html">Dịch vụ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Tin tức</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Liên hệ</a>
+                    </li>
+                </ul>
+                <div class="ms-3">
+                    <a href="login.html" class="btn btn-custom">Đăng nhập</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Services Section -->
+    <section class="services-section">
+        <div class="container">
+            <div class="section-title" data-aos="fade-up">
+                <h1>Dịch vụ của chúng tôi</h1>
+                <p>Trải nghiệm dịch vụ chăm sóc xe hơi đẳng cấp tại Luxury Auto Gallery</p>
+            </div>
+
+            <!-- Maintenance & Repair -->
+            <div class="service-category" data-aos="fade-up">
+                <h2><i class="fas fa-tools me-3"></i>Bảo dưỡng và sửa chữa xe</h2>
+                <div class="service-item">
+                    <i class="fas fa-check-circle"></i>
+                    <h3>Bảo dưỡng định kỳ</h3>
+                    <p>Dịch vụ bảo dưỡng toàn diện bao gồm thay dầu nhớt, kiểm tra lốp, phanh, hệ thống làm mát, lọc gió và các hệ thống khác để đảm bảo xe luôn trong tình trạng hoạt động tốt nhất.</p>
+                </div>
+                <div class="service-item">
+                    <i class="fas fa-wrench"></i>
+                    <h3>Sửa chữa cơ khí</h3>
+                    <p>Đội ngũ kỹ thuật viên chuyên nghiệp của chúng tôi sẽ xử lý mọi vấn đề về động cơ, hộp số, hệ thống treo và hệ thống điện với độ chính xác cao.</p>
+                </div>
+                <div class="service-item">
+                    <i class="fas fa-laptop"></i>
+                    <h3>Kiểm tra và chẩn đoán lỗi</h3>
+                    <p>Sử dụng công nghệ chẩn đoán hiện đại nhất để phát hiện và xác định chính xác các vấn đề kỹ thuật của xe.</p>
+                </div>
+                <div class="service-item">
+                    <i class="fas fa-cogs"></i>
+                    <h3>Thay thế phụ tùng</h3>
+                    <p>Cung cấp và lắp đặt phụ tùng chính hãng hoặc phụ tùng OEM chất lượng cao, đảm bảo độ bền và hiệu suất tối ưu cho xe.</p>
+                </div>
+            </div>
+
+            <!-- Car Care Services -->
+            <div class="service-category" data-aos="fade-up" data-aos-delay="200">
+                <h2><i class="fas fa-car me-3"></i>Dịch vụ chăm sóc xe</h2>
+                <div class="service-item">
+                    <i class="fas fa-shower"></i>
+                    <h3>Rửa xe chuyên nghiệp</h3>
+                    <p>Dịch vụ rửa xe toàn diện bao gồm rửa ngoại thất và vệ sinh nội thất, sử dụng các sản phẩm chuyên dụng an toàn cho xe.</p>
+                </div>
+                <div class="service-item">
+                    <i class="fas fa-paint-roller"></i>
+                    <h3>Đánh bóng và sơn</h3>
+                    <p>Dịch vụ đánh bóng chuyên nghiệp giúp khôi phục độ bóng sơn, xử lý các vết xước và làm mới bề mặt xe.</p>
+                </div>
+                <div class="service-item">
+                    <i class="fas fa-film"></i>
+                    <h3>Dán phim cách nhiệt</h3>
+                    <p>Sử dụng các loại phim cách nhiệt cao cấp, giúp bảo vệ nội thất và tăng độ riêng tư cho xe của bạn.</p>
+                </div>
+                <div class="service-item">
+                    <i class="fas fa-couch"></i>
+                    <h3>Chăm sóc nội thất</h3>
+                    <p>Vệ sinh chuyên sâu ghế, thảm, bảng điều khiển và các bề mặt nội thất khác, giúp duy trì không gian bên trong xe luôn mới và sạch sẽ.</p>
+                </div>
+            </div>
+
+            <!-- Customer Support -->
+            <div class="service-category" data-aos="fade-up" data-aos-delay="400">
+                <h2><i class="fas fa-handshake me-3"></i>Tư vấn và hỗ trợ khách hàng</h2>
+                <div class="service-item">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>Tư vấn bảo hiểm</h3>
+                    <p>Đội ngũ tư vấn giàu kinh nghiệm sẽ hỗ trợ bạn lựa chọn gói bảo hiểm phù hợp và xử lý các thủ tục liên quan.</p>
+                </div>
+                <div class="service-item">
+                    <i class="fas fa-info-circle"></i>
+                    <h3>Hỗ trợ kỹ thuật</h3>
+                    <p>Tư vấn chuyên sâu về cách sử dụng và bảo quản xe, giải đáp mọi thắc mắc của khách hàng về vấn đề kỹ thuật.</p>
+                </div>
+                <div class="service-item">
+                    <i class="fas fa-truck"></i>
+                    <h3>Dịch vụ cứu hộ</h3>
+                    <p>Dịch vụ cứu hộ 24/7, sẵn sàng hỗ trợ khi xe gặp sự cố trên đường với đội ngũ kỹ thuật viên chuyên nghiệp.</p>
+                </div>
+            </div>
+
+            <!-- Contact Section -->
+            <div class="contact-section" data-aos="fade-up" data-aos-delay="600">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <h2>Bạn cần tư vấn thêm về dịch vụ?</h2>
+                        <p>Liên hệ với chúng tôi ngay để được tư vấn chi tiết và đặt lịch dịch vụ.</p>
+                    </div>
+                    <div class="col-md-4 text-md-end">
+                        <a href="#" class="btn btn-custom">
+                            <i class="fas fa-phone-alt me-2"></i>Liên hệ ngay
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="footer-content">
+                        <h3 class="footer-title">Về chúng tôi</h3>
+                        <p>Luxury Auto Gallery - Nơi những giấc mơ về xe sang trở thành hiện thực. Chúng tôi tự hào mang đến những sản phẩm và dịch vụ cao cấp nhất.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="footer-content">
+                        <h3 class="footer-title">Liên kết nhanh</h3>
+                        <div class="footer-links">
+                            <a href="product-list.html">Sản phẩm</a>
+                            <a href="services.html">Dịch vụ</a>
+                            <a href="#">Tin tức</a>
+                            <a href="#">Liên hệ</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="footer-content">
+                        <h3 class="footer-title">Kết nối với chúng tôi</h3>
+                        <div class="social-links">
+                            <a href="#"><i class="fab fa-facebook"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-youtube"></i></a>
+                            <a href="#"><i class="fab fa-linkedin"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>© 2024 Luxury Auto Gallery. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- AOS Animation -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init();
+    </script>
+</body>
+</html>

@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh sách sản phẩm - Luxury Auto Gallery</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #c5a47e;
+            --secondary-color: #1a1a1a;
+        }
+
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        /* Navigation */
+        .navbar {
+            background-color: rgba(0, 0, 0, 0.9);
+            padding: 20px 0;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-brand {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary-color) !important;
+        }
+
+        .nav-link {
+            color: #fff !important;
+            margin: 0 15px;
+            position: relative;
+            font-weight: 500;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: var(--primary-color);
+            left: 0;
+            bottom: -5px;
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Product Listing Section */
+        .product-listing {
+            padding: 100px 0;
+            background-color: var(--secondary-color);
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-title h1 {
+            color: var(--primary-color);
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .section-title p {
+            color: #ccc;
+        }
+
+        /* Filter Section */
+        .filter-section {
+            background: #2a2a2a;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 40px;
+        }
+
+        .filter-section label {
+            color: var(--primary-color);
+            margin-right: 10px;
+            font-weight: 500;
+            display: block;
+            margin-bottom: 8px;
+        }
+.filter-section select,
+.filter-section input {
+    background: #333;
+    color: #fff;
+    border: 1px solid #444;
+    padding: 12px 15px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    width: 100%;
+    transition: all 0.3s ease;
+}
+
+.filter-section input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.filter-section select:focus,
+.filter-section input:focus {
+    background: #404040;
+    border-color: var(--primary-color);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(197, 164, 126, 0.2);
+    color: #fff;
+}
+
+#searchInput {
+    background: #262626;
+    color: #fff;
+    font-weight: 500;
+}
+
+#searchInput:focus {
+    background: #333;
+}
+        
+
+        .search-box {
+            position: relative;
+        }
+
+        .search-box .search-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary-color);
+        }
+
+        .search-box input {
+            padding-right: 40px;
+        }
+
+        .form-select {
+            background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path fill='none' stroke='%23c5a47e' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/></svg>");
+            background-repeat: no-repeat;
+            background-position: right 0.75rem center;
+            background-size: 16px 12px;
+        }
+
+        /* Product Card */
+        .car-card {
+            background: #2a2a2a;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 30px;
+            transition: transform 0.3s ease;
+        }
+
+        .car-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .car-image {
+            height: 250px;
+            overflow: hidden;
+        }
+
+        .car-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .car-card:hover .car-image img {
+            transform: scale(1.1);
+        }
+
+        .car-details {
+            padding: 20px;
+        }
+
+        .car-title {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+
+        .car-price {
+            font-size: 1.2rem;
+            color: #fff;
+            margin-bottom: 15px;
+        }
+
+        .car-specs {
+            display: flex;
+            justify-content: space-between;
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        .btn-custom {
+            background-color: var(--primary-color);
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 30px;
+            border: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .btn-custom:hover {
+            background-color: #fff;
+            color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        /* Pagination */
+        .pagination {
+            justify-content: center;
+            margin-top: 40px;
+        }
+
+        .page-link {
+            background: #2a2a2a;
+            color: #fff;
+            border: none;
+            margin: 0 5px;
+            transition: all 0.3s ease;
+        }
+
+        .page-link:hover {
+            background: var(--primary-color);
+            color: #fff;
+        }
+
+        .page-item.active .page-link {
+            background: var(--primary-color);
+            color: #fff;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #1a1a1a;
+            padding: 50px 0 20px;
+        }
+
+        .footer-title {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+
+        .footer-links a {
+            color: #888;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 10px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .social-links a {
+            color: #888;
+            font-size: 1.5rem;
+            margin-right: 15px;
+        }
+
+        .social-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #333;
+            color: #888;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .section-title h1 {
+                font-size: 2rem;
+            }
+
+            .car-title {
+                font-size: 1.3rem;
+            }
+
+            .car-price {
+                font-size: 1.1rem;
+            }
+
+            .filter-section {
+                text-align: center;
+            }
+
+            .filter-section select {
+                margin-bottom: 10px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .section-title h1 {
+                font-size: 1.8rem;
+            }
+
+            .car-title {
+                font-size: 1.2rem;
+            }
+
+            .car-price {
+                font-size: 1rem;
+            }
+
+            .car-image {
+                height: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">LUXURY AUTO</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Trang chủ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Sản phẩm</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Dịch vụ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Tin tức</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Liên hệ</a>
+                    </li>
+                </ul>
+                <div class="ms-3">
+                    <a href="login.html" class="btn btn-custom">Đăng nhập</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Product Listing Section -->
+    <section class="product-listing">
+        <div class="container">
+            <div class="section-title" data-aos="fade-up">
+                <h1>Danh sách sản phẩm</h1>
+                <p>Khám phá bộ sưu tập xe sang đẳng cấp của chúng tôi</p>
+            </div>
+
+            <!-- Filter Section -->
+            <div class="filter-section" data-aos="fade-up" data-aos-delay="200">
+                <!-- Search Bar -->
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="search-box">
+                            <input type="text" id="searchInput" class="form-control" placeholder="Tìm kiếm theo tên xe hoặc hãng xe..." oninput="debounceSearch()">
+                            <i class="fas fa-search search-icon"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Filters -->
+                <div class="row">
+                    <div class="col-md-3 col-sm-6 mb-3">
+                        <label>Hãng xe:</label>
+                        <select id="filterBrand" class="form-select" onchange="applyFilters()">
+                            <option value="all">Tất cả</option>
+                            <option value="Mercedes-Benz">Mercedes-Benz</option>
+                            <option value="BMW">BMW</option>
+                            <option value="Audi">Audi</option>
+                            <option value="Porsche">Porsche</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3 col-sm-6 mb-3">
+                        <label>Năm sản xuất:</label>
+                        <select id="filterYear" class="form-select" onchange="applyFilters()">
+                            <option value="all">Tất cả</option>
+                            <option value="2025">2025</option>
+                            <option value="2024">2024</option>
+                            <option value="2023">2023</option>
+                            <option value="2022">2022</option>
+                            <option value="2021">2021</option>
+                            <option value="older">Trước 2021</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3 col-sm-6 mb-3">
+                        <label>Giá:</label>
+                        <select id="filterPrice" class="form-select" onchange="applyFilters()">
+                            <option value="all">Tất cả</option>
+                            <option value="under5">Dưới 5 tỷ</option>
+                            <option value="5to10">5 - 10 tỷ</option>
+                            <option value="over10">Trên 10 tỷ</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3 col-sm-6 mb-3">
+                        <label>Sắp xếp:</label>
+                        <select id="sortOrder" class="form-select" onchange="applyFilters()">
+                            <option value="latest">Mới nhất</option>
+                            <option value="priceAsc">Giá thấp đến cao</option>
+                            <option value="priceDesc">Giá cao đến thấp</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product Grid -->
+            <div class="row" id="carList">
+                <!-- Car Card 1 -->
+                <div class="col-md-4 car-item" data-brand="Mercedes-Benz" data-year="2024" data-price="8999000000" data-aos="fade-up">
+                    <div class="car-card">
+                        <div class="car-image">
+                            <img src="https://images.unsplash.com/photo-1555652736-e92021d28643?ixlib=rb-4.0.3" alt="Mercedes-Benz S-Class">
+                        </div>
+                        <div class="car-details">
+                            <h3 class="car-title">Mercedes-Benz S-Class</h3>
+                            <div class="car-price">₫8.999.000.000</div>
+                            <div class="car-specs">
+                                <span><i class="fas fa-road"></i> 0 km</span>
+                                <span><i class="fas fa-calendar"></i> 2024</span>
+                                <span><i class="fas fa-gas-pump"></i> 3.0L</span>
+                            </div>
+                            <a href="product-detail.html" class="btn btn-custom" onclick="viewProductDetail(this)" data-car-id="1" data-title="Mercedes-Benz S-Class" data-brand="Mercedes-Benz" data-price="8999000000" data-year="2024">Xem chi tiết</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Car Card 2 -->
+                <div class="col-md-4 car-item" data-brand="BMW" data-year="2024" data-price="7499000000" data-aos="fade-up" data-aos-delay="200">
+                    <div class="car-card">
+                        <div class="car-image">
+                            <img src="https://images.unsplash.com/photo-1555215695-3004980ad54e?ixlib=rb-4.0.3" alt="BMW 7 Series">
+                        </div>
+                        <div class="car-details">
+                            <h3 class="car-title">BMW 7 Series</h3>
+                            <div class="car-price">₫7.499.000.000</div>
+                            <div class="car-specs">
+                                <span><i class="fas fa-road"></i> 0 km</span>
+                                <span><i class="fas fa-calendar"></i> 2024</span>
+                                <span><i class="fas fa-gas-pump"></i> 4.4L</span>
+                            </div>
+                            <a href="product-detail.html" class="btn btn-custom" onclick="viewProductDetail(this)" data-car-id="2" data-title="BMW 7 Series" data-brand="BMW" data-price="7499000000" data-year="2024">Xem chi tiết</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Car Card 3 -->
+                <div class="col-md-4 car-item" data-brand="Audi" data-year="2024" data-price="6999000000" data-aos="fade-up" data-aos-delay="400">
+                    <div class="car-card">
+                        <div class="car-image">
+                            <img src="https://images.unsplash.com/photo-1553440569-bcc63803a83d?ixlib=rb-4.0.3" alt="Audi A8 L">
+                        </div>
+                        <div class="car-details">
+                            <h3 class="car-title">Audi A8 L</h3>
+                            <div class="car-price">₫6.999.000.000</div>
+                            <div class="car-specs">
+                                <span><i class="fas fa-road"></i> 0 km</span>
+                                <span><i class="fas fa-calendar"></i> 2024</span>
+                                <span><i class="fas fa-gas-pump"></i> 3.0L</span>
+                            </div>
+                            <a href="product-detail.html" class="btn btn-custom" onclick="viewProductDetail(this)" data-car-id="3" data-title="Audi A8 L" data-brand="Audi" data-price="6999000000" data-year="2024">Xem chi tiết</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Car Card 4 -->
+                <div class="col-md-4 car-item" data-brand="Porsche" data-year="2024" data-price="9500000000" data-aos="fade-up">
+                    <div class="car-card">
+                        <div class="car-image">
+                            <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?ixlib=rb-4.0.3" alt="Porsche Panamera">
+                        </div>
+                        <div class="car-details">
+                            <h3 class="car-title">Porsche Panamera</h3>
+                            <div class="car-price">₫9.500.000.000</div>
+                            <div class="car-specs">
+                                <span><i class="fas fa-road"></i> 0 km</span>
+                                <span><i class="fas fa-calendar"></i> 2024</span>
+                                <span><i class="fas fa-gas-pump"></i> 4.0L</span>
+                            </div>
+                            <a href="product-detail.html" class="btn btn-custom" onclick="viewProductDetail(this)" data-car-id="4" data-title="Porsche Panamera" data-brand="Porsche" data-price="9500000000" data-year="2024">Xem chi tiết</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Car Card 5: Dưới 5 tỷ, năm 2022 -->
+                <div class="col-md-4 car-item" data-brand="Mercedes-Benz" data-year="2022" data-price="3999000000" data-aos="fade-up">
+                    <div class="car-card">
+                        <div class="car-image">
+                            <img src="https://images.unsplash.com/photo-1616788494707-ec28f08d05a1?ixlib=rb-4.0.3" alt="Mercedes-Benz C-Class">
+                        </div>
+                        <div class="car-details">
+                            <h3 class="car-title">Mercedes-Benz C-Class</h3>
+                            <div class="car-price">₫3.999.000.000</div>
+                            <div class="car-specs">
+                                <span><i class="fas fa-road"></i> 15,000 km</span>
+                                <span><i class="fas fa-calendar"></i> 2022</span>
+                                <span><i class="fas fa-gas-pump"></i> 2.0L</span>
+                            </div>
+                            <a href="product-detail.html" class="btn btn-custom" onclick="viewProductDetail(this)" data-car-id="5" data-title="Mercedes-Benz C-Class" data-brand="Mercedes-Benz" data-price="3999000000" data-year="2022">Xem chi tiết</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Car Card 6: Trên 10 tỷ, năm 2025 -->
+                <div class="col-md-4 car-item" data-brand="Porsche" data-year="2025" data-price="12500000000" data-aos="fade-up" data-aos-delay="200">
+                    <div class="car-card">
+                        <div class="car-image">
+                            <img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?ixlib=rb-4.0.3" alt="Porsche 911 Turbo S">
+                        </div>
+                        <div class="car-details">
+                            <h3 class="car-title">Porsche 911 Turbo S</h3>
+                            <div class="car-price">₫12.500.000.000</div>
+                            <div class="car-specs">
+                                <span><i class="fas fa-road"></i> 0 km</span>
+                                <span><i class="fas fa-calendar"></i> 2025</span>
+                                <span><i class="fas fa-gas-pump"></i> 3.8L</span>
+                            </div>
+                            <a href="product-detail.html" class="btn btn-custom" onclick="viewProductDetail(this)" data-car-id="6" data-title="Porsche 911 Turbo S" data-brand="Porsche" data-price="12500000000" data-year="2025">Xem chi tiết</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Car Card 7: Trước 2021, dưới 5 tỷ -->
+                <div class="col-md-4 car-item" data-brand="BMW" data-year="2020" data-price="2999000000" data-aos="fade-up" data-aos-delay="400">
+                    <div class="car-card">
+                        <div class="car-image">
+                            <img src="https://images.unsplash.com/photo-1556228453-3a356a6eb4b4?ixlib=rb-4.0.3" alt="BMW 5 Series">
+                        </div>
+                        <div class="car-details">
+                            <h3 class="car-title">BMW 5 Series</h3>
+                            <div class="car-price">₫2.999.000.000</div>
+                            <div class="car-specs">
+                                <span><i class="fas fa-road"></i> 30,000 km</span>
+                                <span><i class="fas fa-calendar"></i> 2020</span>
+                                <span><i class="fas fa-gas-pump"></i> 2.0L</span>
+                            </div>
+                            <a href="product-detail.html" class="btn btn-custom" onclick="viewProductDetail(this)" data-car-id="7" data-title="BMW 5 Series" data-brand="BMW" data-price="2999000000" data-year="2020">Xem chi tiết</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pagination -->
+            <nav aria-label="Page navigation" data-aos="fade-up" data-aos-delay="600">
+                <ul class="pagination">
+                    <li class="page-item">
+                        <a class="page-link" href="#" aria-label="Previous">
+                            <span aria-hidden="true">«</span>
+                        </a>
+                    </li>
+                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item">
+                        <a class="page-link" href="#" aria-label="Next">
+                            <span aria-hidden="true">»</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="footer-content">
+                        <h3 class="footer-title">Về chúng tôi</h3>
+                        <p>Luxury Auto Gallery - Nơi những giấc mơ về xe sang trở thành hiện thực. Chúng tôi tự hào mang đến những sản phẩm và dịch vụ cao cấp nhất.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="footer-content">
+                        <h3 class="footer-title">Liên kết nhanh</h3>
+                        <div class="footer-links">
+                            <a href="#">Sản phẩm</a>
+                            <a href="#">Dịch vụ</a>
+                            <a href="#">Tin tức</a>
+                            <a href="#">Liên hệ</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="footer-content">
+                        <h3 class="footer-title">Kết nối với chúng tôi</h3>
+                        <div class="social-links">
+                            <a href="#"><i class="fab fa-facebook"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-youtube"></i></a>
+                            <a href="#"><i class="fab fa-linkedin"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>© 2025 Luxury Auto Gallery. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- AOS Animation -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init();
+
+        // Khởi tạo biến cho debounce
+        let searchTimeout = null;
+        const originalCars = Array.from(document.getElementsByClassName('car-item'));
+        let lastFilteredCars = [...originalCars];
+
+        // Hàm debounce cho tìm kiếm
+        function debounceSearch() {
+            if (searchTimeout) {
+                clearTimeout(searchTimeout);
+            }
+            searchTimeout = setTimeout(applyFilters, 300);
+        }
+
+        // Hàm áp dụng tất cả bộ lọc và tìm kiếm
+        function applyFilters() {
+            const searchQuery = document.getElementById('searchInput').value.toLowerCase().trim();
+            const filterBrand = document.getElementById('filterBrand').value;
+            const filterYear = document.getElementById('filterYear').value;
+            const filterPrice = document.getElementById('filterPrice').value;
+            const sortOrder = document.getElementById('sortOrder').value;
+
+            // Reset trạng thái hiển thị của tất cả xe
+            const filteredCars = originalCars.filter(car => {
+                // Lấy thông tin xe
+                const brand = car.getAttribute('data-brand');
+                const year = parseInt(car.getAttribute('data-year'));
+                const price = parseInt(car.getAttribute('data-price'));
+                const title = car.querySelector('.car-title').textContent.toLowerCase();
+
+                // Kiểm tra điều kiện tìm kiếm
+                const searchMatch = searchQuery === '' ||
+                    title.includes(searchQuery) ||
+                    brand.toLowerCase().includes(searchQuery);
+
+                // Kiểm tra điều kiện hãng xe
+                const brandMatch = filterBrand === 'all' || brand === filterBrand;
+
+                // Kiểm tra điều kiện năm
+                let yearMatch = true;
+                if (filterYear !== 'all') {
+                    if (filterYear === 'older') {
+                        yearMatch = year < 2021;
+                    } else {
+                        yearMatch = year === parseInt(filterYear);
+                    }
+                }
+
+                // Kiểm tra điều kiện giá
+                let priceMatch = true;
+                if (filterPrice === 'under5') {
+                    priceMatch = price < 5000000000;
+                } else if (filterPrice === '5to10') {
+                    priceMatch = price >= 5000000000 && price <= 10000000000;
+                } else if (filterPrice === 'over10') {
+                    priceMatch = price > 10000000000;
+                }
+
+                return searchMatch && brandMatch && yearMatch && priceMatch;
+            });
+
+            // Sắp xếp kết quả
+            filteredCars.sort((a, b) => {
+                const priceA = parseInt(a.getAttribute('data-price'));
+                const priceB = parseInt(b.getAttribute('data-price'));
+                const yearA = parseInt(a.getAttribute('data-year'));
+                const yearB = parseInt(b.getAttribute('data-year'));
+
+                switch (sortOrder) {
+                    case 'priceAsc':
+                        return priceA - priceB;
+                    case 'priceDesc':
+                        return priceB - priceA;
+                    case 'latest':
+                    default:
+                        return yearB - yearA;
+                }
+            });
+
+            // Cập nhật giao diện
+            updateUI(filteredCars);
+            lastFilteredCars = filteredCars;
+        }
+
+        // Hàm cập nhật giao diện
+        function updateUI(filteredCars) {
+            const carList = document.getElementById('carList');
+            carList.innerHTML = '';
+
+            if (filteredCars.length === 0) {
+                const noResults = document.createElement('div');
+                noResults.className = 'col-12 text-center mt-4';
+                noResults.innerHTML = `
+                    <div class="alert alert-info" role="alert">
+                        <i class="fas fa-info-circle me-2"></i>
+                        Không tìm thấy xe phù hợp với tiêu chí tìm kiếm
+                    </div>
+                `;
+                carList.appendChild(noResults);
+            } else {
+                filteredCars.forEach((car, index) => {
+                    car.style.display = '';
+                    car.setAttribute('data-aos', 'fade-up');
+                    car.setAttribute('data-aos-delay', Math.min(index * 100, 1000));
+                    carList.appendChild(car);
+                });
+            }
+
+            // Khởi tạo lại AOS cho animation
+            AOS.refresh();
+        }
+
+        // Hàm xử lý xem chi tiết sản phẩm
+        function viewProductDetail(element) {
+            // Ngăn chặn hành vi mặc định của thẻ a
+            event.preventDefault();
+
+            // Lấy thông tin chi tiết xe từ card
+            const carCard = element.closest('.car-card');
+            const productDetails = {
+                id: element.getAttribute('data-car-id'),
+                title: element.getAttribute('data-title'),
+                brand: element.getAttribute('data-brand'),
+                price: element.getAttribute('data-price'),
+                year: element.getAttribute('data-year'),
+                image: carCard.querySelector('.car-image img').src,
+                specs: {
+                    mileage: carCard.querySelector('.car-specs').children[0].textContent.trim(),
+                    year: carCard.querySelector('.car-specs').children[1].textContent.trim(),
+                    engine: carCard.querySelector('.car-specs').children[2].textContent.trim()
+                }
+            };
+
+            // Lưu thông tin vào localStorage để trang chi tiết có thể truy cập
+            localStorage.setItem('selectedProduct', JSON.stringify(productDetails));
+
+            // Chuyển hướng đến trang chi tiết
+            window.location.href = 'product-detail.html';
+        }
+
+        // Xử lý sự kiện khi trang được tải
+        document.addEventListener('DOMContentLoaded', function() {
+            // Áp dụng bộ lọc ban đầu
+            applyFilters();
+
+            // Thêm sự kiện Enter cho ô tìm kiếm
+            document.getElementById('searchInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    applyFilters();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

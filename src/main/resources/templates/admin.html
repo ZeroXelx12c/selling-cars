@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Luxury Auto Gallery</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <style>
+        :root {
+            --primary-color: #c5a47e;
+            --secondary-color: #1a1a1a;
+            --sidebar-width: 250px;
+        }
+
+        body {
+            background-color: #f4f4f4;
+            color: #333;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--secondary-color);
+            color: #fff;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-brand {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .sidebar-nav {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar-nav li {
+            margin-bottom: 15px;
+        }
+
+        .sidebar-nav a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-nav a:hover,
+        .sidebar-nav a.active {
+            background: var(--primary-color);
+            color: #fff;
+        }
+
+        .sidebar-nav a i {
+            margin-right: 10px;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            padding: 30px;
+            min-height: 100vh;
+            background: #fff;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            color: var(--secondary-color);
+        }
+
+        .header .btn-logout {
+            background: var(--primary-color);
+            color: #fff;
+            padding: 8px 20px;
+            border-radius: 20px;
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        .header .btn-logout:hover {
+            background: #fff;
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+        }
+
+        /* Overview Section */
+        .overview-container {
+            background: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 40px;
+        }
+
+        .overview-container h2 {
+            color: var(--secondary-color);
+            margin-bottom: 20px;
+        }
+
+        .overview-summary {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .overview-card {
+            flex: 1;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .overview-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .overview-card p {
+            font-size: 1.2rem;
+            color: var(--secondary-color);
+        }
+
+        .chart-container {
+            max-width: 600px;
+            margin: 0 auto 40px;
+        }
+
+        /* Table Container */
+        .table-container {
+            background: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 40px;
+        }
+
+        .table-container h2 {
+            color: var(--secondary-color);
+            margin-bottom: 20px;
+        }
+
+        .search-bar {
+            margin-bottom: 20px;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table th {
+            background: var(--secondary-color);
+            color: #fff;
+            padding: 15px;
+            text-align: left;
+        }
+
+        .table td {
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .table img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+
+        .btn-action {
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            margin-right: 5px;
+        }
+
+        .btn-add {
+            background: var(--primary-color);
+            color: #fff;
+            border: none;
+        }
+
+        .btn-add:hover {
+            background: #fff;
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+        }
+
+        .btn-edit {
+            background: #28a745;
+            color: #fff;
+            border: none;
+        }
+
+        .btn-edit:hover {
+            background: #fff;
+            color: #28a745;
+            border: 1px solid #28a745;
+        }
+
+        .btn-delete {
+            background: #ff4444;
+            color: #fff;
+            border: none;
+        }
+
+        .btn-delete:hover {
+            background: #fff;
+            color: #ff4444;
+            border: 1px solid #ff4444;
+        }
+
+        /* Modal */
+        .modal-content {
+            border-radius: 10px;
+        }
+
+        .modal-header {
+            background: var(--secondary-color);
+            color: #fff;
+            border-bottom: none;
+        }
+
+        .modal-title {
+            font-weight: 600;
+        }
+
+        .modal-footer .btn-primary {
+            background: var(--primary-color);
+            border: none;
+        }
+
+        .modal-footer .btn-primary:hover {
+            background: #fff;
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 70px;
+                padding: 10px;
+            }
+
+            .sidebar-brand {
+                font-size: 18px;
+                margin-bottom: 20px;
+            }
+
+            .sidebar-nav a {
+                justify-content: center;
+                padding: 15px;
+            }
+
+            .sidebar-nav a span {
+                display: none;
+            }
+
+            .main-content {
+                margin-left: 70px;
+            }
+
+            .header h1 {
+                font-size: 1.5rem;
+            }
+
+            .overview-summary {
+                flex-direction: column;
+            }
+
+            .chart-container {
+                max-width: 100%;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .table-container, .overview-container {
+                overflow-x: auto;
+            }
+
+            .header {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-brand">LUXURY ADMIN</div>
+        <ul class="sidebar-nav">
+            <li><a href="#overview" class="active"><i class="fas fa-tachometer-alt"></i> <span>Tổng quan</span></a></li>
+            <li><a href="#products"><i class="fas fa-car"></i> <span>Quản lý sản phẩm</span></a></li>
+            <li><a href="#orders"><i class="fas fa-shopping-cart"></i> <span>Quản lý đơn hàng</span></a></li>
+            <li><a href="#customers"><i class="fas fa-users"></i> <span>Quản lý khách hàng</span></a></li>
+            <li><a href="#revenue"><i class="fas fa-chart-line"></i> <span>Báo cáo doanh thu</span></a></li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="header">
+            <h1>Trang quản trị</h1>
+            <button class="btn-logout">Đăng xuất</button>
+        </div>
+
+        <!-- Tổng quan -->
+        <div class="overview-container" id="overview">
+            <h2>Tổng quan</h2>
+            <div class="overview-summary">
+                <div class="overview-card">
+                    <h3>Tổng doanh thu</h3>
+                    <p>₫25.497.000.000</p>
+                </div>
+                <div class="overview-card">
+                    <h3>Đơn hàng mới</h3>
+                    <p>8</p>
+                </div>
+                <div class="overview-card">
+                    <h3>Tổng khách hàng</h3>
+                    <p>150</p>
+                </div>
+                <div class="overview-card">
+                    <h3>Sản phẩm tồn kho</h3>
+                    <p>10</p>
+                </div>
+            </div>
+            <div class="chart-container">
+                <canvas id="revenueChart"></canvas>
+            </div>
+            <div class="chart-container">
+                <canvas id="customerChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Quản lý sản phẩm -->
+        <div class="table-container" id="products">
+            <h2>Quản lý sản phẩm</h2>
+            <div class="search-bar">
+                <input type="text" id="productSearch" placeholder="Tìm kiếm sản phẩm..." onkeyup="searchTable('productTable', this.value)">
+            </div>
+            <button class="btn-action btn-add" data-bs-toggle="modal" data-bs-target="#addProductModal">Thêm sản phẩm</button>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Tên sản phẩm</th>
+                        <th>Giá</th>
+                        <th>Hình ảnh</th>
+                        <th>Trạng thái</th>
+                        <th>Hành động</th>
+                    </tr>
+                </thead>
+                <tbody id="productTable">
+                    <tr>
+                        <td>001</td>
+                        <td>Mercedes-Benz S-Class</td>
+                        <td>₫8.999.000.000</td>
+                        <td><img src="https://images.unsplash.com/photo-1555652736-e92021d28643?ixlib=rb-4.0.3" alt="Mercedes-Benz S-Class"></td>
+                        <td>Còn hàng</td>
+                        <td>
+                            <button class="btn-action btn-edit" onclick="editProduct(this)">Sửa</button>
+                            <button class="btn-action btn-delete" onclick="deleteProduct(this)">Xóa</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>002</td>
+                        <td>BMW 7 Series</td>
+                        <td>₫7.499.000.000</td>
+                        <td><img src="https://images.unsplash.com/photo-1555215695-3004980ad54e?ixlib=rb-4.0.3" alt="BMW 7 Series"></td>
+                        <td>Còn hàng</td>
+                        <td>
+                            <button class="btn-action btn-edit" onclick="editProduct(this)">Sửa</button>
+                            <button class="btn-action btn-delete" onclick="deleteProduct(this)">Xóa</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Quản lý đơn hàng -->
+        <div class="table-container" id="orders">
+            <h2>Quản lý đơn hàng</h2>
+            <div class="search-bar">
+                <input type="text" id="orderSearch" placeholder="Tìm kiếm đơn hàng..." onkeyup="searchTable('orderTable', this.value)">
+            </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Mã đơn hàng</th>
+                        <th>Khách hàng</th>
+                        <th>Sản phẩm</th>
+                        <th>Tổng tiền</th>
+                        <th>Phương thức thanh toán</th>
+                        <th>Tên tài khoản</th>
+                        <th>Thời gian</th>
+                        <th>Trạng thái</th>
+                    </tr>
+                </thead>
+                <tbody id="orderTable">
+                    <tr>
+                        <td>DH001</td>
+                        <td>Nguyễn Văn A</td>
+                        <td>Mercedes-Benz S-Class</td>
+                        <td>₫8.999.000.000</td>
+                        <td>Chuyển khoản</td>
+                        <td>nguyenvana</td>
+                        <td>27/02/2025 10:00</td>
+                        <td>Đang xử lý</td>
+                    </tr>
+                    <tr>
+                        <td>DH002</td>
+                        <td>Trần Thị B</td>
+                        <td>BMW 7 Series</td>
+                        <td>₫7.499.000.000</td>
+                        <td>Tiền mặt</td>
+                        <td>tranb</td>
+                        <td>27/02/2025 14:00</td>
+                        <td>Đã giao</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Quản lý khách hàng -->
+        <div class="table-container" id="customers">
+            <h2>Quản lý khách hàng</h2>
+            <div class="search-bar">
+                <input type="text" id="customerSearch" placeholder="Tìm kiếm khách hàng..." onkeyup="searchTable('customerTable', this.value)">
+            </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Tên tài khoản</th>
+                        <th>Tên</th>
+                        <th>Email</th>
+                        <th>Số điện thoại</th>
+                        <th>Vùng miền</th>
+                        <th>Địa chỉ</th>
+                    </tr>
+                </thead>
+                <tbody id="customerTable">
+                    <tr>
+                        <td>nguyenvana</td>
+                        <td>Nguyễn Văn A</td>
+                        <td>nguyenvana@gmail.com</td>
+                        <td>0901234567</td>
+                        <td>Miền Bắc</td>
+                        <td>123 Đường ABC, Hà Nội</td>
+                    </tr>
+                    <tr>
+                        <td>tranb</td>
+                        <td>Trần Thị B</td>
+                        <td>tranb@gmail.com</td>
+                        <td>0912345678</td>
+                        <td>Miền Nam</td>
+                        <td>456 Đường XYZ, TP.HCM</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Báo cáo doanh thu -->
+        <div class="table-container" id="revenue">
+            <h2>Báo cáo doanh thu & Thống kê</h2>
+            <div class="search-bar">
+                <input type="text" id="revenueSearch" placeholder="Tìm kiếm báo cáo..." onkeyup="searchTable('revenueTable', this.value)">
+            </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Thời gian</th>
+                        <th>Doanh thu</th>
+                        <th>Số đơn hàng</th>
+                        <th>Số xe bán ra</th>
+                        <th>Doanh thu trung bình/xe</th>
+                        <th>Số khách hàng</th>
+                        <th>Phương thức thanh toán phổ biến</th>
+                    </tr>
+                </thead>
+                <tbody id="revenueTable">
+                    <tr>
+                        <td>Tháng 1/2025</td>
+                        <td>₫16.498.000.000</td>
+                        <td>5</td>
+                        <td>5</td>
+                        <td>₫3.299.600.000</td>
+                        <td>8</td>
+                        <td>Chuyển khoản</td>
+                    </tr>
+                    <tr>
+                        <td>Tháng 2/2025</td>
+                        <td>₫8.999.000.000</td>
+                        <td>3</td>
+                        <td>3</td>
+                        <td>₫2.999.666.667</td>
+                        <td>10</td>
+                        <td>Tiền mặt</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Modal Thêm Sản phẩm -->
+    <div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addProductModalLabel">Thêm sản phẩm mới</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addProductForm">
+                        <div class="mb-3">
+                            <label for="productName" class="form-label">Tên sản phẩm</label>
+                            <input type="text" class="form-control" id="productName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="productPrice" class="form-label">Giá</label>
+                            <input type="text" class="form-control" id="productPrice" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="productImage" class="form-label">Hình ảnh</label>
+                            <input type="file" class="form-control" id="productImage" accept="image/*" required onchange="previewImage(this, 'addImagePreview')">
+                            <img id="addImagePreview" style="display: none; width: 100px; height: 100px; margin-top: 10px;" alt="Preview">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-primary" onclick="addProduct()">Thêm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Sửa Sản phẩm -->
+    <div class="modal fade" id="editProductModal" tabindex="-1" aria-labelledby="editProductModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editProductModalLabel">Sửa sản phẩm</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editProductForm">
+                        <input type="hidden" id="editProductId">
+                        <div class="mb-3">
+                            <label for="editProductName" class="form-label">Tên sản phẩm</label>
+                            <input type="text" class="form-control" id="editProductName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editProductPrice" class="form-label">Giá</label>
+                            <input type="text" class="form-control" id="editProductPrice" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editProductImage" class="form-label">Hình ảnh</label>
+                            <input type="file" class="form-control" id="editProductImage" accept="image/*" onchange="previewImage(this, 'editImagePreview')">
+                            <img id="editImagePreview" style="width: 100px; height: 100px; margin-top: 10px;" alt="Current Image">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-primary" onclick="saveProduct()">Lưu</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Chuyển đổi giữa các tab
+        document.querySelectorAll('.sidebar-nav a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelectorAll('.sidebar-nav a').forEach(a => a.classList.remove('active'));
+                this.classList.add('active');
+                const target = this.getAttribute('href').substring(1);
+                document.querySelectorAll('.overview-container, .table-container').forEach(section => {
+                    section.style.display = section.id === target ? 'block' : 'none';
+                });
+            });
+        });
+
+        // Ẩn tất cả section trừ section đầu tiên
+        document.querySelectorAll('.overview-container, .table-container').forEach((section, index) => {
+            section.style.display = index === 0 ? 'block' : 'none';
+        });
+
+        // Biểu đồ doanh thu
+        const revenueChart = new Chart(document.getElementById('revenueChart'), {
+            type: 'line',
+            data: {
+                labels: ['Tháng 1', 'Tháng 2'],
+                datasets: [{
+                    label: 'Doanh thu (tỷ VNĐ)',
+                    data: [16.498, 8.999],
+                    borderColor: 'rgba(197, 164, 126, 1)',
+                    backgroundColor: 'rgba(197, 164, 126, 0.2)',
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Biểu đồ khách hàng
+        const customerChart = new Chart(document.getElementById('customerChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Tháng 1', 'Tháng 2'],
+                datasets: [{
+                    label: 'Số lượng khách hàng',
+                    data: [8, 10],
+                    backgroundColor: 'rgba(197, 164, 126, 0.8)',
+                    borderColor: 'rgba(197, 164, 126, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Xem trước hình ảnh khi upload
+        function previewImage(input, previewId) {
+            const file = input.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const preview = document.getElementById(previewId);
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Thêm sản phẩm
+        function addProduct() {
+            const name = document.getElementById('productName').value;
+            const price = document.getElementById('productPrice').value;
+            const imageInput = document.getElementById('productImage');
+            const file = imageInput.files[0];
+
+            if (name && price && file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const imageData = e.target.result;
+                    const tbody = document.getElementById('productTable');
+                    const id = '00' + (tbody.children.length + 1);
+                    const row = `
+                        <tr>
+                            <td>${id}</td>
+                            <td>${name}</td>
+                            <td>${price}</td>
+                            <td><img src="${imageData}" alt="${name}"></td>
+                            <td>Có sẵn</td>
+                            <td>
+                                <button class="btn-action btn-edit" onclick="editProduct(this)">Sửa</button>
+                                <button class="btn-action btn-delete" onclick="deleteProduct(this)">Xóa</button>
+                            </td>
+                        </tr>
+                    `;
+                    tbody.insertAdjacentHTML('beforeend', row);
+                    bootstrap.Modal.getInstance(document.getElementById('addProductModal')).hide();
+                    document.getElementById('addProductForm').reset();
+                    document.getElementById('addImagePreview').style.display = 'none';
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Sửa sản phẩm
+        function editProduct(button) {
+            const row = button.closest('tr');
+            const id = row.cells[0].innerText;
+            const name = row.cells[1].innerText;
+            const price = row.cells[2].innerText;
+            const image = row.cells[3].querySelector('img').src;
+
+            document.getElementById('editProductId').value = id;
+            document.getElementById('editProductName').value = name;
+            document.getElementById('editProductPrice').value = price;
+            document.getElementById('editProductImage').value = '';
+            document.getElementById('editImagePreview').src = image;
+
+            new bootstrap.Modal(document.getElementById('editProductModal')).show();
+        }
+
+        function saveProduct() {
+            const id = document.getElementById('editProductId').value;
+            const name = document.getElementById('editProductName').value;
+            const price = document.getElementById('editProductPrice').value;
+            const imageInput = document.getElementById('editProductImage');
+            const file = imageInput.files[0];
+            const currentImage = document.getElementById('editImagePreview').src;
+
+            const rows = document.getElementById('productTable').rows;
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const imageData = e.target.result;
+                    for (let row of rows) {
+                        if (row.cells[0].innerText === id) {
+                            row.cells[1].innerText = name;
+                            row.cells[2].innerText = price;
+                            row.cells[3].innerHTML = `<img src="${imageData}" alt="${name}">`;
+                            row.cells[4].innerText = 'Có sẵn';
+                            break;
+                        }
+                    }
+                    bootstrap.Modal.getInstance(document.getElementById('editProductModal')).hide();
+                };
+                reader.readAsDataURL(file);
+            } else {
+                for (let row of rows) {
+                    if (row.cells[0].innerText === id) {
+                        row.cells[1].innerText = name;
+                        row.cells[2].innerText = price;
+                        row.cells[3].innerHTML = `<img src="${currentImage}" alt="${name}">`;
+                        row.cells[4].innerText = 'Có sẵn';
+                        break;
+                    }
+                }
+                bootstrap.Modal.getInstance(document.getElementById('editProductModal')).hide();
+            }
+        }
+
+        // Xóa sản phẩm
+        function deleteProduct(button) {
+            if (confirm('Bạn có chắc muốn xóa sản phẩm này?')) {
+                button.closest('tr').remove();
+            }
+        }
+
+        // Tìm kiếm trong bảng
+        function searchTable(tableId, query) {
+            const table = document.getElementById(tableId);
+            const rows = table.getElementsByTagName('tr');
+            query = query.toLowerCase();
+
+            for (let i = 0; i < rows.length; i++) {
+                const cells = rows[i].getElementsByTagName('td');
+                let match = false;
+                for (let j = 0; j < cells.length; j++) {
+                    if (cells[j] && cells[j].innerText.toLowerCase().includes(query)) {
+                        match = true;
+                        break;
+                    }
+                }
+                rows[i].style.display = match ? '' : 'none';
+            }
+        }
+    </script>
+</body>
+</html>

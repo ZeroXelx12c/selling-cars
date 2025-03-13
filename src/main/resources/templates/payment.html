@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giỏ hàng - Luxury Auto Gallery</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #c5a47e;
+            --secondary-color: #1a1a1a;
+        }
+
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        /* Navigation (giữ nguyên từ giao diện chính) */
+        .navbar {
+            background-color: rgba(0, 0, 0, 0.9);
+            padding: 20px 0;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-brand {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary-color) !important;
+        }
+
+        .nav-link {
+            color: #fff !important;
+            margin: 0 15px;
+            position: relative;
+            font-weight: 500;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: var(--primary-color);
+            left: 0;
+            bottom: -5px;
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Cart Section */
+        .cart-section {
+            padding: 100px 0;
+            background-color: var(--secondary-color);
+        }
+
+        .cart-title {
+            text-align: center;
+            color: var(--primary-color);
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+        }
+
+        .cart-table {
+            background: #2a2a2a;
+            border-radius: 15px;
+            padding: 20px;
+        }
+
+        .cart-table table {
+            width: 100%;
+            color: #fff;
+        }
+
+        .cart-table th {
+            color: var(--primary-color);
+            font-weight: 600;
+            padding: 15px;
+            border-bottom: 1px solid #333;
+        }
+
+        .cart-table td {
+            padding: 15px;
+            vertical-align: middle;
+            border-bottom: 1px solid #333;
+        }
+
+        .cart-item-image {
+            width: 100px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+
+        .cart-item-name {
+            font-size: 1.2rem;
+            color: var(--primary-color);
+        }
+
+        .cart-item-price {
+            font-size: 1.1rem;
+        }
+
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .quantity-control input {
+            width: 50px;
+            text-align: center;
+            background: #333;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 5px;
+        }
+
+        .quantity-control button {
+            background: var(--primary-color);
+            border: none;
+            color: #fff;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            font-size: 1rem;
+            transition: background 0.3s ease;
+        }
+
+        .quantity-control button:hover {
+            background: #fff;
+            color: var(--primary-color);
+        }
+
+        .remove-btn {
+            color: #888;
+            font-size: 1.2rem;
+            transition: color 0.3s ease;
+        }
+
+        .remove-btn:hover {
+            color: #ff4444;
+        }
+
+        /* Cart Summary */
+        .cart-summary {
+            background: #2a2a2a;
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 30px;
+        }
+
+        .cart-summary h3 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #333;
+            color: #ccc;
+        }
+
+        .summary-total {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .btn-custom {
+            background-color: var(--primary-color);
+            color: #fff;
+            padding: 12px 30px;
+            border-radius: 30px;
+            border: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-custom:hover {
+            background-color: #fff;
+            color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary-color);
+            color: #fff;
+        }
+
+        /* Footer (giữ nguyên từ giao diện chính) */
+        .footer {
+            background-color: #1a1a1a;
+            padding: 50px 0 20px;
+        }
+
+        .footer-title {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+
+        .footer-links a {
+            color: #888;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 10px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .social-links a {
+            color: #888;
+            font-size: 1.5rem;
+            margin-right: 15px;
+        }
+
+        .social-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #333;
+            color: #888;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .cart-title {
+                font-size: 2rem;
+            }
+
+            .cart-table {
+                overflow-x: auto;
+            }
+
+            .quantity-control input {
+                width: 40px;
+            }
+
+            .btn-custom {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .cart-title {
+                font-size: 1.8rem;
+            }
+
+            .cart-item-name {
+                font-size: 1rem;
+            }
+
+            .cart-item-price {
+                font-size: 0.9rem;
+            }
+
+            .cart-item-image {
+                width: 80px;
+                height: 50px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">LUXURY AUTO</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Trang chủ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Sản phẩm</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Dịch vụ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Tin tức</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Liên hệ</a>
+                    </li>
+                </ul>
+                <div class="ms-3">
+                    <a href="login.html" class="btn btn-custom">Đăng nhập</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Cart Section -->
+    <section class="cart-section">
+        <div class="container">
+            <h1 class="cart-title" data-aos="fade-up">Giỏ hàng của bạn</h1>
+            <div class="cart-table" data-aos="fade-up" data-aos-delay="200">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Sản phẩm</th>
+                            <th>Giá</th>
+                            <th>Số lượng</th>
+                            <th>Tổng</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <img src="https://images.unsplash.com/photo-1555652736-e92021d28643?ixlib=rb-4.0.3" alt="Mercedes-Benz S-Class" class="cart-item-image me-3">
+                                    <span class="cart-item-name">Mercedes-Benz S-Class</span>
+                                </div>
+                            </td>
+                            <td class="cart-item-price">₫8.999.000.000</td>
+                            <td>
+                                <div class="quantity-control">
+                                    <button>-</button>
+                                    <input type="number" value="1" min="1">
+                                    <button>+</button>
+                                </div>
+                            </td>
+                            <td class="cart-item-price">₫8.999.000.000</td>
+                            <td>
+                                <a href="#" class="remove-btn"><i class="fas fa-trash"></i></a>
+                            </td>
+                        </tr>
+                        <!-- Có thể thêm nhiều sản phẩm khác tại đây -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Cart Summary -->
+            <div class="cart-summary" data-aos="fade-up" data-aos-delay="400">
+                <h3>Tóm tắt đơn hàng</h3>
+                <div class="summary-item">
+                    <span>Tạm tính</span>
+                    <span>₫8.999.000.000</span>
+                </div>
+                <div class="summary-item">
+                    <span>Phí vận chuyển</span>
+                    <span>Liên hệ để báo giá</span>
+                </div>
+                <div class="summary-total">
+                    <span>Tổng cộng</span>
+                    <span>₫8.999.000.000</span>
+                </div>
+                <div class="text-end mt-3">
+                    <button class="btn btn-custom me-3">Tiếp tục mua sắm</button>
+                    <button class="btn btn-custom btn-outline">Thanh toán</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="footer-content">
+                        <h3 class="footer-title">Về chúng tôi</h3>
+                        <p>Luxury Auto Gallery - Nơi những giấc mơ về xe sang trở thành hiện thực. Chúng tôi tự hào mang đến những sản phẩm và dịch vụ cao cấp nhất.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="footer-content">
+                        <h3 class="footer-title">Liên kết nhanh</h3>
+                        <div class="footer-links">
+                            <a href="#">Sản phẩm</a>
+                            <a href="#">Dịch vụ</a>
+                            <a href="#">Tin tức</a>
+                            <a href="#">Liên hệ</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="footer-content">
+                        <h3 class="footer-title">Kết nối với chúng tôi</h3>
+                        <div class="social-links">
+                            <a href="#"><i class="fab fa-facebook"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-youtube"></i></a>
+                            <a href="#"><i class="fab fa-linkedin"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>© 2024 Luxury Auto Gallery. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- AOS Animation -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init();
+    </script>
+</body>
+</html>
