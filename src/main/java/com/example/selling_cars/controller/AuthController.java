@@ -18,6 +18,11 @@ public class AuthController {
     @Autowired
     private UsersService usersService;
 
+    @GetMapping("/")
+    public String homePage(Model model) {
+        return "home"; // Trả về trang home.html
+    }
+
     @GetMapping("/login")
     public String loginPage() {
         return "login";
