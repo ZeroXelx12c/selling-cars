@@ -1,0 +1,318 @@
+
+:root {
+    --primary-color: #c5a47e;
+    --secondary-color: #1a1a1a;
+}
+
+body {
+    background-color: #000;
+    color: #fff;
+    font-family: 'Montserrat', sans-serif;
+}
+
+/* Navigation */
+.navbar {
+    background-color: rgba(0, 0, 0, 0.9);
+    padding: 20px 0;
+    transition: all 0.3s ease;
+}
+
+.navbar-brand {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--primary-color) !important;
+}
+
+.nav-link {
+    color: #fff !important;
+    margin: 0 15px;
+    position: relative;
+    font-weight: 500;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    background: var(--primary-color);
+    left: 0;
+    bottom: -5px;
+    transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+
+/* Product Listing Section */
+.product-listing {
+    padding: 100px 0;
+    background-color: var(--secondary-color);
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.section-title h1 {
+    color: var(--primary-color);
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+.section-title p {
+    color: #ccc;
+}
+
+/* Filter Section */
+.filter-section {
+    background: #2a2a2a;
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 40px;
+}
+
+.filter-section label {
+    color: var(--primary-color);
+    margin-right: 10px;
+    font-weight: 500;
+    display: block;
+    margin-bottom: 8px;
+}
+.filter-section select,
+.filter-section input {
+background: #333;
+color: #fff;
+border: 1px solid #444;
+padding: 12px 15px;
+border-radius: 8px;
+font-size: 0.95rem;
+width: 100%;
+transition: all 0.3s ease;
+}
+
+.filter-section input::placeholder {
+color: rgba(255, 255, 255, 0.5);
+}
+
+.filter-section select:focus,
+.filter-section input:focus {
+background: #404040;
+border-color: var(--primary-color);
+outline: none;
+box-shadow: 0 0 0 2px rgba(197, 164, 126, 0.2);
+color: #fff;
+}
+
+#searchInput {
+background: #262626;
+color: #fff;
+font-weight: 500;
+}
+
+#searchInput:focus {
+background: #333;
+}
+
+
+.search-box {
+    position: relative;
+}
+
+.search-box .search-icon {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--primary-color);
+}
+
+.search-box input {
+    padding-right: 40px;
+}
+
+.form-select {
+    background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path fill='none' stroke='%23c5a47e' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 16px 12px;
+}
+
+/* Product Card */
+.car-card {
+    background: #2a2a2a;
+    border-radius: 15px;
+    overflow: hidden;
+    margin-bottom: 30px;
+    transition: transform 0.3s ease;
+}
+
+.car-card:hover {
+    transform: translateY(-10px);
+}
+
+.car-image {
+    height: 250px;
+    overflow: hidden;
+}
+
+.car-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.car-card:hover .car-image img {
+    transform: scale(1.1);
+}
+
+.car-details {
+    padding: 20px;
+}
+
+.car-title {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: var(--primary-color);
+}
+
+.car-price {
+    font-size: 1.2rem;
+    color: #fff;
+    margin-bottom: 15px;
+}
+
+.car-specs {
+    display: flex;
+    justify-content: space-between;
+    color: #888;
+    font-size: 0.9rem;
+}
+
+.btn-custom {
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 30px;
+    border: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    display: block;
+    text-align: center;
+    margin-top: 15px;
+}
+
+.btn-custom:hover {
+    background-color: #fff;
+    color: var(--primary-color);
+    transform: translateY(-2px);
+}
+
+/* Pagination */
+.pagination {
+    justify-content: center;
+    margin-top: 40px;
+}
+
+.page-link {
+    background: #2a2a2a;
+    color: #fff;
+    border: none;
+    margin: 0 5px;
+    transition: all 0.3s ease;
+}
+
+.page-link:hover {
+    background: var(--primary-color);
+    color: #fff;
+}
+
+.page-item.active .page-link {
+    background: var(--primary-color);
+    color: #fff;
+}
+
+/* Footer */
+.footer {
+    background-color: #1a1a1a;
+    padding: 50px 0 20px;
+}
+
+.footer-title {
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+}
+
+.footer-links a {
+    color: #888;
+    text-decoration: none;
+    display: block;
+    margin-bottom: 10px;
+    transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: var(--primary-color);
+}
+
+.social-links a {
+    color: #888;
+    font-size: 1.5rem;
+    margin-right: 15px;
+}
+
+.social-links a:hover {
+    color: var(--primary-color);
+}
+
+.copyright {
+    text-align: center;
+    padding-top: 20px;
+    border-top: 1px solid #333;
+    color: #888;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .section-title h1 {
+        font-size: 2rem;
+    }
+
+    .car-title {
+        font-size: 1.3rem;
+    }
+
+    .car-price {
+        font-size: 1.1rem;
+    }
+
+    .filter-section {
+        text-align: center;
+    }
+
+    .filter-section select {
+        margin-bottom: 10px;
+    }
+}
+
+@media (max-width: 576px) {
+    .section-title h1 {
+        font-size: 1.8rem;
+    }
+
+    .car-title {
+        font-size: 1.2rem;
+    }
+
+    .car-price {
+        font-size: 1rem;
+    }
+
+    .car-image {
+        height: 200px;
+    }
+}
