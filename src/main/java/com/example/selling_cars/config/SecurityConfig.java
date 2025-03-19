@@ -6,11 +6,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -21,33 +18,31 @@ public class SecurityConfig {
     private UsersService usersService;
 
     @Bean
-public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-    http
-        .authorizeHttpRequests(authorize -> authorize
-            .requestMatchers("/", "/products", "/services", "/news", "/contact", 
-                             "/login", "/register", "/forgot-password", 
-                             "/css/**", "/js/**", "/images/**").permitAll()
-            .requestMatchers("/cart/**", "/profile/**").authenticated()
-            .requestMatchers("/admin/**").hasRole("Admin")
-            .anyRequest().authenticated()
-        )
-        .formLogin(form -> form
-            .loginPage("/login")
-            .defaultSuccessUrl("/", true)
-            .failureUrl("/login?error=true")
-            .permitAll()
-        )
-        .logout(logout -> logout
-            .logoutUrl("/logout")
-            .logoutSuccessUrl("/?logout=true")
-            .permitAll()
-        )
-        .sessionManagement(session -> session
-            .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
-        );
-
-    return http.build();
-}
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+            .authorizeHttpRequests(authorize -> authorize
+                .requestMatchers("/login", "/register", "/css/**", "/js/**").permitAll()
+                .anyRequest().authenticated()
+            )
+            .formLogin(form -> form
+                .loginPage("/login")
+                .usernameParameter("username")
+                .passwordParameter("password")
+                .defaultSuccessUrl("/home", true) // Chuyển hướng đến /home sau khi đăng nhập thành công
+                .failureUrl("/login?error")
+                .permitAll()
+            )
+            .logout(logout -> logout
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/login?logout")
+                .permitAll()
+            )
+            .rememberMe(remember -> remember
+                .rememberMeParameter("remember-me")
+                .tokenValiditySeconds(86400) // 1 ngày
+            );
+        return http.build();
+    }
 
     @Bean
     public UserDetailsService userDetailsService() {
@@ -55,13 +50,8 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
             .map(user -> org.springframework.security.core.userdetails.User
                 .withUsername(user.getPhoneNumber())
                 .password(user.getPassword())
-                .roles(user.getRole())
+                .roles(user.getRole().toUpperCase())
                 .build())
-            .orElseThrow(() -> new UsernameNotFoundException("Không tìm thấy người dùng: " + phoneNumber));
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+            .orElseThrow(() -> new UsernameNotFoundException("Số điện thoại hoặc mật khẩu không đúng!"));
     }
 }
