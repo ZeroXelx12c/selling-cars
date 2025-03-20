@@ -343,20 +343,20 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="home.html">Trang chủ</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="product-list.html">Sản phẩm</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="services.html">Dịch vụ</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="news.html">Tin tức</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="home.html#contact">Liên hệ</a>
-                    </li>
+                        <a class="nav-link" th:href="@{/home}">Trang chủ</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" th:href="@{/product-list}">Sản phẩm</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" th:href="@{/services}">Dịch vụ</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" th:href="@{/news}">Tin tức</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" th:href="@{/contact}">Liên hệ</a>
+                      </li>
                 </ul>
                 <div class="ms-3">
                     <a href="login.html" class="btn btn-custom">Đăng nhập</a>
@@ -600,10 +600,10 @@
                     <div class="footer-content">
                         <h3 class="footer-title">Liên kết nhanh</h3>
                         <div class="footer-links">
-                            <a href="product-list.html">Sản phẩm</a>
-                            <a href="services.html">Dịch vụ</a>
-                            <a href="news.html">Tin tức</a>
-                            <a href="home.html#contact">Liên hệ</a>
+                            <a th:href="@{/product-list}">Sản phẩm</a>
+                            <a th:href="@{/services}">Dịch vụ</a>
+                            <a th:href="@{/news}">Tin tức</a>
+                            <a th:href="@{/contact}">Liên hệ</a>
                         </div>
                     </div>
                 </div>

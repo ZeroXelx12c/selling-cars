@@ -8,6 +8,26 @@ public class HomeController {
 
     @GetMapping("/home")
     public String showHomePage() {
-        return "home"; // Trả về file home.html
+        return "home";
+    }
+
+    @GetMapping("/product-list")
+    public String showProductList() {
+        return "product-list";
+    }
+
+    @GetMapping("/services")
+    public String showServices() {
+        return "services";
+    }
+
+    @GetMapping("/news")
+    public String showNews() {
+        return "news";
+    }
+
+    @GetMapping("/contact")
+    public String showContact() {
+        return "contact";
     }
 }

@@ -1,438 +1,535 @@
-
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Thanh Toán - Luxury Auto Gallery</title>
-    
+
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
     <!-- Font Awesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
     <!-- AOS Animation -->
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+
     <style>
-        :root {
-            --primary-color: #c5a47e;
-            --secondary-color: #1a1a1a;
-        }
+      :root {
+        --primary-color: #c5a47e;
+        --secondary-color: #1a1a1a;
+      }
 
-        body {
-            background-color: #000;
-            color: #fff;
-            font-family: 'Montserrat', sans-serif;
-            padding-top: 80px;
-        }
+      body {
+        background-color: #000;
+        color: #fff;
+        font-family: "Montserrat", sans-serif;
+        padding-top: 80px;
+      }
 
-        /* Car Preview Section */
-        .car-preview {
-            background: #1a1a1a;
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 30px;
-            position: relative;
-            overflow: hidden;
-            height: 300px;
-        }
+      /* Car Preview Section */
+      .car-preview {
+        background: #1a1a1a;
+        border-radius: 15px;
+        padding: 20px;
+        margin-bottom: 30px;
+        position: relative;
+        overflow: hidden;
+        height: 300px;
+      }
 
-        .car-preview img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 10px;
-            transition: transform 0.5s ease;
-        }
+      .car-preview img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 10px;
+        transition: transform 0.5s ease;
+      }
 
-        .car-preview img:hover {
-            transform: scale(1.05);
-        }
+      .car-preview img:hover {
+        transform: scale(1.05);
+      }
 
-        /* Navigation */
-        .navbar {
-            background-color: rgba(0, 0, 0, 0.9);
-            padding: 20px 0;
-            transition: all 0.3s ease;
-        }
+      /* Navigation */
+      .navbar {
+        background-color: rgba(0, 0, 0, 0.9);
+        padding: 20px 0;
+        transition: all 0.3s ease;
+      }
 
-        .navbar.scrolled {
-            padding: 10px 0;
-            background-color: rgba(0, 0, 0, 0.95);
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
-        }
+      .navbar.scrolled {
+        padding: 10px 0;
+        background-color: rgba(0, 0, 0, 0.95);
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+      }
 
-        .navbar-brand {
-            font-size: 28px;
-            font-weight: 700;
-            color: var(--primary-color) !important;
-        }
+      .navbar-brand {
+        font-size: 28px;
+        font-weight: 700;
+        color: var(--primary-color) !important;
+      }
 
-        .nav-link {
-            color: #fff !important;
-            margin: 0 15px;
-            position: relative;
-            font-weight: 500;
-        }
+      .nav-link {
+        color: #fff !important;
+        margin: 0 15px;
+        position: relative;
+        font-weight: 500;
+      }
 
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            background: var(--primary-color);
-            left: 0;
-            bottom: -5px;
-            transition: width 0.3s ease;
-        }
+      .nav-link::after {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 2px;
+        background: var(--primary-color);
+        left: 0;
+        bottom: -5px;
+        transition: width 0.3s ease;
+      }
 
-        .nav-link:hover::after {
-            width: 100%;
-        }
+      .nav-link:hover::after {
+        width: 100%;
+      }
 
-        /* Payment Form Section */
-        .payment-section {
-            padding: 50px 0;
-            background-color: var(--secondary-color);
-        }
+      /* Payment Form Section */
+      .payment-section {
+        padding: 50px 0;
+        background-color: var(--secondary-color);
+      }
 
-        .section-title {
-            text-align: center;
-            margin-bottom: 50px;
-        }
+      .section-title {
+        text-align: center;
+        margin-bottom: 50px;
+      }
 
+      .section-title h2 {
+        color: var(--primary-color);
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+      }
+
+      .payment-form {
+        background: #2a2a2a;
+        border-radius: 15px;
+        padding: 30px;
+        margin-bottom: 30px;
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      .form-label {
+        color: var(--primary-color);
+        font-weight: 500;
+        margin-bottom: 8px;
+      }
+
+      .form-control {
+        background-color: #1a1a1a;
+        border: 1px solid #333;
+        color: #fff;
+        padding: 12px;
+        border-radius: 8px;
+      }
+
+      .form-control:focus {
+        background-color: #1a1a1a;
+        border-color: var(--primary-color);
+        color: #fff;
+        box-shadow: none;
+      }
+
+      .color-option {
+        display: inline-block;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        margin: 5px;
+        cursor: pointer;
+        border: 2px solid transparent;
+        transition: all 0.3s ease;
+      }
+
+      .color-option.selected {
+        border-color: var(--primary-color);
+        transform: scale(1.1);
+      }
+
+      .deposit-range {
+        width: 100%;
+        margin: 10px 0;
+      }
+
+      .order-summary {
+        background: #1a1a1a;
+        padding: 20px;
+        border-radius: 10px;
+        margin-top: 20px;
+      }
+
+      .summary-title {
+        color: var(--primary-color);
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+      }
+
+      .summary-item {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        padding: 8px 0;
+        border-bottom: 1px solid #333;
+      }
+
+      .summary-item:last-child {
+        border-bottom: none;
+      }
+
+      /* Custom Buttons */
+      .btn-custom {
+        background-color: var(--primary-color);
+        color: #fff;
+        padding: 12px 30px;
+        border-radius: 30px;
+        border: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        width: 100%;
+        margin-top: 20px;
+      }
+
+      .btn-custom:hover {
+        background-color: #fff;
+        color: var(--primary-color);
+        transform: translateY(-2px);
+      }
+
+      /* Footer */
+      .footer {
+        background-color: #1a1a1a;
+        padding: 50px 0 20px;
+        margin-top: 50px;
+      }
+
+      .footer-content {
+        margin-bottom: 30px;
+      }
+
+      .footer-title {
+        color: var(--primary-color);
+        margin-bottom: 20px;
+        font-size: 1.2rem;
+      }
+
+      .footer-links a {
+        color: #888;
+        text-decoration: none;
+        display: block;
+        margin-bottom: 10px;
+        transition: color 0.3s ease;
+      }
+
+      .footer-links a:hover {
+        color: var(--primary-color);
+      }
+
+      .social-links {
+        display: flex;
+        gap: 15px;
+      }
+
+      .social-links a {
+        color: #888;
+        font-size: 1.5rem;
+        transition: color 0.3s ease;
+      }
+
+      .social-links a:hover {
+        color: var(--primary-color);
+      }
+
+      .copyright {
+        text-align: center;
+        padding-top: 20px;
+        border-top: 1px solid #333;
+        color: #888;
+      }
+
+      @media (max-width: 768px) {
         .section-title h2 {
-            color: var(--primary-color);
-            font-size: 2.5rem;
-            margin-bottom: 20px;
+          font-size: 2rem;
         }
 
         .payment-form {
-            background: #2a2a2a;
-            border-radius: 15px;
-            padding: 30px;
-            margin-bottom: 30px;
+          padding: 20px;
         }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-label {
-            color: var(--primary-color);
-            font-weight: 500;
-            margin-bottom: 8px;
-        }
-
-        .form-control {
-            background-color: #1a1a1a;
-            border: 1px solid #333;
-            color: #fff;
-            padding: 12px;
-            border-radius: 8px;
-        }
-
-        .form-control:focus {
-            background-color: #1a1a1a;
-            border-color: var(--primary-color);
-            color: #fff;
-            box-shadow: none;
-        }
-
-        .color-option {
-            display: inline-block;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            margin: 5px;
-            cursor: pointer;
-            border: 2px solid transparent;
-            transition: all 0.3s ease;
-        }
-
-        .color-option.selected {
-            border-color: var(--primary-color);
-            transform: scale(1.1);
-        }
-
-        .deposit-range {
-            width: 100%;
-            margin: 10px 0;
-        }
-
-        .order-summary {
-            background: #1a1a1a;
-            padding: 20px;
-            border-radius: 10px;
-            margin-top: 20px;
-        }
-
-        .summary-title {
-            color: var(--primary-color);
-            font-size: 1.5rem;
-            margin-bottom: 15px;
-        }
-
-        .summary-item {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-            padding: 8px 0;
-            border-bottom: 1px solid #333;
-        }
-
-        .summary-item:last-child {
-            border-bottom: none;
-        }
-
-        /* Custom Buttons */
-        .btn-custom {
-            background-color: var(--primary-color);
-            color: #fff;
-            padding: 12px 30px;
-            border-radius: 30px;
-            border: none;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            width: 100%;
-            margin-top: 20px;
-        }
-
-        .btn-custom:hover {
-            background-color: #fff;
-            color: var(--primary-color);
-            transform: translateY(-2px);
-        }
-
-        /* Footer */
-        .footer {
-            background-color: #1a1a1a;
-            padding: 50px 0 20px;
-            margin-top: 50px;
-        }
-
-        .footer-content {
-            margin-bottom: 30px;
-        }
-
-        .footer-title {
-            color: var(--primary-color);
-            margin-bottom: 20px;
-            font-size: 1.2rem;
-        }
-
-        .footer-links a {
-            color: #888;
-            text-decoration: none;
-            display: block;
-            margin-bottom: 10px;
-            transition: color 0.3s ease;
-        }
-
-        .footer-links a:hover {
-            color: var(--primary-color);
-        }
-
-        .social-links {
-            display: flex;
-            gap: 15px;
-        }
-
-        .social-links a {
-            color: #888;
-            font-size: 1.5rem;
-            transition: color 0.3s ease;
-        }
-
-        .social-links a:hover {
-            color: var(--primary-color);
-        }
-
-        .copyright {
-            text-align: center;
-            padding-top: 20px;
-            border-top: 1px solid #333;
-            color: #888;
-        }
-
-        @media (max-width: 768px) {
-            .section-title h2 {
-                font-size: 2rem;
-            }
-            
-            .payment-form {
-                padding: 20px;
-            }
-        }
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg fixed-top">
-        <div class="container">
-            <a class="navbar-brand" href="home.html">LUXURY AUTO</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="home.html">Trang chủ</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="product-list.html">Sản phẩm</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="services.html">Dịch vụ</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="news.html">Tin tức</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="home.html#contact">Liên hệ</a>
-                    </li>
-                </ul>
-                <div class="ms-3">
-                    <a href="login.html" class="btn btn-custom">Đăng nhập</a>
-                </div>
-            </div>
+      <div class="container">
+        <a class="navbar-brand" href="home.html">LUXURY AUTO</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" th:href="@{/home}">Trang chủ</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" th:href="@{/product-list}">Sản phẩm</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" th:href="@{/services}">Dịch vụ</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" th:href="@{/news}">Tin tức</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" th:href="@{/contact}">Liên hệ</a>
+            </li>
+          </ul>
+          <div class="ms-3">
+            <a href="login.html" class="btn btn-custom">Đăng nhập</a>
+          </div>
         </div>
+      </div>
     </nav>
 
     <!-- Payment Section -->
     <section class="payment-section">
-        <div class="container">
-            <div class="section-title" data-aos="fade-up">
-                <h2>Thanh Toán Đơn Hàng</h2>
-                <p>Hoàn tất đơn hàng của bạn</p>
-            </div>
-
-            <div class="row">
-                <div class="col-lg-8" data-aos="fade-up">
-                    <!-- Car Preview -->
-                    <div class="car-preview" data-aos="fade-up">
-                        <img id="carPreview" src="https://stimg.cardekho.com/images/carexteriorimages/930x620/BMW/7-Series/10257/1689673096346/front-left-side-47.jpg" alt="Car Preview">
-                    </div>
-
-                    <form id="paymentForm" class="payment-form" th:action="@{/payment/process}" method="post">
-                        <div class="form-group">
-                            <label class="form-label">Màu Ngoại Thất</label>
-                            <div id="exteriorColors">
-                                <div class="color-option" style="background-color: #000000" data-color="Đen" data-image="https://stimg.cardekho.com/images/carexteriorimages/930x620/BMW/7-Series/10257/1689673096346/front-left-side-47.jpg" onclick="selectColor(this, 'exterior')" data-aos="fade-up" data-aos-delay="100"></div>
-                                <div class="color-option" style="background-color: #FFFFFF" data-color="Trắng" data-image="https://stimg.cardekho.com/images/carexteriorimages/930x620/BMW/7-Series/10257/1689673096346/side-view-(left)-90.jpg" onclick="selectColor(this, 'exterior')" data-aos="fade-up" data-aos-delay="200"></div>
-                                <div class="color-option" style="background-color: #C0C0C0" data-color="Bạc" data-image="https://cdni.autocarindia.com/utils/imageresizer.ashx?n=https://cms.haymarketindia.net/model/uploads/modelimages/BMW-7-Series-190920221147.jpg" onclick="selectColor(this, 'exterior')" data-aos="fade-up" data-aos-delay="300"></div>
-                                <div class="color-option" style="background-color: #FF0000" data-color="Đỏ" data-image="https://images.dealer.com/ddc/vehicles/2023/BMW/7%20Series/Sedan/color/Melbourne%20Red%20Metallic-C1X-79,12,18-640-en_US.jpg" onclick="selectColor(this, 'exterior')" data-aos="fade-up" data-aos-delay="400"></div>
-                            </div>
-                            <input type="hidden" name="exteriorColor" id="exteriorColor">
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">Nội Thất</label>
-                            <select class="form-control" name="interior" id="interior" onchange="updateOrderSummary()">
-                                <option value="">Chọn chất liệu nội thất</option>
-                                <option value="leather-black">Da đen cao cấp</option>
-                                <option value="leather-beige">Da be cao cấp</option>
-                                <option value="fabric-black">Nỉ đen cao cấp</option>
-                                <option value="fabric-gray">Nỉ xám cao cấp</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">Họ và Tên</label>
-                            <input type="text" class="form-control" id="customerName" name="customerName" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">Số Điện Thoại</label>
-                            <input type="tel" class="form-control" id="phoneNumber" name="phoneNumber" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" name="email" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">Khu Vực Nhận Xe</label>
-                            <select class="form-control" id="deliveryLocation" name="deliveryLocation" required>
-                                <option value="">Chọn khu vực</option>
-                                <option value="hanoi">Hà Nội</option>
-                                <option value="hochiminh">TP. Hồ Chí Minh</option>
-                                <option value="danang">Đà Nẵng</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">Số Tiền Đặt Cọc (10% - 50%)</label>
-                            <input type="range" class="deposit-range" id="depositPercent" name="depositPercent" min="10" max="50" step="5" value="10" oninput="updateDepositAmount()">
-                            <p>Tỷ lệ đặt cọc: <span id="depositPercentDisplay">10</span>%</p>
-                        </div>
-                    </form>
-                </div>
-
-                <div class="col-lg-4" data-aos="fade-up" data-aos-delay="200">
-                    <div class="order-summary">
-                        <h3 class="summary-title">Thông Tin Đơn Hàng</h3>
-                        <div class="summary-item">
-                            <span>Giá xe:</span>
-                            <span id="carPrice">1.000.000.000 VNĐ</span>
-                        </div>
-                        <div class="summary-item">
-                            <span>Màu ngoại thất:</span>
-                            <span id="selectedExterior">Chưa chọn</span>
-                        </div>
-                        <div class="summary-item">
-                            <span>Nội thất:</span>
-                            <span id="selectedInterior">Chưa chọn</span>
-                        </div>
-                        <div class="summary-item">
-                            <span>Số tiền đặt cọc:</span>
-                            <span id="depositAmount">100.000.000 VNĐ</span>
-                        </div>
-                        <button type="submit" form="paymentForm" class="btn btn-custom">Xác Nhận Đặt Cọc</button>
-                    </div>
-                </div>
-            </div>
+      <div class="container">
+        <div class="section-title" data-aos="fade-up">
+          <h2>Thanh Toán Đơn Hàng</h2>
+          <p>Hoàn tất đơn hàng của bạn</p>
         </div>
+
+        <div class="row">
+          <div class="col-lg-8" data-aos="fade-up">
+            <!-- Car Preview -->
+            <div class="car-preview" data-aos="fade-up">
+              <img
+                id="carPreview"
+                src="https://stimg.cardekho.com/images/carexteriorimages/930x620/BMW/7-Series/10257/1689673096346/front-left-side-47.jpg"
+                alt="Car Preview"
+              />
+            </div>
+
+            <form
+              id="paymentForm"
+              class="payment-form"
+              th:action="@{/payment/process}"
+              method="post"
+            >
+              <div class="form-group">
+                <label class="form-label">Màu Ngoại Thất</label>
+                <div id="exteriorColors">
+                  <div
+                    class="color-option"
+                    style="background-color: #000000"
+                    data-color="Đen"
+                    data-image="https://stimg.cardekho.com/images/carexteriorimages/930x620/BMW/7-Series/10257/1689673096346/front-left-side-47.jpg"
+                    onclick="selectColor(this, 'exterior')"
+                    data-aos="fade-up"
+                    data-aos-delay="100"
+                  ></div>
+                  <div
+                    class="color-option"
+                    style="background-color: #ffffff"
+                    data-color="Trắng"
+                    data-image="https://stimg.cardekho.com/images/carexteriorimages/930x620/BMW/7-Series/10257/1689673096346/side-view-(left)-90.jpg"
+                    onclick="selectColor(this, 'exterior')"
+                    data-aos="fade-up"
+                    data-aos-delay="200"
+                  ></div>
+                  <div
+                    class="color-option"
+                    style="background-color: #c0c0c0"
+                    data-color="Bạc"
+                    data-image="https://cdni.autocarindia.com/utils/imageresizer.ashx?n=https://cms.haymarketindia.net/model/uploads/modelimages/BMW-7-Series-190920221147.jpg"
+                    onclick="selectColor(this, 'exterior')"
+                    data-aos="fade-up"
+                    data-aos-delay="300"
+                  ></div>
+                  <div
+                    class="color-option"
+                    style="background-color: #ff0000"
+                    data-color="Đỏ"
+                    data-image="https://images.dealer.com/ddc/vehicles/2023/BMW/7%20Series/Sedan/color/Melbourne%20Red%20Metallic-C1X-79,12,18-640-en_US.jpg"
+                    onclick="selectColor(this, 'exterior')"
+                    data-aos="fade-up"
+                    data-aos-delay="400"
+                  ></div>
+                </div>
+                <input type="hidden" name="exteriorColor" id="exteriorColor" />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Nội Thất</label>
+                <select
+                  class="form-control"
+                  name="interior"
+                  id="interior"
+                  onchange="updateOrderSummary()"
+                >
+                  <option value="">Chọn chất liệu nội thất</option>
+                  <option value="leather-black">Da đen cao cấp</option>
+                  <option value="leather-beige">Da be cao cấp</option>
+                  <option value="fabric-black">Nỉ đen cao cấp</option>
+                  <option value="fabric-gray">Nỉ xám cao cấp</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Họ và Tên</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="customerName"
+                  name="customerName"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Số Điện Thoại</label>
+                <input
+                  type="tel"
+                  class="form-control"
+                  id="phoneNumber"
+                  name="phoneNumber"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Email</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="email"
+                  name="email"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Khu Vực Nhận Xe</label>
+                <select
+                  class="form-control"
+                  id="deliveryLocation"
+                  name="deliveryLocation"
+                  required
+                >
+                  <option value="">Chọn khu vực</option>
+                  <option value="hanoi">Hà Nội</option>
+                  <option value="hochiminh">TP. Hồ Chí Minh</option>
+                  <option value="danang">Đà Nẵng</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Số Tiền Đặt Cọc (10% - 50%)</label>
+                <input
+                  type="range"
+                  class="deposit-range"
+                  id="depositPercent"
+                  name="depositPercent"
+                  min="10"
+                  max="50"
+                  step="5"
+                  value="10"
+                  oninput="updateDepositAmount()"
+                />
+                <p>
+                  Tỷ lệ đặt cọc: <span id="depositPercentDisplay">10</span>%
+                </p>
+              </div>
+            </form>
+          </div>
+
+          <div class="col-lg-4" data-aos="fade-up" data-aos-delay="200">
+            <div class="order-summary">
+              <h3 class="summary-title">Thông Tin Đơn Hàng</h3>
+              <div class="summary-item">
+                <span>Giá xe:</span>
+                <span id="carPrice">1.000.000.000 VNĐ</span>
+              </div>
+              <div class="summary-item">
+                <span>Màu ngoại thất:</span>
+                <span id="selectedExterior">Chưa chọn</span>
+              </div>
+              <div class="summary-item">
+                <span>Nội thất:</span>
+                <span id="selectedInterior">Chưa chọn</span>
+              </div>
+              <div class="summary-item">
+                <span>Số tiền đặt cọc:</span>
+                <span id="depositAmount">100.000.000 VNĐ</span>
+              </div>
+              <button type="submit" form="paymentForm" class="btn btn-custom">
+                Xác Nhận Đặt Cọc
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- Footer -->
     <footer class="footer">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="footer-content">
-                        <h3 class="footer-title">Về chúng tôi</h3>
-                        <p>Luxury Auto Gallery - Nơi những giấc mơ về xe sang trở thành hiện thực. Chúng tôi tự hào mang đến những sản phẩm và dịch vụ cao cấp nhất.</p>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="footer-content">
-                        <h3 class="footer-title">Liên kết nhanh</h3>
-                        <div class="footer-links">
-                            <a href="product-list.html">Sản phẩm</a>
-                            <a href="services.html">Dịch vụ</a>
-                            <a href="news.html">Tin tức</a>
-                            <a href="home.html#contact">Liên hệ</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="footer-content">
-                        <h3 class="footer-title">Kết nối với chúng tôi</h3>
-                        <div class="social-links">
-                            <a href="#"><i class="fab fa-facebook"></i></a>
-                            <a href="#"><i class="fab fa-instagram"></i></a>
-                            <a href="#"><i class="fab fa-youtube"></i></a>
-                            <a href="#"><i class="fab fa-linkedin"></i></a>
-                        </div>
-                    </div>
-                </div>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="footer-content">
+              <h3 class="footer-title">Về chúng tôi</h3>
+              <p>
+                Luxury Auto Gallery - Nơi những giấc mơ về xe sang trở thành
+                hiện thực. Chúng tôi tự hào mang đến những sản phẩm và dịch vụ
+                cao cấp nhất.
+              </p>
             </div>
-            <div class="copyright">
-                <p>&copy; 2024 Luxury Auto Gallery. All rights reserved.</p>
+          </div>
+          <div class="col-md-4">
+            <div class="footer-content">
+              <h3 class="footer-title">Liên kết nhanh</h3>
+              <div class="footer-links">
+                <a th:href="@{/product-list}">Sản phẩm</a>
+                <a th:href="@{/services}">Dịch vụ</a>
+                <a th:href="@{/news}">Tin tức</a>
+                <a th:href="@{/contact}">Liên hệ</a>
+              </div>
             </div>
+          </div>
+          <div class="col-md-4">
+            <div class="footer-content">
+              <h3 class="footer-title">Kết nối với chúng tôi</h3>
+              <div class="social-links">
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+              </div>
+            </div>
+          </div>
         </div>
+        <div class="copyright">
+          <p>&copy; 2024 Luxury Auto Gallery. All rights reserved.</p>
+        </div>
+      </div>
     </footer>
 
     <!-- Bootstrap JS -->
@@ -440,61 +537,71 @@
     <!-- AOS Animation -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        AOS.init();
+      AOS.init();
 
-        const carPrice = 1000000000; // Giá xe mặc định: 1 tỷ VNĐ
+      const carPrice = 1000000000; // Giá xe mặc định: 1 tỷ VNĐ
 
-        function formatCurrency(amount) {
-            return new Intl.NumberFormat('vi-VN', {
-                style: 'currency',
-                currency: 'VND',
-                minimumFractionDigits: 0,
-                maximumFractionDigits: 0
-            }).format(amount);
+      function formatCurrency(amount) {
+        return new Intl.NumberFormat("vi-VN", {
+          style: "currency",
+          currency: "VND",
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 0,
+        }).format(amount);
+      }
+
+      function selectColor(element, type) {
+        const colorOptions = document.querySelectorAll(
+          `#${type}Colors .color-option`
+        );
+        colorOptions.forEach((option) => option.classList.remove("selected"));
+        element.classList.add("selected");
+
+        if (type === "exterior") {
+          const carPreview = document.getElementById("carPreview");
+          carPreview.style.opacity = "0";
+
+          document.getElementById("exteriorColor").value =
+            element.dataset.color;
+          document.getElementById("selectedExterior").textContent =
+            element.dataset.color;
+
+          // Change image with fade effect
+          setTimeout(() => {
+            carPreview.src = element.dataset.image;
+            carPreview.style.opacity = "1";
+          }, 300);
         }
-
-        function selectColor(element, type) {
-            const colorOptions = document.querySelectorAll(`#${type}Colors .color-option`);
-            colorOptions.forEach(option => option.classList.remove('selected'));
-            element.classList.add('selected');
-            
-            if (type === 'exterior') {
-                const carPreview = document.getElementById('carPreview');
-                carPreview.style.opacity = '0';
-                
-                document.getElementById('exteriorColor').value = element.dataset.color;
-                document.getElementById('selectedExterior').textContent = element.dataset.color;
-                
-                // Change image with fade effect
-                setTimeout(() => {
-                    carPreview.src = element.dataset.image;
-                    carPreview.style.opacity = '1';
-                }, 300);
-            }
-            updateOrderSummary();
-        }
-
-        // Add fade transition for car preview
-        document.getElementById('carPreview').style.transition = 'opacity 0.3s ease';
-
-        function updateDepositAmount() {
-            const percent = document.getElementById('depositPercent').value;
-            document.getElementById('depositPercentDisplay').textContent = percent;
-            const depositAmount = (carPrice * percent) / 100;
-            document.getElementById('depositAmount').textContent = formatCurrency(depositAmount);
-            updateOrderSummary();
-        }
-
-        function updateOrderSummary() {
-            const interior = document.getElementById('interior');
-            const selectedInterior = interior.options[interior.selectedIndex].text;
-            document.getElementById('selectedInterior').textContent = selectedInterior !== 'Chọn chất liệu nội thất' ? selectedInterior : 'Chưa chọn';
-            document.getElementById('carPrice').textContent = formatCurrency(carPrice);
-        }
-
-        // Initialize the page
-        updateDepositAmount();
         updateOrderSummary();
+      }
+
+      // Add fade transition for car preview
+      document.getElementById("carPreview").style.transition =
+        "opacity 0.3s ease";
+
+      function updateDepositAmount() {
+        const percent = document.getElementById("depositPercent").value;
+        document.getElementById("depositPercentDisplay").textContent = percent;
+        const depositAmount = (carPrice * percent) / 100;
+        document.getElementById("depositAmount").textContent =
+          formatCurrency(depositAmount);
+        updateOrderSummary();
+      }
+
+      function updateOrderSummary() {
+        const interior = document.getElementById("interior");
+        const selectedInterior = interior.options[interior.selectedIndex].text;
+        document.getElementById("selectedInterior").textContent =
+          selectedInterior !== "Chọn chất liệu nội thất"
+            ? selectedInterior
+            : "Chưa chọn";
+        document.getElementById("carPrice").textContent =
+          formatCurrency(carPrice);
+      }
+
+      // Initialize the page
+      updateDepositAmount();
+      updateOrderSummary();
     </script>
-</body>
+  </body>
 </html>

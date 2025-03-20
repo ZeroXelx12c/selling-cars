@@ -29,10 +29,10 @@ public class AuthController {
 
     // Xử lý đăng ký
     @PostMapping("/register")
-    public String registerUser(@Valid @ModelAttribute("user") Users user, 
-                               BindingResult result, 
-                               @RequestParam("confirmPassword") String confirmPassword, 
-                               Model model) {
+    public String registerUser(@Valid @ModelAttribute("user") Users user,
+            BindingResult result,
+            @RequestParam("confirmPassword") String confirmPassword,
+            Model model) {
         if (result.hasErrors()) {
             return "register";
         }
@@ -53,5 +53,5 @@ public class AuthController {
             e.printStackTrace();
             return "register";
         }
-    }   
+    }
 }

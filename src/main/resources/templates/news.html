@@ -1,421 +1,451 @@
 <!DOCTYPE html>
 <html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Tin tức - Luxury Auto Gallery</title>
-    
+
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
     <!-- Font Awesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
     <!-- AOS Animation -->
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+
     <style>
-        :root {
-            --primary-color: #c5a47e;
-            --secondary-color: #1a1a1a;
-        }
+      :root {
+        --primary-color: #c5a47e;
+        --secondary-color: #1a1a1a;
+      }
 
-        body {
-            background-color: #000;
-            color: #fff;
-            font-family: 'Montserrat', sans-serif;
-        }
+      body {
+        background-color: #000;
+        color: #fff;
+        font-family: "Montserrat", sans-serif;
+      }
 
-        /* Navigation */
-        .navbar {
-            background-color: rgba(0, 0, 0, 0.9);
-            padding: 20px 0;
-            transition: all 0.3s ease;
-        }
+      /* Navigation */
+      .navbar {
+        background-color: rgba(0, 0, 0, 0.9);
+        padding: 20px 0;
+        transition: all 0.3s ease;
+      }
 
-        .navbar.scrolled {
-            padding: 10px 0;
-            background-color: rgba(0, 0, 0, 0.95);
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+      .navbar.scrolled {
+        padding: 10px 0;
+        background-color: rgba(0, 0, 0, 0.95);
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+      }
+
+      .navbar-brand {
+        font-size: 28px;
+        font-weight: 700;
+        color: var(--primary-color) !important;
+      }
+
+      .nav-link {
+        color: #fff !important;
+        margin: 0 15px;
+        position: relative;
+        font-weight: 500;
+      }
+
+      .nav-link::after {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 2px;
+        background: var(--primary-color);
+        left: 0;
+        bottom: -5px;
+        transition: width 0.3s ease;
+      }
+
+      .nav-link:hover::after {
+        width: 100%;
+      }
+
+      /* Page Header */
+      .page-header {
+        height: 50vh;
+        position: relative;
+        overflow: hidden;
+        background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+          url("https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?ixlib=rb-4.0.3")
+            center/cover;
+      }
+
+      .page-header-content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        width: 100%;
+        padding: 0 20px;
+      }
+
+      .page-title {
+        font-size: 3rem;
+        font-weight: 700;
+        margin-bottom: 20px;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+      }
+
+      /* News Section */
+      .news-section {
+        padding: 100px 0;
+        background-color: var(--secondary-color);
+      }
+
+      .section-title {
+        text-align: center;
+        margin-bottom: 50px;
+      }
+
+      .section-title h2 {
+        color: var(--primary-color);
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+      }
+
+      .news-card {
+        background: #2a2a2a;
+        border-radius: 15px;
+        overflow: hidden;
+        margin-bottom: 30px;
+        transition: transform 0.3s ease;
+      }
+
+      .news-card:hover {
+        transform: translateY(-10px);
+      }
+
+      .news-image {
+        height: 250px;
+        overflow: hidden;
+      }
+
+      .news-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+      }
+
+      .news-card:hover .news-image img {
+        transform: scale(1.1);
+      }
+
+      .news-details {
+        padding: 20px;
+      }
+
+      .news-title {
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+        color: var(--primary-color);
+      }
+
+      .news-meta {
+        color: #888;
+        font-size: 0.9rem;
+        margin-bottom: 15px;
+      }
+
+      .news-excerpt {
+        color: #fff;
+        margin-bottom: 20px;
+        line-height: 1.6;
+      }
+
+      /* Footer */
+      .footer {
+        background-color: #1a1a1a;
+        padding: 50px 0 20px;
+      }
+
+      .footer-content {
+        margin-bottom: 30px;
+      }
+
+      .footer-title {
+        color: var(--primary-color);
+        margin-bottom: 20px;
+        font-size: 1.2rem;
+      }
+
+      .footer-links a {
+        color: #888;
+        text-decoration: none;
+        display: block;
+        margin-bottom: 10px;
+        transition: color 0.3s ease;
+      }
+
+      .footer-links a:hover {
+        color: var(--primary-color);
+      }
+
+      .social-links {
+        display: flex;
+        gap: 15px;
+      }
+
+      .social-links a {
+        color: #888;
+        font-size: 1.5rem;
+        transition: color 0.3s ease;
+      }
+
+      .social-links a:hover {
+        color: var(--primary-color);
+      }
+
+      .copyright {
+        text-align: center;
+        padding-top: 20px;
+        border-top: 1px solid #333;
+        color: #888;
+      }
+
+      /* Custom Button */
+      .btn-custom {
+        background-color: var(--primary-color);
+        color: #fff;
+        padding: 12px 30px;
+        border-radius: 30px;
+        border: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+      }
+
+      .btn-custom:hover {
+        background-color: #fff;
+        color: var(--primary-color);
+        transform: translateY(-2px);
+      }
+
+      /* Responsive Styles */
+      @media (max-width: 768px) {
+        .page-title {
+          font-size: 2.5rem;
         }
 
         .navbar-brand {
-            font-size: 28px;
-            font-weight: 700;
-            color: var(--primary-color) !important;
+          font-size: 24px;
         }
 
         .nav-link {
-            color: #fff !important;
-            margin: 0 15px;
-            position: relative;
-            font-weight: 500;
-        }
-
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            background: var(--primary-color);
-            left: 0;
-            bottom: -5px;
-            transition: width 0.3s ease;
-        }
-
-        .nav-link:hover::after {
-            width: 100%;
-        }
-
-        /* Page Header */
-        .page-header {
-            height: 50vh;
-            position: relative;
-            overflow: hidden;
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
-                        url('https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?ixlib=rb-4.0.3') center/cover;
-        }
-
-        .page-header-content {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-            width: 100%;
-            padding: 0 20px;
-        }
-
-        .page-title {
-            font-size: 3rem;
-            font-weight: 700;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-        }
-
-        /* News Section */
-        .news-section {
-            padding: 100px 0;
-            background-color: var(--secondary-color);
-        }
-
-        .section-title {
-            text-align: center;
-            margin-bottom: 50px;
-        }
-
-        .section-title h2 {
-            color: var(--primary-color);
-            font-size: 2.5rem;
-            margin-bottom: 20px;
+          margin: 5px 0;
         }
 
         .news-card {
-            background: #2a2a2a;
-            border-radius: 15px;
-            overflow: hidden;
-            margin-bottom: 30px;
-            transition: transform 0.3s ease;
-        }
-
-        .news-card:hover {
-            transform: translateY(-10px);
-        }
-
-        .news-image {
-            height: 250px;
-            overflow: hidden;
-        }
-
-        .news-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.3s ease;
-        }
-
-        .news-card:hover .news-image img {
-            transform: scale(1.1);
-        }
-
-        .news-details {
-            padding: 20px;
+          margin-bottom: 20px;
         }
 
         .news-title {
-            font-size: 1.5rem;
-            margin-bottom: 10px;
-            color: var(--primary-color);
-        }
-
-        .news-meta {
-            color: #888;
-            font-size: 0.9rem;
-            margin-bottom: 15px;
-        }
-
-        .news-excerpt {
-            color: #fff;
-            margin-bottom: 20px;
-            line-height: 1.6;
-        }
-
-        /* Footer */
-        .footer {
-            background-color: #1a1a1a;
-            padding: 50px 0 20px;
+          font-size: 1.3rem;
         }
 
         .footer-content {
-            margin-bottom: 30px;
-        }
-
-        .footer-title {
-            color: var(--primary-color);
-            margin-bottom: 20px;
-            font-size: 1.2rem;
-        }
-
-        .footer-links a {
-            color: #888;
-            text-decoration: none;
-            display: block;
-            margin-bottom: 10px;
-            transition: color 0.3s ease;
-        }
-
-        .footer-links a:hover {
-            color: var(--primary-color);
+          text-align: center;
         }
 
         .social-links {
-            display: flex;
-            gap: 15px;
+          justify-content: center;
+        }
+      }
+
+      @media (max-width: 576px) {
+        .page-title {
+          font-size: 2rem;
         }
 
-        .social-links a {
-            color: #888;
-            font-size: 1.5rem;
-            transition: color 0.3s ease;
+        .section-title h2 {
+          font-size: 2rem;
         }
 
-        .social-links a:hover {
-            color: var(--primary-color);
+        .news-title {
+          font-size: 1.2rem;
         }
-
-        .copyright {
-            text-align: center;
-            padding-top: 20px;
-            border-top: 1px solid #333;
-            color: #888;
-        }
-
-        /* Custom Button */
-        .btn-custom {
-            background-color: var(--primary-color);
-            color: #fff;
-            padding: 12px 30px;
-            border-radius: 30px;
-            border: none;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-
-        .btn-custom:hover {
-            background-color: #fff;
-            color: var(--primary-color);
-            transform: translateY(-2px);
-        }
-
-        /* Responsive Styles */
-        @media (max-width: 768px) {
-            .page-title {
-                font-size: 2.5rem;
-            }
-
-            .navbar-brand {
-                font-size: 24px;
-            }
-
-            .nav-link {
-                margin: 5px 0;
-            }
-
-            .news-card {
-                margin-bottom: 20px;
-            }
-
-            .news-title {
-                font-size: 1.3rem;
-            }
-
-            .footer-content {
-                text-align: center;
-            }
-
-            .social-links {
-                justify-content: center;
-            }
-        }
-
-        @media (max-width: 576px) {
-            .page-title {
-                font-size: 2rem;
-            }
-
-            .section-title h2 {
-                font-size: 2rem;
-            }
-
-            .news-title {
-                font-size: 1.2rem;
-            }
-        }
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg fixed-top">
-        <div class="container">
-            <a class="navbar-brand" href="home.html">LUXURY AUTO</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="home.html">Trang chủ</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="product-list.html">Sản phẩm</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="services.html">Dịch vụ</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="news.html">Tin tức</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="home.html#contact">Liên hệ</a>
-                    </li>
-                </ul>
-                <div class="ms-3">
-                    <a href="login.html" class="btn btn-custom">Đăng nhập</a>
-                </div>
-            </div>
+      <div class="container">
+        <a class="navbar-brand" href="home.html">LUXURY AUTO</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" th:href="@{/home}">Trang chủ</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" th:href="@{/product-list}">Sản phẩm</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" th:href="@{/services}">Dịch vụ</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" th:href="@{/news}">Tin tức</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" th:href="@{/contact}">Liên hệ</a>
+            </li>
+          </ul>
+          <div class="ms-3">
+            <a href="login.html" class="btn btn-custom">Đăng nhập</a>
+          </div>
         </div>
+      </div>
     </nav>
 
     <!-- Page Header -->
     <section class="page-header">
-        <div class="page-header-content">
-            <h1 class="page-title" data-aos="fade-up">TIN TỨC & SỰ KIỆN</h1>
-        </div>
+      <div class="page-header-content">
+        <h1 class="page-title" data-aos="fade-up">TIN TỨC & SỰ KIỆN</h1>
+      </div>
     </section>
 
     <!-- News Section -->
     <section class="news-section">
-        <div class="container">
-            <div class="row">
-                <!-- News Card 1 -->
-                <div class="col-md-4" data-aos="fade-up">
-                    <div class="news-card">
-                        <div class="news-image">
-                            <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?ixlib=rb-4.0.3" alt="Mercedes Launch">
-                        </div>
-                        <div class="news-details">
-                            <h3 class="news-title">Ra mắt Mercedes-Benz S-Class 2024</h3>
-                            <div class="news-meta">
-                                <i class="far fa-calendar"></i> 10/03/2024 
-                                <i class="far fa-user ms-3"></i> Admin
-                            </div>
-                            <p class="news-excerpt">
-                                Mercedes-Benz vừa chính thức ra mắt phiên bản nâng cấp của dòng xe S-Class với nhiều cải tiến đột phá về công nghệ và thiết kế...
-                            </p>
-                            <a href="#" class="btn btn-custom">Đọc thêm</a>
-                        </div>
-                    </div>
+      <div class="container">
+        <div class="row">
+          <!-- News Card 1 -->
+          <div class="col-md-4" data-aos="fade-up">
+            <div class="news-card">
+              <div class="news-image">
+                <img
+                  src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?ixlib=rb-4.0.3"
+                  alt="Mercedes Launch"
+                />
+              </div>
+              <div class="news-details">
+                <h3 class="news-title">Ra mắt Mercedes-Benz S-Class 2024</h3>
+                <div class="news-meta">
+                  <i class="far fa-calendar"></i> 10/03/2024
+                  <i class="far fa-user ms-3"></i> Admin
                 </div>
-
-                <!-- News Card 2 -->
-                <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
-                    <div class="news-card">
-                        <div class="news-image">
-                            <img src="https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?ixlib=rb-4.0.3" alt="BMW Event">
-                        </div>
-                        <div class="news-details">
-                            <h3 class="news-title">Triển lãm xe sang BMW 2024</h3>
-                            <div class="news-meta">
-                                <i class="far fa-calendar"></i> 08/03/2024 
-                                <i class="far fa-user ms-3"></i> Admin
-                            </div>
-                            <p class="news-excerpt">
-                                Triển lãm xe sang BMW 2024 sẽ được tổ chức tại Luxury Auto Gallery với sự góp mặt của nhiều mẫu xe mới nhất...
-                            </p>
-                            <a href="#" class="btn btn-custom">Đọc thêm</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- News Card 3 -->
-                <div class="col-md-4" data-aos="fade-up" data-aos-delay="400">
-                    <div class="news-card">
-                        <div class="news-image">
-                            <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?ixlib=rb-4.0.3" alt="Audi Service">
-                        </div>
-                        <div class="news-details">
-                            <h3 class="news-title">Khai trương trung tâm dịch vụ mới</h3>
-                            <div class="news-meta">
-                                <i class="far fa-calendar"></i> 05/03/2024 
-                                <i class="far fa-user ms-3"></i> Admin
-                            </div>
-                            <p class="news-excerpt">
-                                Luxury Auto Gallery vừa khai trương trung tâm dịch vụ mới với trang thiết bị hiện đại và đội ngũ kỹ thuật viên chuyên nghiệp...
-                            </p>
-                            <a href="#" class="btn btn-custom">Đọc thêm</a>
-                        </div>
-                    </div>
-                </div>
+                <p class="news-excerpt">
+                  Mercedes-Benz vừa chính thức ra mắt phiên bản nâng cấp của
+                  dòng xe S-Class với nhiều cải tiến đột phá về công nghệ và
+                  thiết kế...
+                </p>
+                <a href="#" class="btn btn-custom">Đọc thêm</a>
+              </div>
             </div>
+          </div>
+
+          <!-- News Card 2 -->
+          <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+            <div class="news-card">
+              <div class="news-image">
+                <img
+                  src="https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?ixlib=rb-4.0.3"
+                  alt="BMW Event"
+                />
+              </div>
+              <div class="news-details">
+                <h3 class="news-title">Triển lãm xe sang BMW 2024</h3>
+                <div class="news-meta">
+                  <i class="far fa-calendar"></i> 08/03/2024
+                  <i class="far fa-user ms-3"></i> Admin
+                </div>
+                <p class="news-excerpt">
+                  Triển lãm xe sang BMW 2024 sẽ được tổ chức tại Luxury Auto
+                  Gallery với sự góp mặt của nhiều mẫu xe mới nhất...
+                </p>
+                <a href="#" class="btn btn-custom">Đọc thêm</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- News Card 3 -->
+          <div class="col-md-4" data-aos="fade-up" data-aos-delay="400">
+            <div class="news-card">
+              <div class="news-image">
+                <img
+                  src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?ixlib=rb-4.0.3"
+                  alt="Audi Service"
+                />
+              </div>
+              <div class="news-details">
+                <h3 class="news-title">Khai trương trung tâm dịch vụ mới</h3>
+                <div class="news-meta">
+                  <i class="far fa-calendar"></i> 05/03/2024
+                  <i class="far fa-user ms-3"></i> Admin
+                </div>
+                <p class="news-excerpt">
+                  Luxury Auto Gallery vừa khai trương trung tâm dịch vụ mới với
+                  trang thiết bị hiện đại và đội ngũ kỹ thuật viên chuyên
+                  nghiệp...
+                </p>
+                <a href="#" class="btn btn-custom">Đọc thêm</a>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
     </section>
 
     <!-- Footer -->
     <footer class="footer">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="footer-content">
-                        <h3 class="footer-title">Về chúng tôi</h3>
-                        <p>Luxury Auto Gallery - Nơi những giấc mơ về xe sang trở thành hiện thực. Chúng tôi tự hào mang đến những sản phẩm và dịch vụ cao cấp nhất.</p>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="footer-content">
-                        <h3 class="footer-title">Liên kết nhanh</h3>
-                        <div class="footer-links">
-                            <a href="product-list.html">Sản phẩm</a>
-                            <a href="services.html">Dịch vụ</a>
-                            <a href="news.html">Tin tức</a>
-                            <a href="home.html#contact">Liên hệ</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="footer-content">
-                        <h3 class="footer-title">Kết nối với chúng tôi</h3>
-                        <div class="social-links">
-                            <a href="#"><i class="fab fa-facebook"></i></a>
-                            <a href="#"><i class="fab fa-instagram"></i></a>
-                            <a href="#"><i class="fab fa-youtube"></i></a>
-                            <a href="#"><i class="fab fa-linkedin"></i></a>
-                        </div>
-                    </div>
-                </div>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="footer-content">
+              <h3 class="footer-title">Về chúng tôi</h3>
+              <p>
+                Luxury Auto Gallery - Nơi những giấc mơ về xe sang trở thành
+                hiện thực. Chúng tôi tự hào mang đến những sản phẩm và dịch vụ
+                cao cấp nhất.
+              </p>
             </div>
-            <div class="copyright">
-                <p>&copy; 2024 Luxury Auto Gallery. All rights reserved.</p>
+          </div>
+          <div class="col-md-4">
+            <div class="footer-content">
+              <h3 class="footer-title">Liên kết nhanh</h3>
+              <div class="footer-links">
+                <a th:href="@{/product-list}">Sản phẩm</a>
+                <a th:href="@{/services}">Dịch vụ</a>
+                <a th:href="@{/news}">Tin tức</a>
+                <a th:href="@{/contact}">Liên hệ</a>
+              </div>
             </div>
+          </div>
+          <div class="col-md-4">
+            <div class="footer-content">
+              <h3 class="footer-title">Kết nối với chúng tôi</h3>
+              <div class="social-links">
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+              </div>
+            </div>
+          </div>
         </div>
+        <div class="copyright">
+          <p>&copy; 2024 Luxury Auto Gallery. All rights reserved.</p>
+        </div>
+      </div>
     </footer>
 
     <!-- Bootstrap JS -->
@@ -423,7 +453,7 @@
     <!-- AOS Animation -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        AOS.init();
+      AOS.init();
     </script>
-</body>
+  </body>
 </html>

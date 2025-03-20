@@ -1,427 +1,511 @@
 <!DOCTYPE html>
 <html lang="vi" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Đăng nhập - Luxury Auto Gallery</title>
-    
+
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
     <!-- Font Awesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
     <!-- AOS Animation -->
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+
     <style>
-        :root {
-            --primary-color: #c5a47e;
-            --secondary-color: #1a1a1a;
-        }
+      :root {
+        --primary-color: #c5a47e;
+        --secondary-color: #1a1a1a;
+      }
 
-        body {
-            background-color: #000;
-            color: #fff;
-            font-family: 'Montserrat', sans-serif;
-        }
+      body {
+        background-color: #000;
+        color: #fff;
+        font-family: "Montserrat", sans-serif;
+      }
 
-        /* Navigation */
-        .navbar {
-            background-color: rgba(0, 0, 0, 0.9);
-            padding: 20px 0;
-            transition: all 0.3s ease;
-        }
+      /* Navigation */
+      .navbar {
+        background-color: rgba(0, 0, 0, 0.9);
+        padding: 20px 0;
+        transition: all 0.3s ease;
+      }
 
-        .navbar.scrolled {
-            padding: 10px 0;
-            background-color: rgba(0, 0, 0, 0.95);
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
-        }
+      .navbar.scrolled {
+        padding: 10px 0;
+        background-color: rgba(0, 0, 0, 0.95);
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+      }
 
+      .navbar-brand {
+        font-size: 28px;
+        font-weight: 700;
+        color: var(--primary-color) !important;
+      }
+
+      .nav-link {
+        color: #fff !important;
+        margin: 0 15px;
+        position: relative;
+        font-weight: 500;
+      }
+
+      .nav-link::after {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 2px;
+        background: var(--primary-color);
+        left: 0;
+        bottom: -5px;
+        transition: width 0.3s ease;
+      }
+
+      .nav-link:hover::after {
+        width: 100%;
+      }
+
+      /* Login Form Styles */
+      .login-section {
+        padding: 120px 0 60px;
+        min-height: calc(100vh - 100px);
+        display: flex;
+        align-items: center;
+      }
+
+      .card {
+        background-color: #2a2a2a;
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+      }
+
+      .card-header {
+        background-color: #333;
+        border-bottom: 1px solid rgba(197, 164, 126, 0.2);
+        padding: 25px;
+      }
+
+      .card-header h3 {
+        color: var(--primary-color);
+        font-weight: 700;
+        margin: 0;
+      }
+
+      .form-group label {
+        color: #fff;
+        font-weight: 500;
+        margin-bottom: 8px;
+        font-size: 0.95rem;
+      }
+
+      .form-control {
+        background-color: #333;
+        border: 1px solid #444;
+        color: #fff;
+        border-radius: 8px;
+        padding: 12px;
+        font-size: 1rem;
+      }
+
+      .form-control:focus {
+        background-color: #404040;
+        border-color: var(--primary-color);
+        color: #fff;
+        box-shadow: 0 0 0 0.2rem rgba(197, 164, 126, 0.25);
+      }
+
+      .form-control::placeholder {
+        color: #999;
+      }
+
+      .input-group-text {
+        background-color: #333;
+        border: 1px solid #444;
+        color: var(--primary-color);
+      }
+
+      .btn-custom {
+        background-color: var(--primary-color);
+        color: #fff;
+        padding: 12px 30px;
+        border-radius: 30px;
+        border: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        font-size: 1rem;
+      }
+
+      .btn-custom:hover {
+        background-color: #d4b68e;
+        color: #000;
+        transform: translateY(-2px);
+      }
+
+      .btn-social {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 2px solid var(--primary-color);
+        color: var(--primary-color);
+        background: #333;
+        transition: all 0.3s ease;
+        font-size: 1.2rem;
+      }
+
+      .btn-social:hover {
+        background: var(--primary-color);
+        color: #fff;
+        transform: translateY(-2px);
+      }
+
+      .text-primary {
+        color: var(--primary-color) !important;
+      }
+
+      .form-check-label {
+        color: #ddd;
+      }
+
+      .form-check-input:checked {
+        background-color: var(--primary-color);
+        border-color: var(--primary-color);
+      }
+
+      /* Links */
+      a.text-primary {
+        text-decoration: none;
+        font-weight: 500;
+      }
+
+      a.text-primary:hover {
+        color: #d4b68e !important;
+        text-decoration: underline;
+      }
+
+      /* Footer */
+      .footer {
+        background-color: #1a1a1a;
+        padding: 50px 0 20px;
+      }
+
+      .footer-content {
+        margin-bottom: 30px;
+      }
+
+      .footer-title {
+        color: var(--primary-color);
+        margin-bottom: 20px;
+        font-size: 1.2rem;
+      }
+
+      .footer-links a {
+        color: #888;
+        text-decoration: none;
+        display: block;
+        margin-bottom: 10px;
+        transition: color 0.3s ease;
+      }
+
+      .footer-links a:hover {
+        color: var(--primary-color);
+      }
+
+      .social-links {
+        display: flex;
+        gap: 15px;
+      }
+
+      .social-links a {
+        color: #888;
+        font-size: 1.5rem;
+        transition: color 0.3s ease;
+      }
+
+      .social-links a:hover {
+        color: var(--primary-color);
+      }
+
+      .copyright {
+        text-align: center;
+        padding-top: 20px;
+        border-top: 1px solid #333;
+        color: #888;
+      }
+
+      /* Text Colors */
+      .text-muted {
+        color: #bbb !important;
+      }
+
+      .error-message {
+        color: #ff4444;
+        font-size: 0.9rem;
+        margin-top: 10px;
+        text-align: center;
+      }
+
+      /* Responsive Styles */
+      @media (max-width: 768px) {
         .navbar-brand {
-            font-size: 28px;
-            font-weight: 700;
-            color: var(--primary-color) !important;
+          font-size: 24px;
         }
 
         .nav-link {
-            color: #fff !important;
-            margin: 0 15px;
-            position: relative;
-            font-weight: 500;
-        }
-
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            background: var(--primary-color);
-            left: 0;
-            bottom: -5px;
-            transition: width 0.3s ease;
-        }
-
-        .nav-link:hover::after {
-            width: 100%;
-        }
-
-        /* Login Form Styles */
-        .login-section {
-            padding: 120px 0 60px;
-            min-height: calc(100vh - 100px);
-            display: flex;
-            align-items: center;
-        }
-
-        .card {
-            background-color: #2a2a2a;
-            border: none;
-            border-radius: 15px;
-            box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
-        }
-
-        .card-header {
-            background-color: #333;
-            border-bottom: 1px solid rgba(197, 164, 126, 0.2);
-            padding: 25px;
-        }
-
-        .card-header h3 {
-            color: var(--primary-color);
-            font-weight: 700;
-            margin: 0;
-        }
-
-        .form-group label {
-            color: #fff;
-            font-weight: 500;
-            margin-bottom: 8px;
-            font-size: 0.95rem;
-        }
-
-        .form-control {
-            background-color: #333;
-            border: 1px solid #444;
-            color: #fff;
-            border-radius: 8px;
-            padding: 12px;
-            font-size: 1rem;
-        }
-
-        .form-control:focus {
-            background-color: #404040;
-            border-color: var(--primary-color);
-            color: #fff;
-            box-shadow: 0 0 0 0.2rem rgba(197, 164, 126, 0.25);
-        }
-
-        .form-control::placeholder {
-            color: #999;
-        }
-
-        .input-group-text {
-            background-color: #333;
-            border: 1px solid #444;
-            color: var(--primary-color);
+          margin: 5px 0;
         }
 
         .btn-custom {
-            background-color: var(--primary-color);
-            color: #fff;
-            padding: 12px 30px;
-            border-radius: 30px;
-            border: none;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            font-size: 1rem;
+          width: 100%;
+          margin-bottom: 10px;
         }
 
-        .btn-custom:hover {
-            background-color: #d4b68e;
-            color: #000;
-            transform: translateY(-2px);
+        .login-section {
+          padding: 100px 0 40px;
         }
-
-        .btn-social {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 2px solid var(--primary-color);
-            color: var(--primary-color);
-            background: #333;
-            transition: all 0.3s ease;
-            font-size: 1.2rem;
-        }
-
-        .btn-social:hover {
-            background: var(--primary-color);
-            color: #fff;
-            transform: translateY(-2px);
-        }
-
-        .text-primary {
-            color: var(--primary-color) !important;
-        }
-
-        .form-check-label {
-            color: #ddd;
-        }
-
-        .form-check-input:checked {
-            background-color: var(--primary-color);
-            border-color: var(--primary-color);
-        }
-
-        /* Links */
-        a.text-primary {
-            text-decoration: none;
-            font-weight: 500;
-        }
-
-        a.text-primary:hover {
-            color: #d4b68e !important;
-            text-decoration: underline;
-        }
-
-        /* Footer */
-        .footer {
-            background-color: #1a1a1a;
-            padding: 50px 0 20px;
-        }
-
-        .footer-content {
-            margin-bottom: 30px;
-        }
-
-        .footer-title {
-            color: var(--primary-color);
-            margin-bottom: 20px;
-            font-size: 1.2rem;
-        }
-
-        .footer-links a {
-            color: #888;
-            text-decoration: none;
-            display: block;
-            margin-bottom: 10px;
-            transition: color 0.3s ease;
-        }
-
-        .footer-links a:hover {
-            color: var(--primary-color);
-        }
-
-        .social-links {
-            display: flex;
-            gap: 15px;
-        }
-
-        .social-links a {
-            color: #888;
-            font-size: 1.5rem;
-            transition: color 0.3s ease;
-        }
-
-        .social-links a:hover {
-            color: var(--primary-color);
-        }
-
-        .copyright {
-            text-align: center;
-            padding-top: 20px;
-            border-top: 1px solid #333;
-            color: #888;
-        }
-
-        /* Text Colors */
-        .text-muted {
-            color: #bbb !important;
-        }
-
-        .error-message {
-            color: #ff4444;
-            font-size: 0.9rem;
-            margin-top: 10px;
-            text-align: center;
-        }
-
-        /* Responsive Styles */
-        @media (max-width: 768px) {
-            .navbar-brand {
-                font-size: 24px;
-            }
-
-            .nav-link {
-                margin: 5px 0;
-            }
-
-            .btn-custom {
-                width: 100%;
-                margin-bottom: 10px;
-            }
-
-            .login-section {
-                padding: 100px 0 40px;
-            }
-        }
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg fixed-top">
-        <div class="container">
-            <a class="navbar-brand" href="/">LUXURY AUTO</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/">Trang chủ</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/products">Sản phẩm</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/services">Dịch vụ</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/news">Tin tức</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/contact">Liên hệ</a>
-                    </li>
-                </ul>
-            </div>
+      <div class="container">
+        <a class="navbar-brand" href="/">LUXURY AUTO</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/home}">Trang chủ</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" th:href="@{/product-list}">Sản phẩm</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" th:href="@{/services}">Dịch vụ</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" th:href="@{/news}">Tin tức</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" th:href="@{/contact}">Liên hệ</a>
+              </li>
+          </ul>
         </div>
+      </div>
     </nav>
 
     <!-- Login Section -->
     <section class="login-section">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-md-6">
-                    <div class="card" data-aos="fade-up">
-                        <div class="card-header text-center">
-                            <h3>LUXURY AUTO GALLERY</h3>
-                        </div>
-                        <div class="card-body p-4">
-                            <div class="text-center mb-4">
-                                <h4 class="text-white" data-aos="fade-up" data-aos-delay="100">Đăng nhập</h4>
-                            </div>
-
-                            <!-- Hiển thị thông báo -->
-                            <div th:if="${param.error}" class="error-message">
-                                Số điện thoại hoặc mật khẩu không đúng!
-                            </div>
-                            <div th:if="${param.logout}" class="error-message" style="color: #00cc00;">
-                                Bạn đã đăng xuất thành công!
-                            </div>
-                            <div th:if="${param.success}" class="error-message" style="color: #00cc00;" th:text="${param.success}"></div>
-
-                            <form id="loginForm" th:action="@{/login}" method="post" data-aos="fade-up" data-aos-delay="200">
-                                <!-- CSRF Token -->
-                                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-
-                                <div class="form-group mb-3">
-                                    <label for="phoneNumber">Số điện thoại</label>
-                                    <div class="input-group">
-                                        <span class="input-group-text"><i class="fas fa-phone"></i></span>
-                                        <input type="tel" class="form-control" id="phoneNumber" name="username" 
-                                               placeholder="Nhập số điện thoại" required>
-                                    </div>
-                                </div>
-
-                                <div class="form-group mb-3">
-                                    <label for="password">Mật khẩu</label>
-                                    <div class="input-group">
-                                        <span class="input-group-text"><i class="fas fa-lock"></i></span>
-                                        <input type="password" class="form-control" id="password" name="password" 
-                                               placeholder="Nhập mật khẩu" required>
-                                    </div>
-                                </div>
-
-                                <div class="form-group mb-3">
-                                    <div class="d-flex justify-content-between">
-                                        <div class="form-check">
-                                            <input type="checkbox" class="form-check-input" id="rememberMe" name="remember-me">
-                                            <label class="form-check-label" for="rememberMe">Ghi nhớ đăng nhập</label>
-                                        </div>
-                                        <a href="/forgot-password" class="text-primary">Quên mật khẩu?</a>
-                                    </div>
-                                </div>
-
-                                <div class="d-grid gap-2">
-                                    <button type="submit" class="btn btn-custom">
-                                        <i class="fas fa-sign-in-alt"></i> Đăng nhập
-                                    </button>
-                                </div>
-                            </form>
-
-                            <div class="text-center mt-4" data-aos="fade-up" data-aos-delay="300">
-                                <p class="text-muted mb-3">Hoặc đăng nhập với</p>
-                                <div class="d-flex justify-content-center gap-3">
-                                    <a href="#" class="btn btn-social" onclick="loginWithFacebook()">
-                                        <i class="fab fa-facebook-f"></i>
-                                    </a>
-                                    <a href="#" class="btn btn-social" onclick="loginWithGoogle()">
-                                        <i class="fab fa-google"></i>
-                                    </a>
-                                </div>
-                            </div>
-
-                            <div class="text-center mt-4" data-aos="fade-up" data-aos-delay="400">
-                                <p class="text-muted">Chưa có tài khoản? 
-                                    <a th:href="@{/register}" class="text-primary">Đăng ký ngay</a>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-md-6">
+            <div class="card" data-aos="fade-up">
+              <div class="card-header text-center">
+                <h3>LUXURY AUTO GALLERY</h3>
+              </div>
+              <div class="card-body p-4">
+                <div class="text-center mb-4">
+                  <h4
+                    class="text-white"
+                    data-aos="fade-up"
+                    data-aos-delay="100"
+                  >
+                    Đăng nhập
+                  </h4>
                 </div>
+
+                <!-- Hiển thị thông báo -->
+                <div th:if="${param.error}" class="error-message">
+                  Số điện thoại hoặc mật khẩu không đúng!
+                </div>
+                <div
+                  th:if="${param.logout}"
+                  class="error-message"
+                  style="color: #00cc00"
+                >
+                  Bạn đã đăng xuất thành công!
+                </div>
+                <div
+                  th:if="${param.success}"
+                  class="error-message"
+                  style="color: #00cc00"
+                  th:text="${param.success}"
+                ></div>
+
+                <form
+                  id="loginForm"
+                  th:action="@{/login}"
+                  method="post"
+                  data-aos="fade-up"
+                  data-aos-delay="200"
+                >
+                  <!-- CSRF Token -->
+                  <input
+                    type="hidden"
+                    th:name="${_csrf.parameterName}"
+                    th:value="${_csrf.token}"
+                  />
+
+                  <div class="form-group mb-3">
+                    <label for="phoneNumber">Số điện thoại</label>
+                    <div class="input-group">
+                      <span class="input-group-text"
+                        ><i class="fas fa-phone"></i
+                      ></span>
+                      <input
+                        type="tel"
+                        class="form-control"
+                        id="phoneNumber"
+                        name="username"
+                        placeholder="Nhập số điện thoại"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div class="form-group mb-3">
+                    <label for="password">Mật khẩu</label>
+                    <div class="input-group">
+                      <span class="input-group-text"
+                        ><i class="fas fa-lock"></i
+                      ></span>
+                      <input
+                        type="password"
+                        class="form-control"
+                        id="password"
+                        name="password"
+                        placeholder="Nhập mật khẩu"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div class="form-group mb-3">
+                    <div class="d-flex justify-content-between">
+                      <div class="form-check">
+                        <input
+                          type="checkbox"
+                          class="form-check-input"
+                          id="rememberMe"
+                          name="remember-me"
+                        />
+                        <label class="form-check-label" for="rememberMe"
+                          >Ghi nhớ đăng nhập</label
+                        >
+                      </div>
+                      <a href="/forgot-password" class="text-primary"
+                        >Quên mật khẩu?</a
+                      >
+                    </div>
+                  </div>
+
+                  <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-custom">
+                      <i class="fas fa-sign-in-alt"></i> Đăng nhập
+                    </button>
+                  </div>
+                </form>
+
+                <div
+                  class="text-center mt-4"
+                  data-aos="fade-up"
+                  data-aos-delay="300"
+                >
+                  <p class="text-muted mb-3">Hoặc đăng nhập với</p>
+                  <div class="d-flex justify-content-center gap-3">
+                    <a
+                      href="#"
+                      class="btn btn-social"
+                      onclick="loginWithFacebook()"
+                    >
+                      <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a
+                      href="#"
+                      class="btn btn-social"
+                      onclick="loginWithGoogle()"
+                    >
+                      <i class="fab fa-google"></i>
+                    </a>
+                  </div>
+                </div>
+
+                <div
+                  class="text-center mt-4"
+                  data-aos="fade-up"
+                  data-aos-delay="400"
+                >
+                  <p class="text-muted">
+                    Chưa có tài khoản?
+                    <a th:href="@{/register}" class="text-primary"
+                      >Đăng ký ngay</a
+                    >
+                  </p>
+                </div>
+              </div>
             </div>
+          </div>
         </div>
+      </div>
     </section>
 
     <!-- Footer -->
     <footer class="footer">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="footer-content">
-                        <h3 class="footer-title">Về chúng tôi</h3>
-                        <p>Luxury Auto Gallery - Nơi những giấc mơ về xe sang trở thành hiện thực. Chúng tôi tự hào mang đến những sản phẩm và dịch vụ cao cấp nhất.</p>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="footer-content">
-                        <h3 class="footer-title">Liên kết nhanh</h3>
-                        <div class="footer-links">
-                            <a href="/products">Sản phẩm</a>
-                            <a href="/services">Dịch vụ</a>
-                            <a href="/news">Tin tức</a>
-                            <a href="/contact">Liên hệ</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="footer-content">
-                        <h3 class="footer-title">Kết nối với chúng tôi</h3>
-                        <div class="social-links">
-                            <a href="#"><i class="fab fa-facebook"></i></a>
-                            <a href="#"><i class="fab fa-instagram"></i></a>
-                            <a href="#"><i class="fab fa-youtube"></i></a>
-                            <a href="#"><i class="fab fa-linkedin"></i></a>
-                        </div>
-                    </div>
-                </div>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="footer-content">
+              <h3 class="footer-title">Về chúng tôi</h3>
+              <p>
+                Luxury Auto Gallery - Nơi những giấc mơ về xe sang trở thành
+                hiện thực. Chúng tôi tự hào mang đến những sản phẩm và dịch vụ
+                cao cấp nhất.
+              </p>
             </div>
-            <div class="copyright">
-                <p>© 2025 Luxury Auto Gallery. All rights reserved.</p>
+          </div>
+          <div class="col-md-4">
+            <div class="footer-content">
+              <h3 class="footer-title">Liên kết nhanh</h3>
+              <div class="footer-links">
+                <a th:href="@{/product-list}">Sản phẩm</a>
+                <a th:href="@{/services}">Dịch vụ</a>
+                <a th:href="@{/news}">Tin tức</a>
+                <a th:href="@{/contact}">Liên hệ</a>
+              </div>
             </div>
+          </div>
+          <div class="col-md-4">
+            <div class="footer-content">
+              <h3 class="footer-title">Kết nối với chúng tôi</h3>
+              <div class="social-links">
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+              </div>
+            </div>
+          </div>
         </div>
+        <div class="copyright">
+          <p>© 2025 Luxury Auto Gallery. All rights reserved.</p>
+        </div>
+      </div>
     </footer>
 
     <!-- Bootstrap JS -->
@@ -429,17 +513,17 @@
     <!-- AOS Animation -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        AOS.init();
+      AOS.init();
 
-        function loginWithFacebook() {
-            // Xử lý đăng nhập Facebook (cần tích hợp OAuth2 nếu muốn dùng)
-            console.log('Login with Facebook');
-        }
+      function loginWithFacebook() {
+        // Xử lý đăng nhập Facebook (cần tích hợp OAuth2 nếu muốn dùng)
+        console.log("Login with Facebook");
+      }
 
-        function loginWithGoogle() {
-            // Xử lý đăng nhập Google (cần tích hợp OAuth2 nếu muốn dùng)
-            console.log('Login with Google');
-        }
+      function loginWithGoogle() {
+        // Xử lý đăng nhập Google (cần tích hợp OAuth2 nếu muốn dùng)
+        console.log("Login with Google");
+      }
     </script>
-</body>
+  </body>
 </html>
