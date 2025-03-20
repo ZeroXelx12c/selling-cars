@@ -24,7 +24,7 @@
             font-family: "Montserrat", sans-serif;
         }
 
-        /* Navigation styles từ template chính */
+        /* Navigation styles */
         .navbar {
             background-color: rgba(0, 0, 0, 0.9);
             padding: 20px 0;
@@ -50,11 +50,26 @@
             font-weight: 500;
         }
 
+        .nav-link::after {
+            content: "";
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: var(--primary-color);
+            left: 0;
+            bottom: -5px;
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
         /* Contact Page Specific Styles */
         .contact-header {
             background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
                 url("https://images.unsplash.com/photo-1560958089-b8a1929cea89") center/cover;
-            height: 400px;
+            height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -78,36 +93,106 @@
         .contact-container {
             background-color: var(--secondary-color);
             padding: 60px 0;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            margin: 0 50px 0;
+            position: relative;
+            z-index: 1;
         }
 
         .contact-info-card {
             background: #2a2a2a;
-            padding: 40px;
-            border-radius: 15px;
+            padding: 30px;
+            border-radius: 10px;
             margin-bottom: 30px;
             transition: transform 0.3s ease;
+            border: 1px solid #333;
         }
 
         .contact-info-card:hover {
-            transform: translateY(-10px);
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
 
         .info-icon {
-            font-size: 2.5rem;
-            color: var(--primary-color);
-            margin-bottom: 20px;
-        }
-
-        .info-title {
-            font-size: 1.5rem;
+            font-size: 2rem;
             color: #fff;
             margin-bottom: 15px;
         }
 
+        .info-title {
+            font-size: 1.2rem;
+            color: #fff;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
         .info-content {
-            color: #888;
-            font-size: 1.1rem;
+            color: #fff;
+            font-size: 1rem;
             line-height: 1.6;
+        }
+
+        /* Contact Form Styles */
+        .contact-form {
+            background: #2a2a2a;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            border: 1px solid #333;
+        }
+
+        .contact-form h3 {
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .form-label {
+            font-weight: 500;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+
+        .form-control {
+            background-color: #333;
+            border: 1px solid #444;
+            color: #fff;
+            padding: 12px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            background-color: #333;
+            border-color: #fff;
+            color: #fff;
+            box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.25);
+        }
+
+        .form-control::placeholder {
+            color: #fff;
+            opacity: 0.7;
+        }
+
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .btn-submit {
+            background-color: var(--primary-color);
+            color: #fff;
+            padding: 12px 30px;
+            border-radius: 8px;
+            border: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .btn-submit:hover {
+            background-color: #b3926a;
+            transform: translateY(-2px);
         }
 
         .map-container {
@@ -115,6 +200,8 @@
             border-radius: 15px;
             overflow: hidden;
             margin-top: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            border: 1px solid #333;
         }
 
         .cta-buttons {
@@ -128,7 +215,7 @@
             background-color: var(--primary-color);
             color: #fff;
             padding: 15px 40px;
-            border-radius: 30px;
+            border-radius: 8px;
             border: none;
             font-weight: 500;
             transition: all 0.3s ease;
@@ -139,8 +226,7 @@
         }
 
         .btn-custom:hover {
-            background-color: #fff;
-            color: var(--primary-color);
+            background-color: #b3926a;
             transform: translateY(-2px);
         }
 
@@ -155,10 +241,11 @@
             color: #fff;
         }
 
-        /* Footer styles từ template chính */
+        /* Footer styles */
         .footer {
             background-color: #1a1a1a;
             padding: 50px 0 20px;
+            margin-top: 80px;
         }
 
         .footer-content {
@@ -166,21 +253,73 @@
         }
 
         .footer-title {
-            color: var(--primary-color);
+            color: #fff;
             margin-bottom: 20px;
             font-size: 1.2rem;
         }
 
         .footer-links a {
-            color: #888;
+            color: #fff;
             text-decoration: none;
             display: block;
             margin-bottom: 10px;
             transition: color 0.3s ease;
+            opacity: 0.8;
         }
 
         .footer-links a:hover {
-            color: var(--primary-color);
+            color: #fff;
+            opacity: 1;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-links a {
+            color: #fff;
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+            opacity: 0.8;
+        }
+
+        .social-links a:hover {
+            color: #fff;
+            opacity: 1;
+        }
+
+        @media (max-width: 768px) {
+            .contact-container {
+                margin: -50px 20px 0;
+                padding: 30px 0;
+            }
+
+            .contact-form {
+                padding: 20px;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+        }
+
+        .mt-4 h4 {
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .mt-4 p {
+            color: #fff;
+        }
+
+        .mt-4 strong {
+            color: #fff;
+        }
+
+        .text-muted {
+            color: #fff !important;
+            opacity: 0.8;
         }
     </style>
 </head>
@@ -217,7 +356,7 @@
     <!-- Contact Header -->
     <header class="contact-header">
         <div class="container">
-            <h1 class="contact-title" data-aos="fade-up">Liên Hệ</h1>
+            <h1 class="contact-title" data-aos="fade-up">Liên Hệ Với Chúng Tôi</h1>
             <p class="contact-subtitle" data-aos="fade-up" data-aos-delay="200">
                 Hãy để chúng tôi hỗ trợ bạn tìm chiếc xe trong mơ
             </p>
@@ -244,26 +383,62 @@
                 </div>
                 <div class="col-md-4" data-aos="fade-up" data-aos-delay="400">
                     <div class="contact-info-card text-center">
-                        <i class="fas fa-clock info-icon"></i>
-                        <h3 class="info-title">Giờ Làm Việc</h3>
-                        <p class="info-content">Thứ 2 - Chủ nhật<br>8:00 - 18:00</p>
+                        <i class="fas fa-envelope info-icon"></i>
+                        <h3 class="info-title">Email</h3>
+                        <p class="info-content">info@luxuryautogallery.com</p>
                     </div>
                 </div>
             </div>
 
-            <div class="map-container" data-aos="fade-up">
-                <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3724.6963477183824!2d105.84077607596327!3d21.007025588727167!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135ac428c3336e5%3A0xe234d37c1c068db!2zTMOhbmcgSOG6oSwgxJDhu5FuZyDEkGEsIEjDoCBO4buZaSwgVmnhu4d0IE5hbQ!5e0!3m2!1svi!2s!4v1709701234567!5m2!1svi!2s"
-                    width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy">
-                </iframe>
+            <div class="row mt-5">
+                <div class="col-lg-6" data-aos="fade-right">
+                    <div class="contact-form">
+                        <h3 class="mb-4 text-white">Gửi Thông Tin Liên Hệ</h3>
+                        <form>
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Họ và Tên *</label>
+                                <input type="text" class="form-control" id="name" required placeholder="Nhập họ và tên">
+                            </div>
+                            <div class="mb-3">
+                                <label for="phone" class="form-label">Số Điện Thoại *</label>
+                                <input type="tel" class="form-control" id="phone" required placeholder="Nhập số điện thoại">
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" placeholder="Nhập email">
+                            </div>
+                            <div class="mb-3">
+                                <label for="message" class="form-label">Nội Dung Tin Nhắn</label>
+                                <textarea class="form-control" id="message" rows="5" placeholder="Nhập nội dung tin nhắn"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-submit">
+                                <i class="fas fa-paper-plane me-2"></i>Gửi Thông Tin
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-lg-6" data-aos="fade-left">
+                    <div class="map-container">
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3724.6963477183824!2d105.84077607596327!3d21.007025588727167!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135ac428c3336e5%3A0xe234d37c1c068db!2zTMOhbmcgSOG6oSwgxJDhu5FuZyDEkGEsIEjDoCBO4buZaSwgVmnhu4d0IE5hbQ!5e0!3m2!1svi!2s!4v1709701234567!5m2!1svi!2s"
+                            width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy">
+                        </iframe>
+                    </div>
+                    <div class="mt-4">
+                        <h4 class="mb-3 text-white">Giờ Làm Việc</h4>
+                        <p class="mb-2 text-muted"><strong>Thứ 2 - Thứ 6:</strong> 8:00 - 18:00</p>
+                        <p class="mb-2 text-muted"><strong>Thứ 7:</strong> 8:00 - 17:00</p>
+                        <p class="mb-0 text-muted"><strong>Chủ nhật:</strong> 9:00 - 16:00</p>
+                    </div>
+                </div>
             </div>
 
             <div class="cta-buttons" data-aos="fade-up">
                 <a href="tel:0909123456" class="btn-custom">
-                    <i class="fas fa-phone"></i> Gọi Ngay
+                    <i class="fas fa-phone"></i> Gọi Ngay: 0909 123 456
                 </a>
                 <a href="#" class="btn-custom btn-outline">
-                    <i class="fas fa-calendar"></i> Đặt Lịch Xem Xe
+                    <i class="fas fa-calendar"></i> Đặt Lịch Lái Thử
                 </a>
             </div>
         </div>
