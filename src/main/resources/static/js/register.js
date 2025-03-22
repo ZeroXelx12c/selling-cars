@@ -28,6 +28,12 @@ document.getElementById('registerForm').addEventListener('submit', function(e) {
         return;
     }
 
+
+
+
     // Tiếp tục xử lý đăng ký
+
+
     console.log('Form submitted');
+
 });

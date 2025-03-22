@@ -50,7 +50,8 @@ public class AuthController {
 
         try {
             usersService.registerUser(user); // Lưu user vào database
-            return "redirect:/login?success=Đăng ký thành công!"; // Chuyển hướng đến /login
+          
+            return "redirect:/login"; // Chuyển hướng đến /login
         } catch (Exception e) {
             model.addAttribute("error", "Đã xảy ra lỗi khi đăng ký: " + e.getMessage());
             e.printStackTrace();
