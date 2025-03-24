@@ -24,14 +24,14 @@ public class SecurityConfig {
             .authorizeHttpRequests(authorize -> authorize
                 .requestMatchers("/login", "/register", "/home", "/product-list", "/services", "/news", "/contact", "/css/**", "/js/**").permitAll()
                 .requestMatchers("/payment").authenticated()
-                .requestMatchers("/admin").hasRole("ADMIN") // Chỉ admin truy cập /admin
+                .requestMatchers("/admin/**").hasRole("ADMIN") // Bảo vệ tất cả endpoint dưới /admin
                 .anyRequest().permitAll()
             )
             .formLogin(form -> form
                 .loginPage("/login")
                 .usernameParameter("username")
                 .passwordParameter("password")
-                .successHandler(authenticationSuccessHandler()) // Xử lý sau đăng nhập
+                .successHandler(authenticationSuccessHandler())
                 .failureUrl("/login?error")
                 .permitAll()
             )
@@ -43,6 +43,9 @@ public class SecurityConfig {
             .rememberMe(remember -> remember
                 .rememberMeParameter("remember-me")
                 .tokenValiditySeconds(86400)
+            )
+            .csrf(csrf -> csrf
+                .ignoringRequestMatchers("/admin/customers/**") // Vô hiệu hóa CSRF cho POST trong admin
             );
         return http.build();
     }
@@ -53,7 +56,7 @@ public class SecurityConfig {
             .map(user -> org.springframework.security.core.userdetails.User
                 .withUsername(user.getPhoneNumber())
                 .password(user.getPassword())
-                .roles(user.getRole().toUpperCase()) // Chuyển role thành uppercase
+                .roles(user.getRole().toUpperCase())
                 .build())
             .orElseThrow(() -> new UsernameNotFoundException("Số điện thoại hoặc mật khẩu không đúng!"));
     }
