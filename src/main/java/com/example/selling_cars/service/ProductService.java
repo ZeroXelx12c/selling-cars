@@ -1,16 +1,17 @@
 package com.example.selling_cars.service;
 
-import com.example.selling_cars.entity.Product;
-import com.example.selling_cars.repository.ProductRepository;
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.Optional;
+import com.example.selling_cars.entity.Product;
+import com.example.selling_cars.repository.ProductRepository;
 
 @Service
 public class ProductService {
@@ -33,8 +34,8 @@ public class ProductService {
     }
 
     // Tìm sản phẩm theo từ khóa
-    public List<Product> searchProducts(String keyword) {
-        return productRepository.findByProductNameContainingIgnoreCase(keyword);
+    public Page<Product> searchProducts(String keyword, Pageable pageable) {
+        return productRepository.findByProductNameContainingIgnoreCase(keyword, pageable);
     }
 
     // Lấy sản phẩm theo danh mục
@@ -76,10 +77,10 @@ public class ProductService {
     }
 
     // Tìm sản phẩm theo nhiều tiêu chí
-    public Page<Product> findProductsByFilters(Integer categoryId, BigDecimal minPrice, BigDecimal maxPrice,
-                                             Integer minYear, Integer maxYear, String status,
-                                             Pageable pageable) {
-        return productRepository.findByFilters(categoryId, status, minPrice, maxPrice, minYear, maxYear, pageable);
+    public Page<Product> findByFilters(Integer categoryId, String status, BigDecimal minPrice, BigDecimal maxPrice,
+            Integer minYear, Integer maxYear, Pageable pageable) {
+        return productRepository.findByFilters(categoryId, status, minPrice, maxPrice, minYear, maxYear, null,
+                pageable);
     }
 
     // Thêm sản phẩm mới
@@ -99,7 +100,7 @@ public class ProductService {
 
         // Kiểm tra tên mới có trùng với sản phẩm khác không
         if (!product.getProductName().equals(productDetails.getProductName()) &&
-            productRepository.findByProductName(productDetails.getProductName()).isPresent()) {
+                productRepository.findByProductName(productDetails.getProductName()).isPresent()) {
             throw new RuntimeException("Product with name " + productDetails.getProductName() + " already exists");
         }
 
@@ -145,15 +146,11 @@ public class ProductService {
         return productRepository.countByCategoryCategoryId(categoryId);
     }
 
-    public Page<Product> findByFilters(
-            Integer categoryId, 
-            String status, 
-            BigDecimal minPrice, 
-            BigDecimal maxPrice, 
-            Integer minYear, 
-            Integer maxYear, 
+    public Page<Product> findProductsByFilters(Integer categoryId, BigDecimal minPrice, BigDecimal maxPrice,
+            Integer minYear, Integer maxYear, String status, String model,
             Pageable pageable) {
-        return productRepository.findByFilters(categoryId, status, minPrice, maxPrice, minYear, maxYear, pageable);
+        return productRepository.findByFilters(categoryId, status, minPrice, maxPrice, minYear, maxYear, model,
+                pageable);
     }
 
     public long countProducts() {
@@ -167,4 +164,5 @@ public class ProductService {
     public long countByCategoryId(Integer categoryId) {
         return productRepository.countByCategoryCategoryId(categoryId);
     }
-} 
+
+}

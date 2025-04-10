@@ -11,11 +11,6 @@ public class HomeController {
         return "home";
     }
 
-    @GetMapping("/product-list")
-    public String showProductList() {
-        return "product-list";
-    }
-
     @GetMapping("/services")
     public String showServices() {
         return "services";

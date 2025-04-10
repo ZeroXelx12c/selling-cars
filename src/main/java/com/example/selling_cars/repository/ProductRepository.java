@@ -1,6 +1,9 @@
 package com.example.selling_cars.repository;
 
-import com.example.selling_cars.entity.Product;
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -8,9 +11,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.Optional;
+import com.example.selling_cars.entity.Product;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Integer> {
@@ -46,12 +47,13 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 
     // Tìm sản phẩm theo nhiều tiêu chí
     @Query("SELECT p FROM Product p WHERE " +
-           "(:categoryId IS NULL OR p.category.categoryId = :categoryId) AND " +
-           "(:status IS NULL OR p.status = :status) AND " +
-           "(:minPrice IS NULL OR p.price >= :minPrice) AND " +
-           "(:maxPrice IS NULL OR p.price <= :maxPrice) AND " +
-           "(:minYear IS NULL OR p.manufactureYear >= :minYear) AND " +
-           "(:maxYear IS NULL OR p.manufactureYear <= :maxYear)")
+            "(:categoryId IS NULL OR p.category.categoryId = :categoryId) AND " +
+            "(:status IS NULL OR p.status = :status) AND " +
+            "(:minPrice IS NULL OR p.price >= :minPrice) AND " +
+            "(:maxPrice IS NULL OR p.price <= :maxPrice) AND " +
+            "(:minYear IS NULL OR p.manufactureYear >= :minYear) AND " +
+            "(:maxYear IS NULL OR p.manufactureYear <= :maxYear) AND " +
+            "(:model IS NULL OR LOWER(p.model) LIKE LOWER(CONCAT('%', :model, '%')))")
     Page<Product> findByFilters(
             @Param("categoryId") Integer categoryId,
             @Param("status") String status,
@@ -59,6 +61,7 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
             @Param("maxPrice") BigDecimal maxPrice,
             @Param("minYear") Integer minYear,
             @Param("maxYear") Integer maxYear,
+            @Param("model") String model,
             Pageable pageable);
 
     // Đếm số lượng sản phẩm theo trạng thái
@@ -66,4 +69,6 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 
     // Đếm số lượng sản phẩm theo danh mục
     long countByCategoryCategoryId(Integer categoryId);
-} 
+
+    Page<Product> findByProductNameContainingIgnoreCase(String keyword, Pageable pageable);
+}
