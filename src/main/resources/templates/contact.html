@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -65,39 +66,48 @@
             width: 100%;
         }
 
-        /* Contact Page Specific Styles */
-        .contact-header {
-            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
-                url("https://images.unsplash.com/photo-1560958089-b8a1929cea89") center/cover;
+        /* Hero Section */
+        .hero {
             height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            margin-bottom: 80px;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
+                url("https://images.unsplash.com/photo-1560958089-b8a1929cea89") center/cover;
         }
 
-        .contact-title {
-            font-size: 3.5rem;
-            color: var(--primary-color);
+        .hero-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            width: 100%;
+            padding: 0 20px;
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            font-weight: 700;
             margin-bottom: 20px;
             text-transform: uppercase;
             letter-spacing: 3px;
-        }
-
-        .contact-subtitle {
-            font-size: 1.2rem;
             color: #fff;
         }
 
-        .contact-container {
+        .hero-subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            color: var(--primary-color);
+        }
+
+        /* Contact Info Section */
+        .contact-info-section {
+            padding: 80px 0;
             background-color: var(--secondary-color);
-            padding: 60px 0;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
-            margin: 0 50px 0;
-            position: relative;
-            z-index: 1;
+        }
+
+        .contact-info-container {
+            margin-top: 40px;
         }
 
         .contact-info-card {
@@ -111,7 +121,7 @@
 
         .contact-info-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
 
         .info-icon {
@@ -133,12 +143,17 @@
             line-height: 1.6;
         }
 
-        /* Contact Form Styles */
+        /* Contact Form and Map Section */
+        .contact-form-section {
+            padding: 80px 0;
+            background-color: var(--secondary-color);
+        }
+
         .contact-form {
             background: #2a2a2a;
             padding: 40px;
             border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
             border: 1px solid #333;
         }
 
@@ -179,129 +194,18 @@
             resize: vertical;
         }
 
-        .btn-submit {
-            background-color: var(--primary-color);
-            color: #fff;
-            padding: 12px 30px;
-            border-radius: 8px;
-            border: none;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            width: 100%;
-        }
-
-        .btn-submit:hover {
-            background-color: #b3926a;
-            transform: translateY(-2px);
-        }
-
         .map-container {
             height: 400px;
             border-radius: 15px;
             overflow: hidden;
-            margin-top: 30px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
             border: 1px solid #333;
         }
 
-        .cta-buttons {
-            margin-top: 40px;
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-        }
-
-        .btn-custom {
-            background-color: var(--primary-color);
-            color: #fff;
-            padding: 15px 40px;
-            border-radius: 8px;
-            border: none;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .btn-custom:hover {
-            background-color: #b3926a;
-            transform: translateY(-2px);
-        }
-
-        .btn-outline {
-            background-color: transparent;
-            border: 2px solid var(--primary-color);
-            color: var(--primary-color);
-        }
-
-        .btn-outline:hover {
-            background-color: var(--primary-color);
-            color: #fff;
-        }
-
-        /* Footer styles */
-        .footer {
-            background-color: #1a1a1a;
-            padding: 50px 0 20px;
-            margin-top: 80px;
-        }
-
-        .footer-content {
-            margin-bottom: 30px;
-        }
-
-        .footer-title {
-            color: #fff;
-            margin-bottom: 20px;
-            font-size: 1.2rem;
-        }
-
-        .footer-links a {
-            color: #fff;
-            text-decoration: none;
-            display: block;
-            margin-bottom: 10px;
-            transition: color 0.3s ease;
-            opacity: 0.8;
-        }
-
-        .footer-links a:hover {
-            color: #fff;
-            opacity: 1;
-        }
-
-        .social-links {
-            display: flex;
-            gap: 15px;
-        }
-
-        .social-links a {
-            color: #fff;
-            font-size: 1.5rem;
-            transition: color 0.3s ease;
-            opacity: 0.8;
-        }
-
-        .social-links a:hover {
-            color: #fff;
-            opacity: 1;
-        }
-
-        @media (max-width: 768px) {
-            .contact-container {
-                margin: -50px 20px 0;
-                padding: 30px 0;
-            }
-
-            .contact-form {
-                padding: 20px;
-            }
-
-            .cta-buttons {
-                flex-direction: column;
-            }
+        /* Working Hours Section */
+        .working-hours-section {
+            padding: 40px 0;
+            background-color: var(--secondary-color);
         }
 
         .mt-4 h4 {
@@ -321,52 +225,223 @@
             color: #fff !important;
             opacity: 0.8;
         }
+
+        /* Button styles */
+        .btn-custom {
+            background-color: var(--primary-color);
+            color: #fff;
+            padding: 12px 30px;
+            border-radius: 30px;
+            border: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-custom:hover {
+            background-color: #fff;
+            color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        .btn-submit {
+            background: var(--primary-color);
+            color: #fff;
+            padding: 15px 40px;
+            border-radius: 8px;
+            border: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-submit:hover {
+            background-color: #b3926a;
+            transform: translateY(-2px);
+        }
+
+        /* Footer styles */
+        .footer {
+            background-color: #1a1a1a;
+            padding: 50px 0 20px;
+            border-top: 2px solid var(--primary-color);
+            /* Đường phân cách giữa body và footer */
+        }
+
+        .footer-content {
+            margin-bottom: 30px;
+        }
+
+        .footer-title {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+
+        .footer-links a {
+            color: #888;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 10px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-links a {
+            color: #888;
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #333;
+            color: #888;
+        }
+
+        .alert-success {
+            background-color: #28a745;
+            color: #fff;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px auto;
+            width: 80%;
+            text-align: center;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+
+            .contact-info-section,
+            .contact-form-section {
+                padding: 40px 0;
+            }
+
+            .working-hours-section {
+                padding: 20px 0;
+            }
+
+            .contact-info-card,
+            .contact-form {
+                padding: 20px;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+
+            .navbar-brand {
+                font-size: 24px;
+            }
+
+            .nav-link {
+                margin: 5px 0;
+            }
+
+            .btn-custom {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+
+            .footer-content {
+                text-align: center;
+            }
+
+            .social-links {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+        }
     </style>
 </head>
+
 <body>
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="/">Luxury Auto Gallery</a>
+            <a class="navbar-brand" th:href="@{/home}">LUXURY AUTO</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="/">Trang Chủ</a>
+                        <a class="nav-link" th:href="@{/home}">Trang Chủ</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/product-list">Sản Phẩm</a>
+                        <a class="nav-link" th:href="@{/product-list}">Sản Phẩm</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/services">Dịch Vụ</a>
+                        <a class="nav-link" th:href="@{/services}">Dịch Vụ</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/news">Tin Tức</a>
+                        <a class="nav-link" th:href="@{/news}">Tin Tức</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="/contact">Liên Hệ</a>
+                        <a class="nav-link active" th:href="@{/contact}">Liên Hệ</a>
                     </li>
                 </ul>
+                <div class="ms-3" id="auth-buttons">
+                    <div th:if="${#authorization.expression('!isAuthenticated()')}">
+                        <a th:href="@{/login}" class="btn btn-custom" id="login-btn">Đăng nhập</a>
+                    </div>
+                    <div th:if="${#authorization.expression('isAuthenticated()')}">
+                        <span class="text-white me-2" th:text="${#authentication.name}"></span>
+                        <form th:action="@{/logout}" method="post" style="display: inline">
+                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                            <button type="submit" class="btn btn-custom" id="logout-btn">Đăng xuất</button>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </nav>
 
-    <!-- Contact Header -->
-    <header class="contact-header">
-        <div class="container">
-            <h1 class="contact-title" data-aos="fade-up">Liên Hệ Với Chúng Tôi</h1>
-            <p class="contact-subtitle" data-aos="fade-up" data-aos-delay="200">
-                Hãy để chúng tôi hỗ trợ bạn tìm chiếc xe trong mơ
+    <div th:if="${successMessage}" class="alert alert-success" role="alert">
+        <span th:text="${successMessage}"></span>
+    </div>
+
+    <!-- Hero Section (Hình ảnh) -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title" data-aos="fade-up">THÔNG TIN LIÊN HỆ</h1>
+            <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="200">
+                Liên hệ với chúng tôi để được hỗ trợ tốt nhất
             </p>
         </div>
-    </header>
+    </section>
 
-    <!-- Contact Content -->
-    <section class="contact-container">
+    <!-- Contact Info Section (Thông tin liên hệ) -->
+    <section class="contact-info-section">
         <div class="container">
-            <div class="row">
+            <div class="row contact-info-container">
                 <div class="col-md-4" data-aos="fade-up">
                     <div class="contact-info-card text-center">
                         <i class="fas fa-map-marker-alt info-icon"></i>
@@ -385,31 +460,41 @@
                     <div class="contact-info-card text-center">
                         <i class="fas fa-envelope info-icon"></i>
                         <h3 class="info-title">Email</h3>
-                        <p class="info-content">info@luxuryautogallery.com</p>
+                        <p class="info-content">info@luxuryauto.com</p>
                     </div>
                 </div>
             </div>
+        </div>
+    </section>
 
-            <div class="row mt-5">
+    <!-- Contact Form and Map Section (Form và Bản đồ) -->
+    <section class="contact-form-section">
+        <div class="container">
+            <div class="row">
                 <div class="col-lg-6" data-aos="fade-right">
                     <div class="contact-form">
                         <h3 class="mb-4 text-white">Gửi Thông Tin Liên Hệ</h3>
-                        <form>
+                        <form th:action="@{/contact/submit}" method="post">
+                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                             <div class="mb-3">
                                 <label for="name" class="form-label">Họ và Tên *</label>
-                                <input type="text" class="form-control" id="name" required placeholder="Nhập họ và tên">
+                                <input type="text" class="form-control" id="name" name="fullName" required
+                                    placeholder="Nhập họ và tên">
                             </div>
                             <div class="mb-3">
                                 <label for="phone" class="form-label">Số Điện Thoại *</label>
-                                <input type="tel" class="form-control" id="phone" required placeholder="Nhập số điện thoại">
+                                <input type="tel" class="form-control" id="phone" name="phoneNumber" required
+                                    placeholder="Nhập số điện thoại">
                             </div>
                             <div class="mb-3">
                                 <label for="email" class="form-label">Email</label>
-                                <input type="email" class="form-control" id="email" placeholder="Nhập email">
+                                <input type="email" class="form-control" id="email" name="email"
+                                    placeholder="Nhập email">
                             </div>
                             <div class="mb-3">
                                 <label for="message" class="form-label">Nội Dung Tin Nhắn</label>
-                                <textarea class="form-control" id="message" rows="5" placeholder="Nhập nội dung tin nhắn"></textarea>
+                                <textarea class="form-control" id="message" name="message" rows="5"
+                                    placeholder="Nhập nội dung tin nhắn"></textarea>
                             </div>
                             <button type="submit" class="btn btn-submit">
                                 <i class="fas fa-paper-plane me-2"></i>Gửi Thông Tin
@@ -424,22 +509,7 @@
                             width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy">
                         </iframe>
                     </div>
-                    <div class="mt-4">
-                        <h4 class="mb-3 text-white">Giờ Làm Việc</h4>
-                        <p class="mb-2 text-muted"><strong>Thứ 2 - Thứ 6:</strong> 8:00 - 18:00</p>
-                        <p class="mb-2 text-muted"><strong>Thứ 7:</strong> 8:00 - 17:00</p>
-                        <p class="mb-0 text-muted"><strong>Chủ nhật:</strong> 9:00 - 16:00</p>
-                    </div>
                 </div>
-            </div>
-
-            <div class="cta-buttons" data-aos="fade-up">
-                <a href="tel:0909123456" class="btn-custom">
-                    <i class="fas fa-phone"></i> Gọi Ngay: 0909 123 456
-                </a>
-                <a href="#" class="btn-custom btn-outline">
-                    <i class="fas fa-calendar"></i> Đặt Lịch Lái Thử
-                </a>
             </div>
         </div>
     </section>
@@ -450,36 +520,39 @@
             <div class="row">
                 <div class="col-md-4">
                     <div class="footer-content">
-                        <h3 class="footer-title">Về Chúng Tôi</h3>
-                        <p class="text-muted">
-                            Luxury Auto Gallery - Nơi những giấc mơ về xe hơi trở thành hiện thực
+                        <h3 class="footer-title">Về chúng tôi</h3>
+                        <p>
+                            Luxury Auto Gallery - Nơi những giấc mơ về xe sang trở thành
+                            hiện thực. Chúng tôi tự hào mang đến những sản phẩm và dịch vụ
+                            cao cấp nhất.
                         </p>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="footer-content">
-                        <h3 class="footer-title">Liên Kết Nhanh</h3>
+                        <h3 class="footer-title">Liên kết nhanh</h3>
                         <div class="footer-links">
-                            <a href="/product-list">Sản Phẩm</a>
-                            <a href="/services">Dịch Vụ</a>
-                            <a href="/news">Tin Tức</a>
-                            <a href="/contact">Liên Hệ</a>
+                            <a th:href="@{/product-list}">Sản phẩm</a>
+                            <a th:href="@{/services}">Dịch vụ</a>
+                            <a th:href="@{/news}">Tin tức</a>
+                            <a th:href="@{/contact}">Liên hệ</a>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="footer-content">
-                        <h3 class="footer-title">Kết Nối</h3>
+                        <h3 class="footer-title">Kết nối với chúng tôi</h3>
                         <div class="social-links">
                             <a href="#"><i class="fab fa-facebook"></i></a>
                             <a href="#"><i class="fab fa-instagram"></i></a>
                             <a href="#"><i class="fab fa-youtube"></i></a>
+                            <a href="#"><i class="fab fa-linkedin"></i></a>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="text-center text-muted">
-                <p>&copy; 2024 Luxury Auto Gallery. All rights reserved.</p>
+            <div class="copyright">
+                <p>© 2025 Luxury Auto Gallery. All rights reserved.</p>
             </div>
         </div>
     </footer>
@@ -495,7 +568,7 @@
         });
 
         // Navbar scroll effect
-        window.addEventListener('scroll', function() {
+        window.addEventListener('scroll', function () {
             if (window.scrollY > 50) {
                 document.querySelector('.navbar').classList.add('scrolled');
             } else {
@@ -504,4 +577,5 @@
         });
     </script>
 </body>
-</html> 
+
+</html>
