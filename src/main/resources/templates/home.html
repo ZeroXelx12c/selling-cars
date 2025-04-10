@@ -370,7 +370,7 @@
         <button class="btn btn-custom me-3" onclick="scrollToFeatured()">
           Khám phá ngay
         </button>
-        <button class="btn btn-custom btn-outline">Liên hệ tư vấn</button>
+        <button class="btn btn-custom btn-outline">Liên Hệ tư vấn</button>
       </div>
     </div>
   </section>
@@ -379,7 +379,7 @@
   <section class="featured-cars" id="featured-cars">
     <div class="container">
       <div class="section-title" data-aos="fade-up">
-        <h2>Sản phẩm nổi bật</h2>
+        <h2>Sản Phẩm nổi bật</h2>
         <p>Khám phá bộ sưu tập xe sang đẳng cấp</p>
       </div>
       <div class="row" id="featured-cars-container">
@@ -397,7 +397,7 @@
             <h3 class="footer-title">Về chúng tôi</h3>
             <p>
               Luxury Auto Gallery - Nơi những giấc mơ về xe sang trở thành
-              hiện thực. Chúng tôi tự hào mang đến những sản phẩm và dịch vụ
+              hiện thực. Chúng tôi tự hào mang đến những Sản Phẩm và Dịch Vụ
               cao cấp nhất.
             </p>
           </div>
@@ -406,10 +406,10 @@
           <div class="footer-content">
             <h3 class="footer-title">Liên kết nhanh</h3>
             <div class="footer-links">
-              <a th:href="@{/product-list}">Sản phẩm</a>
-              <a th:href="@{/services}">Dịch vụ</a>
-              <a th:href="@{/news}">Tin tức</a>
-              <a th:href="@{/contact}">Liên hệ</a>
+              <a th:href="@{/product-list}">Sản Phẩm</a>
+              <a th:href="@{/services}">Dịch Vụ</a>
+              <a th:href="@{/news}">Tin Tức</a>
+              <a th:href="@{/contact}">Liên Hệ</a>
             </div>
           </div>
         </div>
@@ -456,7 +456,7 @@
         .scrollIntoView({ behavior: "smooth" });
     }
 
-    // Lấy danh sách sản phẩm nổi bật từ API
+    // Lấy danh sách Sản Phẩm nổi bật từ API
     async function loadFeaturedCars() {
       try {
         const response = await fetch(`${API_BASE_URL}/products/featured`);
@@ -496,7 +496,7 @@
           container.innerHTML += carCard;
         });
       } catch (error) {
-        console.error("Lỗi khi tải sản phẩm nổi bật:", error);
+        console.error("Lỗi khi tải Sản Phẩm nổi bật:", error);
       }
     }
 

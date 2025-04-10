@@ -11,10 +11,10 @@ public interface OrderDetailRepository extends JpaRepository<OrderDetail, Intege
     // Tìm chi tiết đơn hàng theo đơn hàng
     List<OrderDetail> findByOrderOrderId(Integer orderId);
 
-    // Tìm chi tiết đơn hàng theo sản phẩm
+    // Tìm chi tiết đơn hàng theo Sản Phẩm
     List<OrderDetail> findByProductProductId(Integer productId);
 
-    // Tìm chi tiết đơn hàng theo đơn hàng và sản phẩm
+    // Tìm chi tiết đơn hàng theo đơn hàng và Sản Phẩm
     List<OrderDetail> findByOrderOrderIdAndProductProductId(Integer orderId, Integer productId);
 
     // Tìm chi tiết đơn hàng theo tùy chọn ngoại thất
@@ -32,6 +32,6 @@ public interface OrderDetailRepository extends JpaRepository<OrderDetail, Intege
     // Đếm số lượng chi tiết đơn hàng theo đơn hàng
     long countByOrderOrderId(Integer orderId);
 
-    // Đếm số lượng chi tiết đơn hàng theo sản phẩm
+    // Đếm số lượng chi tiết đơn hàng theo Sản Phẩm
     long countByProductProductId(Integer productId);
 } 

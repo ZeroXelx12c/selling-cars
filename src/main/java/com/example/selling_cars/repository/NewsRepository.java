@@ -11,31 +11,31 @@ import java.util.List;
 
 @Repository
 public interface NewsRepository extends JpaRepository<News, Integer> {
-    // Tìm tin tức theo danh mục
+    // Tìm Tin Tức theo danh mục
     List<News> findByCategoryCategoryId(Integer categoryId);
 
-    // Tìm tin tức theo tiêu đề chứa từ khóa
+    // Tìm Tin Tức theo tiêu đề chứa từ khóa
     List<News> findByTitleContainingIgnoreCase(String keyword);
 
-    // Tìm tin tức theo khoảng thời gian
+    // Tìm Tin Tức theo khoảng thời gian
     List<News> findByPublishedDateBetween(LocalDateTime startDate, LocalDateTime endDate);
 
-    // Tìm tin tức theo danh mục và khoảng thời gian
+    // Tìm Tin Tức theo danh mục và khoảng thời gian
     List<News> findByCategoryCategoryIdAndPublishedDateBetween(Integer categoryId, LocalDateTime startDate, LocalDateTime endDate);
 
-    // Tìm tin tức mới nhất
+    // Tìm Tin Tức mới nhất
     List<News> findTop10ByOrderByPublishedDateDesc();
 
-    // Tìm tin tức theo danh mục và sắp xếp theo ngày đăng
+    // Tìm Tin Tức theo danh mục và sắp xếp theo ngày đăng
     Page<News> findByCategoryCategoryIdOrderByPublishedDateDesc(Integer categoryId, Pageable pageable);
 
-    // Tìm tin tức theo từ khóa và sắp xếp theo ngày đăng
+    // Tìm Tin Tức theo từ khóa và sắp xếp theo ngày đăng
     Page<News> findByTitleContainingIgnoreCaseOrderByPublishedDateDesc(String keyword, Pageable pageable);
 
-    // Đếm số lượng tin tức theo danh mục
+    // Đếm số lượng Tin Tức theo danh mục
     long countByCategoryCategoryId(Integer categoryId);
 
-    // Đếm số lượng tin tức theo khoảng thời gian
+    // Đếm số lượng Tin Tức theo khoảng thời gian
     long countByPublishedDateBetween(LocalDateTime startDate, LocalDateTime endDate);
 
     List<News> findByStatus(String status);

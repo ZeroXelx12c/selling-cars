@@ -21,8 +21,8 @@ public class Product {
     @JoinColumn(name = "category_id")
     private Category category;
 
-    @NotBlank(message = "Tên sản phẩm không được để trống!")
-    @Size(max = 100, message = "Tên sản phẩm không được vượt quá 100 ký tự!")
+    @NotBlank(message = "Tên Sản Phẩm không được để trống!")
+    @Size(max = 100, message = "Tên Sản Phẩm không được vượt quá 100 ký tự!")
     @Column(name = "product_name", nullable = false, length = 100, unique = true)
     private String productName;
 

@@ -2,7 +2,6 @@ package com.example.selling_cars.controller;
 
 import com.example.selling_cars.dto.NewsDTO;
 import com.example.selling_cars.entity.News;
-import com.example.selling_cars.exception.ResourceNotFoundException;
 import com.example.selling_cars.mapper.NewsMapper;
 import com.example.selling_cars.service.NewsService;
 import jakarta.validation.Valid;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController

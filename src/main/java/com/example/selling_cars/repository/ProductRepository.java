@@ -15,37 +15,37 @@ import com.example.selling_cars.entity.Product;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Integer> {
-    // Tìm sản phẩm theo tên
+    // Tìm Sản Phẩm theo tên
     Optional<Product> findByProductName(String productName);
 
-    // Tìm sản phẩm theo tên chứa từ khóa
+    // Tìm Sản Phẩm theo tên chứa từ khóa
     List<Product> findByProductNameContainingIgnoreCase(String keyword);
 
-    // Tìm sản phẩm theo danh mục
+    // Tìm Sản Phẩm theo danh mục
     List<Product> findByCategoryCategoryId(Integer categoryId);
 
-    // Tìm sản phẩm theo khoảng giá
+    // Tìm Sản Phẩm theo khoảng giá
     List<Product> findByPriceBetween(BigDecimal minPrice, BigDecimal maxPrice);
 
-    // Tìm sản phẩm theo năm sản xuất
+    // Tìm Sản Phẩm theo năm sản xuất
     List<Product> findByManufactureYear(Integer year);
 
-    // Tìm sản phẩm theo trạng thái
+    // Tìm Sản Phẩm theo trạng thái
     List<Product> findByStatus(String status);
 
-    // Tìm sản phẩm theo model
+    // Tìm Sản Phẩm theo model
     List<Product> findByModel(String model);
 
-    // Tìm sản phẩm theo số km đã chạy
+    // Tìm Sản Phẩm theo số km đã chạy
     List<Product> findByMileageLessThanEqual(Integer maxMileage);
 
-    // Tìm sản phẩm theo năm sản xuất trong khoảng
+    // Tìm Sản Phẩm theo năm sản xuất trong khoảng
     List<Product> findByManufactureYearBetween(Integer minYear, Integer maxYear);
 
-    // Tìm sản phẩm theo model chứa từ khóa
+    // Tìm Sản Phẩm theo model chứa từ khóa
     List<Product> findByModelContainingIgnoreCase(String model);
 
-    // Tìm sản phẩm theo nhiều tiêu chí
+    // Tìm Sản Phẩm theo nhiều tiêu chí
     @Query("SELECT p FROM Product p WHERE " +
             "(:categoryId IS NULL OR p.category.categoryId = :categoryId) AND " +
             "(:status IS NULL OR p.status = :status) AND " +
@@ -64,10 +64,10 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
             @Param("model") String model,
             Pageable pageable);
 
-    // Đếm số lượng sản phẩm theo trạng thái
+    // Đếm số lượng Sản Phẩm theo trạng thái
     long countByStatus(String status);
 
-    // Đếm số lượng sản phẩm theo danh mục
+    // Đếm số lượng Sản Phẩm theo danh mục
     long countByCategoryCategoryId(Integer categoryId);
 
     Page<Product> findByProductNameContainingIgnoreCase(String keyword, Pageable pageable);

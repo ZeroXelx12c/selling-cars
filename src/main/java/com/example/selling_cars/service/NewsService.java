@@ -16,60 +16,60 @@ public class NewsService {
     @Autowired
     private NewsRepository newsRepository;
 
-    // Lấy tất cả tin tức
+    // Lấy tất cả Tin Tức
     public List<News> getAllNews() {
         return newsRepository.findAll();
     }
 
-    // Lấy tin tức theo ID
+    // Lấy Tin Tức theo ID
     public News getNewsById(Integer id) {
         return newsRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("News not found with id: " + id));
     }
 
-    // Lấy tin tức theo danh mục
+    // Lấy Tin Tức theo danh mục
     public List<News> getNewsByCategory(Integer categoryId) {
         return newsRepository.findByCategoryCategoryId(categoryId);
     }
 
-    // Tìm tin tức theo từ khóa
+    // Tìm Tin Tức theo từ khóa
     public List<News> searchNews(String keyword) {
         return newsRepository.findByTitleContainingIgnoreCase(keyword);
     }
 
-    // Lấy tin tức theo khoảng thời gian
+    // Lấy Tin Tức theo khoảng thời gian
     public List<News> getNewsByDateRange(LocalDateTime startDate, LocalDateTime endDate) {
         return newsRepository.findByPublishedDateBetween(startDate, endDate);
     }
 
-    // Lấy tin tức theo danh mục và khoảng thời gian
+    // Lấy Tin Tức theo danh mục và khoảng thời gian
     public List<News> getNewsByCategoryAndDateRange(Integer categoryId, LocalDateTime startDate, LocalDateTime endDate) {
         return newsRepository.findByCategoryCategoryIdAndPublishedDateBetween(categoryId, startDate, endDate);
     }
 
-    // Lấy tin tức mới nhất
+    // Lấy Tin Tức mới nhất
     public List<News> getLatestNews() {
         return newsRepository.findTop10ByOrderByPublishedDateDesc();
     }
 
-    // Lấy tin tức theo danh mục và sắp xếp theo ngày đăng
+    // Lấy Tin Tức theo danh mục và sắp xếp theo ngày đăng
     public Page<News> getNewsByCategoryOrderByDate(Integer categoryId, Pageable pageable) {
         return newsRepository.findByCategoryCategoryIdOrderByPublishedDateDesc(categoryId, pageable);
     }
 
-    // Lấy tin tức theo từ khóa và sắp xếp theo ngày đăng
+    // Lấy Tin Tức theo từ khóa và sắp xếp theo ngày đăng
     public Page<News> searchNewsOrderByDate(String keyword, Pageable pageable) {
         return newsRepository.findByTitleContainingIgnoreCaseOrderByPublishedDateDesc(keyword, pageable);
     }
 
-    // Thêm tin tức mới
+    // Thêm Tin Tức mới
     @Transactional
     public News createNews(News news) {
         news.setPublishedDate(LocalDateTime.now());
         return newsRepository.save(news);
     }
 
-    // Cập nhật tin tức
+    // Cập nhật Tin Tức
     @Transactional
     public News updateNews(Integer id, News newsDetails) {
         News news = newsRepository.findById(id)
@@ -85,7 +85,7 @@ public class NewsService {
         return newsRepository.save(news);
     }
 
-    // Xóa tin tức
+    // Xóa Tin Tức
     @Transactional
     public void deleteNews(Integer id) {
         News news = newsRepository.findById(id)
@@ -93,7 +93,7 @@ public class NewsService {
         newsRepository.delete(news);
     }
 
-    // Cập nhật trạng thái tin tức
+    // Cập nhật trạng thái Tin Tức
     @Transactional
     public News updateNewsStatus(Integer id, String status) {
         News news = newsRepository.findById(id)
@@ -102,27 +102,27 @@ public class NewsService {
         return newsRepository.save(news);
     }
 
-    // Đếm số lượng tin tức theo danh mục
+    // Đếm số lượng Tin Tức theo danh mục
     public long countNewsByCategory(Integer categoryId) {
         return newsRepository.countByCategoryCategoryId(categoryId);
     }
 
-    // Đếm số lượng tin tức theo khoảng thời gian
+    // Đếm số lượng Tin Tức theo khoảng thời gian
     public long countNewsByDateRange(LocalDateTime startDate, LocalDateTime endDate) {
         return newsRepository.countByPublishedDateBetween(startDate, endDate);
     }
 
-    // Lấy tin tức theo trạng thái
+    // Lấy Tin Tức theo trạng thái
     public List<News> getNewsByStatus(String status) {
         return newsRepository.findByStatus(status);
     }
 
-    // Lấy tin tức phân trang
+    // Lấy Tin Tức phân trang
     public Page<News> getPagedNews(Pageable pageable) {
         return newsRepository.findAll(pageable);
     }
 
-    // Lấy tin tức theo danh mục phân trang
+    // Lấy Tin Tức theo danh mục phân trang
     public Page<News> getPagedNewsByCategory(Integer categoryId, Pageable pageable) {
         return newsRepository.findByCategoryCategoryIdOrderByPublishedDateDesc(categoryId, pageable);
     }

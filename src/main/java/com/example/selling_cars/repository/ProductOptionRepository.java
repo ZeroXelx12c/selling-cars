@@ -9,24 +9,24 @@ import java.util.Optional;
 
 @Repository
 public interface ProductOptionRepository extends JpaRepository<ProductOption, Integer> {
-    // Tìm tùy chọn theo sản phẩm
+    // Tìm tùy chọn theo Sản Phẩm
     List<ProductOption> findByProductProductId(Integer productId);
 
     // Tìm tùy chọn theo loại
     List<ProductOption> findByOptionType(String optionType);
 
-    // Tìm tùy chọn theo sản phẩm và loại
+    // Tìm tùy chọn theo Sản Phẩm và loại
     List<ProductOption> findByProductProductIdAndOptionType(Integer productId, String optionType);
 
     // Tìm tùy chọn theo tên
     Optional<ProductOption> findByOptionName(String optionName);
 
-    // Tìm tùy chọn theo sản phẩm và tên
+    // Tìm tùy chọn theo Sản Phẩm và tên
     Optional<ProductOption> findByProductProductIdAndOptionName(Integer productId, String optionName);
 
-    // Kiểm tra tùy chọn có tồn tại theo tên và sản phẩm
+    // Kiểm tra tùy chọn có tồn tại theo tên và Sản Phẩm
     boolean existsByProductProductIdAndOptionName(Integer productId, String optionName);
 
-    // Lấy danh sách tùy chọn nội thất của sản phẩm
+    // Lấy danh sách tùy chọn nội thất của Sản Phẩm
     List<ProductOption> findByProductProductIdAndOptionTypeOrderByAdditionalPriceAsc(Integer productId, String optionType);
 } 

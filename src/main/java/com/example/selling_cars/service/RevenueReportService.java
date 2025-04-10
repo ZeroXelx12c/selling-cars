@@ -190,9 +190,9 @@ public class RevenueReportService {
         return createReport(report);
     }
 
-    // Lấy danh sách sản phẩm bán chạy trong tháng
+    // Lấy danh sách Sản Phẩm bán chạy trong tháng
     public List<String> getTopSellingProducts(YearMonth yearMonth, Integer limit) {
-        // TODO: Thực hiện truy vấn từ OrderDetail để lấy sản phẩm bán chạy
+        // TODO: Thực hiện truy vấn từ OrderDetail để lấy Sản Phẩm bán chạy
         
         // Tạm thời trả về danh sách mẫu
         return Arrays.asList(

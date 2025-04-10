@@ -2,7 +2,6 @@ package com.example.selling_cars.controller;
 
 import com.example.selling_cars.dto.RevenueReportDTO;
 import com.example.selling_cars.entity.RevenueReport;
-import com.example.selling_cars.exception.ResourceNotFoundException;
 import com.example.selling_cars.mapper.RevenueReportMapper;
 import com.example.selling_cars.service.RevenueReportService;
 import jakarta.validation.Valid;

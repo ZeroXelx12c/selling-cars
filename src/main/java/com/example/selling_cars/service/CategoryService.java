@@ -34,12 +34,12 @@ public class CategoryService {
         return categoryRepository.findByCategoryNameContainingIgnoreCase(keyword);
     }
 
-    // Lấy danh sách danh mục có sản phẩm
+    // Lấy danh sách danh mục có Sản Phẩm
     public List<Category> getCategoriesWithProducts() {
         return categoryRepository.findByProductsIsNotNull();
     }
 
-    // Lấy danh sách danh mục có tin tức
+    // Lấy danh sách danh mục có Tin Tức
     public List<Category> getCategoriesWithNews() {
         return categoryRepository.findByNewsIsNotNull();
     }

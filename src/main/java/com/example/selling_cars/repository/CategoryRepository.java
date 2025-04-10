@@ -18,10 +18,10 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
     // Kiểm tra danh mục có tồn tại theo tên
     boolean existsByCategoryName(String categoryName);
 
-    // Lấy danh sách danh mục có sản phẩm
+    // Lấy danh sách danh mục có Sản Phẩm
     List<Category> findByProductsIsNotNull();
 
-    // Lấy danh sách danh mục có tin tức
+    // Lấy danh sách danh mục có Tin Tức
     List<Category> findByNewsIsNotNull();
 
     List<Category> findByStatus(String status);

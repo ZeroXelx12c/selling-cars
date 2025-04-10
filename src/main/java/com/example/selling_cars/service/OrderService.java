@@ -1,6 +1,8 @@
 package com.example.selling_cars.service;
 
 import com.example.selling_cars.entity.Order;
+import com.example.selling_cars.entity.OrderDetail;
+import com.example.selling_cars.repository.OrderDetailRepository;
 import com.example.selling_cars.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,6 +19,9 @@ import java.util.Optional;
 public class OrderService {
     @Autowired
     private OrderRepository orderRepository;
+
+    @Autowired
+    private OrderDetailRepository orderDetailRepository;
 
     // Lấy tất cả đơn hàng
     public List<Order> getAllOrders() {
@@ -73,9 +78,11 @@ public class OrderService {
             BigDecimal maxAmount,
             String deliveryArea,
             Pageable pageable) {
-        // This method should implement custom filtering based on the provided parameters
+        // This method should implement custom filtering based on the provided
+        // parameters
         // You might need to implement a custom query in OrderRepository
-        return orderRepository.findByFilters(userId, status, startDate, endDate, minAmount, maxAmount, deliveryArea, pageable);
+        return orderRepository.findByFilters(userId, status, startDate, endDate, minAmount, maxAmount, deliveryArea,
+                pageable);
     }
 
     // Thêm đơn hàng mới
@@ -138,4 +145,12 @@ public class OrderService {
     public BigDecimal calculateTotalRevenueByStatus(String status) {
         return orderRepository.calculateTotalRevenueByStatus(status);
     }
-} 
+
+    @Transactional
+    public Order saveOrder(Order order, OrderDetail orderDetail) {
+        Order savedOrder = orderRepository.save(order);
+        orderDetail.setOrder(savedOrder);
+        orderDetailRepository.save(orderDetail);
+        return savedOrder;
+    }
+}

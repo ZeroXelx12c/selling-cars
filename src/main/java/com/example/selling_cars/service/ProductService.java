@@ -18,57 +18,57 @@ public class ProductService {
     @Autowired
     private ProductRepository productRepository;
 
-    // Lấy tất cả sản phẩm
+    // Lấy tất cả Sản Phẩm
     public List<Product> getAllProducts() {
         return productRepository.findAll();
     }
 
-    // Lấy sản phẩm theo ID
+    // Lấy Sản Phẩm theo ID
     public Optional<Product> getProductById(Integer id) {
         return productRepository.findById(id);
     }
 
-    // Lấy sản phẩm theo tên
+    // Lấy Sản Phẩm theo tên
     public Optional<Product> getProductByName(String productName) {
         return productRepository.findByProductName(productName);
     }
 
-    // Tìm sản phẩm theo từ khóa
+    // Tìm Sản Phẩm theo từ khóa
     public Page<Product> searchProducts(String keyword, Pageable pageable) {
         return productRepository.findByProductNameContainingIgnoreCase(keyword, pageable);
     }
 
-    // Lấy sản phẩm theo danh mục
+    // Lấy Sản Phẩm theo danh mục
     public List<Product> getProductsByCategory(Integer categoryId) {
         return productRepository.findByCategoryCategoryId(categoryId);
     }
 
-    // Lấy sản phẩm theo khoảng giá
+    // Lấy Sản Phẩm theo khoảng giá
     public List<Product> getProductsByPriceRange(BigDecimal minPrice, BigDecimal maxPrice) {
         return productRepository.findByPriceBetween(minPrice, maxPrice);
     }
 
-    // Lấy sản phẩm theo năm sản xuất
+    // Lấy Sản Phẩm theo năm sản xuất
     public List<Product> getProductsByYear(Integer year) {
         return productRepository.findByManufactureYear(year);
     }
 
-    // Lấy sản phẩm theo trạng thái
+    // Lấy Sản Phẩm theo trạng thái
     public List<Product> getProductsByStatus(String status) {
         return productRepository.findByStatus(status);
     }
 
-    // Lấy sản phẩm theo model
+    // Lấy Sản Phẩm theo model
     public List<Product> getProductsByModel(String model) {
         return productRepository.findByModelContainingIgnoreCase(model);
     }
 
-    // Lấy sản phẩm theo số km đã chạy
+    // Lấy Sản Phẩm theo số km đã chạy
     public List<Product> getProductsByMileage(Integer maxMileage) {
         return productRepository.findByMileageLessThanEqual(maxMileage);
     }
 
-    // Lấy sản phẩm còn trong kho
+    // Lấy Sản Phẩm còn trong kho
     public List<Product> getAvailableProducts(String status, Integer minQuantity) {
         List<Product> products = productRepository.findByStatus(status);
         return products.stream()
@@ -76,14 +76,14 @@ public class ProductService {
                 .collect(java.util.stream.Collectors.toList());
     }
 
-    // Tìm sản phẩm theo nhiều tiêu chí
+    // Tìm Sản Phẩm theo nhiều tiêu chí
     public Page<Product> findByFilters(Integer categoryId, String status, BigDecimal minPrice, BigDecimal maxPrice,
             Integer minYear, Integer maxYear, Pageable pageable) {
         return productRepository.findByFilters(categoryId, status, minPrice, maxPrice, minYear, maxYear, null,
                 pageable);
     }
 
-    // Thêm sản phẩm mới
+    // Thêm Sản Phẩm mới
     @Transactional
     public Product createProduct(Product product) {
         if (productRepository.findByProductName(product.getProductName()).isPresent()) {
@@ -92,13 +92,13 @@ public class ProductService {
         return productRepository.save(product);
     }
 
-    // Cập nhật sản phẩm
+    // Cập nhật Sản Phẩm
     @Transactional
     public Product updateProduct(Integer id, Product productDetails) {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Product not found with id: " + id));
 
-        // Kiểm tra tên mới có trùng với sản phẩm khác không
+        // Kiểm tra tên mới có trùng với Sản Phẩm khác không
         if (!product.getProductName().equals(productDetails.getProductName()) &&
                 productRepository.findByProductName(productDetails.getProductName()).isPresent()) {
             throw new RuntimeException("Product with name " + productDetails.getProductName() + " already exists");
@@ -119,7 +119,7 @@ public class ProductService {
         return productRepository.save(product);
     }
 
-    // Xóa sản phẩm
+    // Xóa Sản Phẩm
     @Transactional
     public void deleteProduct(Integer id) {
         Product product = productRepository.findById(id)
@@ -127,7 +127,7 @@ public class ProductService {
         productRepository.delete(product);
     }
 
-    // Cập nhật số lượng sản phẩm
+    // Cập nhật số lượng Sản Phẩm
     @Transactional
     public Product updateProductQuantity(Integer id, Integer quantity) {
         Product product = productRepository.findById(id)
@@ -136,12 +136,12 @@ public class ProductService {
         return productRepository.save(product);
     }
 
-    // Đếm số lượng sản phẩm theo trạng thái
+    // Đếm số lượng Sản Phẩm theo trạng thái
     public long countProductsByStatus(String status) {
         return productRepository.countByStatus(status);
     }
 
-    // Đếm số lượng sản phẩm theo danh mục
+    // Đếm số lượng Sản Phẩm theo danh mục
     public long countProductsByCategory(Integer categoryId) {
         return productRepository.countByCategoryCategoryId(categoryId);
     }

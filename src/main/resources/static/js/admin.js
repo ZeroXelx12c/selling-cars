@@ -77,7 +77,7 @@ function previewImage(input, previewId) {
     }
 }
 
-// Thêm sản phẩm
+// Thêm Sản Phẩm
 function addProduct() {
     const name = document.getElementById('productName').value;
     const price = document.getElementById('productPrice').value;
@@ -112,7 +112,7 @@ function addProduct() {
     }
 }
 
-// Sửa sản phẩm
+// Sửa Sản Phẩm
 function editProduct(button) {
     const row = button.closest('tr');
     const id = row.cells[0].innerText;
@@ -168,9 +168,9 @@ function saveProduct() {
     }
 }
 
-// Xóa sản phẩm
+// Xóa Sản Phẩm
 function deleteProduct(button) {
-    if (confirm('Bạn có chắc muốn xóa sản phẩm này?')) {
+    if (confirm('Bạn có chắc muốn xóa Sản Phẩm này?')) {
         button.closest('tr').remove();
     }
 }
