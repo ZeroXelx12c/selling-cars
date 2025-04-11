@@ -8,6 +8,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -59,7 +60,6 @@ public class ProductService {
         return productRepository.findByMileageLessThanEqual(maxMileage);
     }
 
-
     // Tìm Sản Phẩm theo nhiều tiêu chí
     public Page<Product> findByFilters(Integer categoryId, String status, BigDecimal minPrice, BigDecimal maxPrice,
             Integer minYear, Integer maxYear, Pageable pageable) {
@@ -75,7 +75,6 @@ public class ProductService {
         }
         return productRepository.save(product);
     }
-
 
     // Đếm số lượng Sản Phẩm theo trạng thái
     public long countProductsByStatus(String status) {
@@ -146,6 +145,43 @@ public class ProductService {
         } else {
             throw new IllegalArgumentException("Sản phẩm không tồn tại với ID: " + id);
         }
+    }
+
+    // Tìm Sản Phẩm theo nhiều tiêu chí (cập nhật để hỗ trợ tìm kiếm và lọc từ giao
+    // diện)
+    public Page<Product> findByFilters(String keyword, String model, BigDecimal minPrice, BigDecimal maxPrice,
+            Integer minYear, Integer maxYear, Pageable pageable) {
+        Specification<Product> spec = Specification.where(null);
+
+        // Tìm kiếm theo từ khóa (productName hoặc model)
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            spec = spec.and((root, query, cb) -> cb.or(
+                    cb.like(cb.lower(root.get("productName")), "%" + keyword.toLowerCase() + "%"),
+                    cb.like(cb.lower(root.get("model")), "%" + keyword.toLowerCase() + "%")));
+        }
+
+        // Lọc theo model (hãng xe)
+        if (model != null && !model.equals("all")) {
+            spec = spec.and((root, query, cb) -> cb.equal(root.get("model"), model));
+        }
+
+        // Lọc theo khoảng giá
+        if (minPrice != null) {
+            spec = spec.and((root, query, cb) -> cb.greaterThanOrEqualTo(root.get("price"), minPrice));
+        }
+        if (maxPrice != null) {
+            spec = spec.and((root, query, cb) -> cb.lessThanOrEqualTo(root.get("price"), maxPrice));
+        }
+
+        // Lọc theo khoảng năm sản xuất
+        if (minYear != null) {
+            spec = spec.and((root, query, cb) -> cb.greaterThanOrEqualTo(root.get("manufactureYear"), minYear));
+        }
+        if (maxYear != null) {
+            spec = spec.and((root, query, cb) -> cb.lessThanOrEqualTo(root.get("manufactureYear"), maxYear));
+        }
+
+        return productRepository.findAll(spec, pageable);
     }
 
 }

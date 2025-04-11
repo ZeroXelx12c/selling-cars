@@ -23,16 +23,6 @@ public class OrderService {
     @Autowired
     private OrderDetailRepository orderDetailRepository;
 
-    // Lấy tất cả đơn hàng
-    public List<Order> getAllOrders() {
-        return orderRepository.findAll();
-    }
-
-    // Lấy đơn hàng theo ID
-    public Optional<Order> getOrderById(Integer id) {
-        return orderRepository.findById(id);
-    }
-
     // Lấy đơn hàng theo người dùng
     public List<Order> getOrdersByUser(Integer userId) {
         return orderRepository.findByUserUserId(userId);
@@ -109,14 +99,6 @@ public class OrderService {
         return orderRepository.save(order);
     }
 
-    // Xóa đơn hàng
-    @Transactional
-    public void deleteOrder(Integer id) {
-        Order order = orderRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Order not found with id: " + id));
-        orderRepository.delete(order);
-    }
-
     // Cập nhật trạng thái đơn hàng
     @Transactional
     public Order updateOrderStatus(Integer id, String status) {
@@ -152,5 +134,25 @@ public class OrderService {
         orderDetail.setOrder(savedOrder);
         orderDetailRepository.save(orderDetail);
         return savedOrder;
+    }
+
+    public List<Order> getAllOrders() {
+        return orderRepository.findAll();
+    }
+
+    public Optional<Order> getOrderById(Integer id) {
+        return orderRepository.findById(id);
+    }
+
+    public Order saveOrder(Order order) {
+        return orderRepository.save(order);
+    }
+
+    public void deleteOrder(Integer id) {
+        if (orderRepository.existsById(id)) {
+            orderRepository.deleteById(id);
+        } else {
+            throw new IllegalArgumentException("Đơn hàng không tồn tại với ID: " + id);
+        }
     }
 }

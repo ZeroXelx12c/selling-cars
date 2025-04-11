@@ -595,9 +595,111 @@
 
         <div class="table-container" id="orders"
             th:style="${activeTab == 'orders' ? 'display: block' : 'display: none'}">
-            <h2>Quản lý đơn hàng</h2>
-            <p>Nội dung quản lý đơn hàng sẽ được thêm sau.</p>
+            <h2>Quản lý Đơn hàng</h2>
+            <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+            <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+            <div class="search-bar">
+                <input type="text" id="orderSearch" placeholder="Tìm kiếm đơn hàng..."
+                    onkeyup="searchTable('orderTable', this.value)">
+            </div>
+            <button class="btn btn-custom mb-3" data-bs-toggle="modal" data-bs-target="#addOrderModal">Thêm Đơn
+                hàng</button>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Người dùng</th>
+                        <th>Ngày đặt</th>
+                        <th>Tổng tiền</th>
+                        <th>Tiền đặt cọc</th>
+                        <th>Khu vực giao</th>
+                        <th>Trạng thái</th>
+                        <th>Ghi chú</th>
+                        <th>Hành động</th>
+                    </tr>
+                </thead>
+                <tbody id="orderTable" th:unless="${orders == null or #lists.isEmpty(orders)}"
+                    th:each="order : ${orders}">
+                    <tr th:data-order-id="${order.orderId}">
+                        <td th:text="${order.orderId}"></td>
+                        <td th:text="${order.user?.username ?: 'Khách'}"></td>
+                        <td th:text="${#temporals.format(order.orderDate, 'dd/MM/yyyy HH:mm')}"></td>
+                        <td th:text="${#numbers.formatDecimal(order.totalAmount, 0, 2, 'COMMA')}"></td>
+                        <td th:text="${#numbers.formatDecimal(order.depositAmount, 0, 2, 'COMMA')}"></td>
+                        <td th:text="${order.deliveryArea}"></td>
+                        <td th:text="${order.orderStatus}"></td>
+                        <td th:text="${order.notes}"></td>
+                        <td>
+                            <button class="btn-action btn-edit" th:data-order-id="${order.orderId}"
+                                onclick="editOrder(this)">Sửa</button>
+                            <button class="btn-action btn-delete" th:data-order-id="${order.orderId}"
+                                onclick="deleteOrder(this)">Xóa</button>
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody th:if="${orders == null or #lists.isEmpty(orders)}">
+                    <tr>
+                        <td colspan="9" class="text-center">Không có đơn hàng nào.</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
+
+        <!-- Modal Thêm/Sửa Đơn hàng -->
+        <div class="modal fade" id="addOrderModal" tabindex="-1" aria-labelledby="addOrderModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addOrderModalLabel">Thêm Đơn hàng</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <form id="orderForm" th:action="@{/admin/orders/save}" method="post">
+                        <div class="modal-body">
+                            <input type="hidden" name="orderId" id="orderId" />
+                            <div class="form-group">
+                                <label for="userId">Người dùng (ID)</label>
+                                <input type="number" class="form-control" id="userId" name="userId" />
+                            </div>
+                            <div class="form-group">
+                                <label for="totalAmount">Tổng tiền</label>
+                                <input type="number" step="0.01" class="form-control" id="totalAmount"
+                                    name="totalAmount" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="depositAmount">Tiền đặt cọc</label>
+                                <input type="number" step="0.01" class="form-control" id="depositAmount"
+                                    name="depositAmount" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="deliveryArea">Khu vực giao</label>
+                                <input type="text" class="form-control" id="deliveryArea" name="deliveryArea" />
+                            </div>
+                            <div class="form-group">
+                                <label for="orderStatus">Trạng thái</label>
+                                <select class="form-control" id="orderStatus" name="orderStatus">
+                                    <option value="pending">Chờ xử lý</option>
+                                    <option value="processing">Đang xử lý</option>
+                                    <option value="shipped">Đã giao</option>
+                                    <option value="delivered">Hoàn thành</option>
+                                    <option value="cancelled">Đã hủy</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="notes">Ghi chú</label>
+                                <textarea class="form-control" id="notes" name="notes"></textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                            <button type="submit" class="btn btn-custom">Lưu</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
         <div class="table-container" id="revenue"
             th:style="${activeTab == 'revenue' ? 'display: block' : 'display: none'}">
             <h2>Báo cáo doanh thu</h2>
@@ -918,6 +1020,81 @@
             document.querySelector('#products').insertBefore(alert, document.querySelector('#products .search-bar'));
             setTimeout(() => alert.remove(), 3000);
         }
+
+        function searchTable(tableId, searchText) {
+            const table = document.getElementById(tableId);
+            const rows = table.getElementsByTagName('tr');
+            for (let row of rows) {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(searchText.toLowerCase()) ? '' : 'none';
+            }
+        }
+
+        function editOrder(button) {
+            const orderId = button.getAttribute('data-order-id');
+            const row = button.closest('tr');
+            document.getElementById('orderId').value = orderId;
+            document.getElementById('userId').value = row.cells[1].textContent === 'Khách' ? '' : row.cells[1].textContent; // Giả định userId nếu không có username
+            document.getElementById('totalAmount').value = row.cells[3].textContent.replace(/,/g, '');
+            document.getElementById('depositAmount').value = row.cells[4].textContent.replace(/,/g, '');
+            document.getElementById('deliveryArea').value = row.cells[5].textContent;
+            document.getElementById('orderStatus').value = row.cells[6].textContent;
+            document.getElementById('notes').value = row.cells[7].textContent;
+            document.getElementById('addOrderModalLabel').textContent = 'Sửa Đơn hàng';
+            new bootstrap.Modal(document.getElementById('addOrderModal')).show();
+        }
+
+        function deleteOrder(button) {
+            const orderId = button.getAttribute('data-order-id');
+            if (confirm('Bạn có chắc chắn muốn xóa đơn hàng này?')) {
+                fetch(`/admin/orders/delete/${orderId}`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="_csrf"]').content
+                    }
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            button.closest('tr').remove();
+                            showSuccessMessage('Xóa đơn hàng thành công!');
+                            if (document.querySelectorAll('#orderTable tr').length === 0) {
+                                document.getElementById('orderTable').innerHTML = '<tr><td colspan="9" class="text-center">Không có đơn hàng nào.</td></tr>';
+                            }
+                        } else {
+                            throw new Error('Xóa thất bại');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Lỗi:', error);
+                        showErrorMessage('Có lỗi khi xóa đơn hàng.');
+                    });
+            }
+        }
+
+        function showSuccessMessage(message) {
+            const alert = document.createElement('div');
+            alert.className = 'alert alert-success';
+            alert.textContent = message;
+            document.querySelector('#orders').insertBefore(alert, document.querySelector('#orders .search-bar'));
+            setTimeout(() => alert.remove(), 3000);
+        }
+
+        function showErrorMessage(message) {
+            const alert = document.createElement('div');
+            alert.className = 'alert alert-danger';
+            alert.textContent = message;
+            document.querySelector('#orders').insertBefore(alert, document.querySelector('#orders .search-bar'));
+            setTimeout(() => alert.remove(), 3000);
+        }
+
+        // Reset modal khi mở để thêm đơn hàng mới
+        document.getElementById('addOrderModal').addEventListener('show.bs.modal', function (event) {
+            if (!event.relatedTarget.classList.contains('btn-edit')) {
+                document.getElementById('orderForm').reset();
+                document.getElementById('orderId').value = '';
+                document.getElementById('addOrderModalLabel').textContent = 'Thêm Đơn hàng';
+            }
+        });
     </script>
 </body>
 

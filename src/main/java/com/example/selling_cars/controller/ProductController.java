@@ -53,8 +53,8 @@ public class ProductController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ProductDTO> getProductById(@PathVariable Integer id) {
-        Optional<Product> productOpt = productService.getProductById(id);
-        Product product = productOpt.orElseThrow(() -> new ResourceNotFoundException("Product", "id", id));
+        Product product = productService.getProductById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Product", "id", id));
         return ResponseEntity.ok(productMapper.toDTO(product));
     }
 
@@ -95,23 +95,21 @@ public class ProductController {
 
     @GetMapping("/filter")
     public ResponseEntity<Page<ProductDTO>> filterProducts(
-            @RequestParam(required = false) Integer categoryId,
-            @RequestParam(required = false) String status,
+            @RequestParam(required = false) String keyword,
+            @RequestParam(required = false) String model,
             @RequestParam(required = false) BigDecimal minPrice,
             @RequestParam(required = false) BigDecimal maxPrice,
             @RequestParam(required = false) Integer minYear,
             @RequestParam(required = false) Integer maxYear,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "productId") String sortBy,
-            @RequestParam(defaultValue = "asc") String sortDirection) {
+            @RequestParam(defaultValue = "9") int size,
+            @RequestParam(defaultValue = "createdAt") String sortBy,
+            @RequestParam(defaultValue = "desc") String sortDirection) {
 
         Sort.Direction direction = sortDirection.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
         Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
 
-        Page<Product> productPage = productService.findByFilters(categoryId, status, minPrice, maxPrice, minYear,
-                maxYear, pageable);
-
+        Page<Product> productPage = productService.findByFilters(keyword, model, minPrice, maxPrice, minYear, maxYear, pageable);
         Page<ProductDTO> productDTOPage = productPage.map(productMapper::toDTO);
         return ResponseEntity.ok(productDTOPage);
     }

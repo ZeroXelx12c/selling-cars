@@ -16,6 +16,7 @@
             --secondary-color: #1a1a1a;
         }
 
+
         body {
             background-color: #000;
             color: #fff;
@@ -298,6 +299,8 @@
                 justify-content: center;
             }
         }
+
+        /* Giữ nguyên toàn bộ CSS của bạn */
     </style>
 </head>
 <body>
@@ -310,21 +313,11 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/home}">Trang Chủ</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" th:href="@{/product-list}">Sản Phẩm</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/services}">Dịch Vụ</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/news}">Tin Tức</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/contact}">Liên Hệ</a>
-                    </li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/home}">Trang Chủ</a></li>
+                    <li class="nav-item"><a class="nav-link active" th:href="@{/product-list}">Sản Phẩm</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/services}">Dịch Vụ</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/news}">Tin Tức</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/contact}">Liên Hệ</a></li>
                 </ul>
                 <div class="ms-3" id="auth-buttons">
                     <div th:if="${#authorization.expression('!isAuthenticated()')}">
@@ -356,102 +349,64 @@
                 <div class="row mb-4">
                     <div class="col-12">
                         <div class="search-box">
-                            <input type="text" id="searchInput" name="search" class="form-control"
-                                th:value="${param.search}" placeholder="Tìm kiếm theo tên xe hoặc hãng xe...">
-                            <i class="fas fa-search search-icon"></i>
+                            <input type="text" id="searchInput" class="form-control"
+                                   placeholder="Tìm kiếm theo tên xe hoặc hãng xe..."
+                                   onkeydown="if(event.key === 'Enter') loadProducts();">
+                            <i class="fas fa-search search-icon" onclick="loadProducts();"></i>
                         </div>
                     </div>
                 </div>
 
                 <!-- Filters -->
-                <form id="filterForm" th:action="@{/product-list}" method="get">
-                    <div class="row">
-                        <div class="col-md-3 col-sm-6 mb-3">
-                            <label>Hãng xe:</label>
-                            <select id="filterBrand" name="brand" class="form-select" onchange="this.form.submit()">
-                                <option value="all" th:selected="${param.brand == 'all'}">Tất cả</option>
-                                <option value="Mercedes-Benz" th:selected="${param.brand == 'Mercedes-Benz'}">Mercedes-Benz</option>
-                                <option value="BMW" th:selected="${param.brand == 'BMW'}">BMW</option>
-                                <option value="Audi" th:selected="${param.brand == 'Audi'}">Audi</option>
-                                <option value="Porsche" th:selected="${param.brand == 'Porsche'}">Porsche</option>
-                            </select>
-                        </div>
-                        <div class="col-md-3 col-sm-6 mb-3">
-                            <label>Năm sản xuất:</label>
-                            <select id="filterYear" name="year" class="form-select" onchange="this.form.submit()">
-                                <option value="all" th:selected="${param.year == 'all'}">Tất cả</option>
-                                <option value="2025" th:selected="${param.year == '2025'}">2025</option>
-                                <option value="2024" th:selected="${param.year == '2024'}">2024</option>
-                                <option value="2023" th:selected="${param.year == '2023'}">2023</option>
-                                <option value="2022" th:selected="${param.year == '2022'}">2022</option>
-                                <option value="2021" th:selected="${param.year == '2021'}">2021</option>
-                                <option value="older" th:selected="${param.year == 'older'}">Trước 2021</option>
-                            </select>
-                        </div>
-                        <div class="col-md-3 col-sm-6 mb-3">
-                            <label>Giá:</label>
-                            <select id="filterPrice" name="price" class="form-select" onchange="this.form.submit()">
-                                <option value="all" th:selected="${param.price == 'all'}">Tất cả</option>
-                                <option value="under5" th:selected="${param.price == 'under5'}">Dưới 5 tỷ</option>
-                                <option value="5to10" th:selected="${param.price == '5to10'}">5 - 10 tỷ</option>
-                                <option value="over10" th:selected="${param.price == 'over10'}">Trên 10 tỷ</option>
-                            </select>
-                        </div>
-                        <div class="col-md-3 col-sm-6 mb-3">
-                            <label>Sắp xếp:</label>
-                            <select id="sortOrder" name="sort" class="form-select" onchange="this.form.submit()">
-                                <option value="latest" th:selected="${param.sort == 'latest'}">Mới nhất</option>
-                                <option value="priceAsc" th:selected="${param.sort == 'priceAsc'}">Giá thấp đến cao</option>
-                                <option value="priceDesc" th:selected="${param.sort == 'priceDesc'}">Giá cao đến thấp</option>
-                            </select>
-                        </div>
+                <div class="row">
+                    <div class="col-md-3 col-sm-6 mb-3">
+                        <label>Hãng xe:</label>
+                        <select id="filterBrand" class="form-select" onchange="loadProducts();">
+                            <option value="all">Tất cả</option>
+                            <option value="Mercedes-Benz">Mercedes-Benz</option>
+                            <option value="BMW">BMW</option>
+                            <option value="Audi">Audi</option>
+                            <option value="Porsche">Porsche</option>
+                        </select>
                     </div>
-                </form>
-            </div>
-
-            <!-- Product Grid -->
-            <div class="row" id="carList">
-                <div th:each="product : ${products}" class="col-md-4 car-item"
-                     th:attr="data-brand=${product.model},data-year=${product.manufactureYear},data-price=${product.price}"
-                     data-aos="fade-up">
-                    <div class="car-card">
-                        <div class="car-image">
-                            <img th:src="${product.imageUrl}" th:alt="${product.productName}">
-                        </div>
-                        <div class="car-details">
-                            <h3 class="car-title" th:text="${product.productName}"></h3>
-                            <div class="car-price" th:text="'₫' + ${#numbers.formatInteger(product.price, 0, 'COMMA')} + '.000.000'"></div>
-                            <div class="car-specs">
-                                <span><i class="fas fa-road"></i> <span th:text="${product.mileage} + ' km'"></span></span>
-                                <span><i class="fas fa-calendar"></i> <span th:text="${product.manufactureYear}"></span></span>
-                                <span><i class="fas fa-gas-pump"></i> <span th:text="${product.engine}"></span></span>
-                            </div>
-                            <a th:href="@{/product-detail(id=${product.productId})}" class="btn btn-custom"
-                               th:attr="data-car-id=${product.productId},data-title=${product.productName},data-brand=${product.model},data-price=${product.price},data-year=${product.manufactureYear}">
-                                Xem chi tiết
-                            </a>
-                        </div>
+                    <div class="col-md-3 col-sm-6 mb-3">
+                        <label>Năm sản xuất:</label>
+                        <select id="filterYear" class="form-select" onchange="loadProducts();">
+                            <option value="all">Tất cả</option>
+                            <option value="2025">2025</option>
+                            <option value="2024">2024</option>
+                            <option value="2023">2023</option>
+                            <option value="2022">2022</option>
+                            <option value="2021">2021</option>
+                            <option value="older">Trước 2021</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3 col-sm-6 mb-3">
+                        <label>Giá:</label>
+                        <select id="filterPrice" class="form-select" onchange="loadProducts();">
+                            <option value="all">Tất cả</option>
+                            <option value="under5">Dưới 5 tỷ</option>
+                            <option value="5to10">5 - 10 tỷ</option>
+                            <option value="over10">Trên 10 tỷ</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3 col-sm-6 mb-3">
+                        <label>Sắp xếp:</label>
+                        <select id="sortOrder" class="form-select" onchange="loadProducts();">
+                            <option value="latest">Mới nhất</option>
+                            <option value="priceAsc">Giá thấp đến cao</option>
+                            <option value="priceDesc">Giá cao đến thấp</option>
+                        </select>
                     </div>
                 </div>
             </div>
 
+            <!-- Product Grid -->
+            <div class="row" id="carList"></div>
+
             <!-- Pagination -->
             <nav aria-label="Page navigation" data-aos="fade-up" data-aos-delay="600">
-                <ul class="pagination">
-                    <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
-                        <a class="page-link" th:href="@{/product-list(page=${currentPage - 1},brand=${param.brand},year=${param.year},price=${param.price},sort=${param.sort})}" aria-label="Previous">
-                            <span aria-hidden="true">«</span>
-                        </a>
-                    </li>
-                    <li th:each="i : ${#numbers.sequence(0, totalPages - 1)}" class="page-item" th:classappend="${i == currentPage} ? 'active'">
-                        <a class="page-link" th:href="@{/product-list(page=${i},brand=${param.brand},year=${param.year},price=${param.price},sort=${param.sort})}" th:text="${i + 1}"></a>
-                    </li>
-                    <li class="page-item" th:classappend="${currentPage == totalPages - 1} ? 'disabled'">
-                        <a class="page-link" th:href="@{/product-list(page=${currentPage + 1},brand=${param.brand},year=${param.year},price=${param.price},sort=${param.sort})}" aria-label="Next">
-                            <span aria-hidden="true">»</span>
-                        </a>
-                    </li>
-                </ul>
+                <ul class="pagination" id="pagination"></ul>
             </nav>
         </div>
     </section>
@@ -463,11 +418,7 @@
                 <div class="col-md-4">
                     <div class="footer-content">
                         <h3 class="footer-title">Về chúng tôi</h3>
-                        <p>
-                            Luxury Auto Gallery - Nơi những giấc mơ về xe sang trở thành
-                            hiện thực. Chúng tôi tự hào mang đến những Sản Phẩm và Dịch Vụ
-                            cao cấp nhất.
-                        </p>
+                        <p>Luxury Auto Gallery - Nơi những giấc mơ về xe sang trở thành hiện thực. Chúng tôi tự hào mang đến những Sản Phẩm và Dịch Vụ cao cấp nhất.</p>
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -505,6 +456,100 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         AOS.init();
+
+        let currentPage = 0;
+
+        function loadProducts(page = 0) {
+            currentPage = page;
+            const search = document.getElementById('searchInput').value;
+            const brand = document.getElementById('filterBrand').value;
+            const year = document.getElementById('filterYear').value;
+            const price = document.getElementById('filterPrice').value;
+            const sort = document.getElementById('sortOrder').value;
+
+            let url = `/api/products/filter?page=${page}&size=9`;
+            if (search) url += `&keyword=${encodeURIComponent(search)}`;
+            if (brand !== 'all') url += `&model=${encodeURIComponent(brand)}`;
+            if (year !== 'all') {
+                if (year === 'older') url += `&maxYear=2020`;
+                else url += `&minYear=${year}&maxYear=${year}`;
+            }
+            if (price !== 'all') {
+                if (price === 'under5') url += `&maxPrice=5000`;
+                else if (price === '5to10') url += `&minPrice=5000&maxPrice=10000`;
+                else if (price === 'over10') url += `&minPrice=10000`;
+            }
+            url += `&sortBy=${sort === 'priceAsc' || sort === 'priceDesc' ? 'price' : 'createdAt'}`;
+            url += `&sortDirection=${sort === 'priceAsc' ? 'asc' : 'desc'}`;
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    renderProducts(data.content);
+                    renderPagination(data.totalPages);
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        function renderProducts(products) {
+            const carList = document.getElementById('carList');
+            carList.innerHTML = '';
+            if (products.length === 0) {
+                carList.innerHTML = '<div class="col-12 text-center"><p>Không tìm thấy sản phẩm nào khớp với từ khóa.</p></div>';
+                return;
+            }
+            products.forEach(product => {
+                const html = `
+                    <div class="col-md-4 car-item" data-aos="fade-up">
+                        <div class="car-card">
+                            <div class="car-image">
+                                <img src="${product.imageUrl || '/default-image.jpg'}" alt="${product.productName}">
+                            </div>
+                            <div class="car-details">
+                                <h3 class="car-title">${product.productName}</h3>
+                                <div class="car-price">₫${Number(product.price).toLocaleString('vi-VN')}.000.000</div>
+                                <div class="car-specs">
+                                    <span><i class="fas fa-road"></i> ${product.mileage || 0} km</span>
+                                    <span><i class="fas fa-calendar"></i> ${product.manufactureYear}</span>
+                                    <span><i class="fas fa-gas-pump"></i> ${product.engine}</span>
+                                </div>
+                                <a href="/product-detail?id=${product.productId}" class="btn btn-custom">Xem chi tiết</a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                carList.insertAdjacentHTML('beforeend', html);
+            });
+        }
+
+        function renderPagination(totalPages) {
+            const pagination = document.getElementById('pagination');
+            pagination.innerHTML = '';
+            pagination.innerHTML += `
+                <li class="page-item ${currentPage === 0 ? 'disabled' : ''}">
+                    <a class="page-link" href="#" onclick="loadProducts(${currentPage - 1}); return false;" aria-label="Previous">
+                        <span aria-hidden="true">«</span>
+                    </a>
+                </li>
+            `;
+            for (let i = 0; i < totalPages; i++) {
+                pagination.innerHTML += `
+                    <li class="page-item ${i === currentPage ? 'active' : ''}">
+                        <a class="page-link" href="#" onclick="loadProducts(${i}); return false;">${i + 1}</a>
+                    </li>
+                `;
+            }
+            pagination.innerHTML += `
+                <li class="page-item ${currentPage === totalPages - 1 ? 'disabled' : ''}">
+                    <a class="page-link" href="#" onclick="loadProducts(${currentPage + 1}); return false;" aria-label="Next">
+                        <span aria-hidden="true">»</span>
+                    </a>
+                </li>
+            `;
+        }
+
+        // Load sản phẩm khi trang được tải
+        document.addEventListener('DOMContentLoaded', () => loadProducts());
     </script>
 </body>
 </html>
