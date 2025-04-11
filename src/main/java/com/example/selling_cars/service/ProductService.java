@@ -1,6 +1,7 @@
 package com.example.selling_cars.service;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,16 +18,6 @@ import com.example.selling_cars.repository.ProductRepository;
 public class ProductService {
     @Autowired
     private ProductRepository productRepository;
-
-    // Lấy tất cả Sản Phẩm
-    public List<Product> getAllProducts() {
-        return productRepository.findAll();
-    }
-
-    // Lấy Sản Phẩm theo ID
-    public Optional<Product> getProductById(Integer id) {
-        return productRepository.findById(id);
-    }
 
     // Lấy Sản Phẩm theo tên
     public Optional<Product> getProductByName(String productName) {
@@ -68,13 +59,6 @@ public class ProductService {
         return productRepository.findByMileageLessThanEqual(maxMileage);
     }
 
-    // Lấy Sản Phẩm còn trong kho
-    public List<Product> getAvailableProducts(String status, Integer minQuantity) {
-        List<Product> products = productRepository.findByStatus(status);
-        return products.stream()
-                .filter(product -> product.getQuantity() >= minQuantity)
-                .collect(java.util.stream.Collectors.toList());
-    }
 
     // Tìm Sản Phẩm theo nhiều tiêu chí
     public Page<Product> findByFilters(Integer categoryId, String status, BigDecimal minPrice, BigDecimal maxPrice,
@@ -92,49 +76,6 @@ public class ProductService {
         return productRepository.save(product);
     }
 
-    // Cập nhật Sản Phẩm
-    @Transactional
-    public Product updateProduct(Integer id, Product productDetails) {
-        Product product = productRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Product not found with id: " + id));
-
-        // Kiểm tra tên mới có trùng với Sản Phẩm khác không
-        if (!product.getProductName().equals(productDetails.getProductName()) &&
-                productRepository.findByProductName(productDetails.getProductName()).isPresent()) {
-            throw new RuntimeException("Product with name " + productDetails.getProductName() + " already exists");
-        }
-
-        product.setProductName(productDetails.getProductName());
-        product.setDescription(productDetails.getDescription());
-        product.setPrice(productDetails.getPrice());
-        product.setQuantity(productDetails.getQuantity());
-        product.setManufactureYear(productDetails.getManufactureYear());
-        product.setMileage(productDetails.getMileage());
-        product.setModel(productDetails.getModel());
-        product.setStatus(productDetails.getStatus());
-        product.setCategory(productDetails.getCategory());
-        product.setEngine(productDetails.getEngine());
-        product.setImageUrl(productDetails.getImageUrl());
-
-        return productRepository.save(product);
-    }
-
-    // Xóa Sản Phẩm
-    @Transactional
-    public void deleteProduct(Integer id) {
-        Product product = productRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Product not found with id: " + id));
-        productRepository.delete(product);
-    }
-
-    // Cập nhật số lượng Sản Phẩm
-    @Transactional
-    public Product updateProductQuantity(Integer id, Integer quantity) {
-        Product product = productRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Product not found with id: " + id));
-        product.setQuantity(quantity);
-        return productRepository.save(product);
-    }
 
     // Đếm số lượng Sản Phẩm theo trạng thái
     public long countProductsByStatus(String status) {
@@ -163,6 +104,48 @@ public class ProductService {
 
     public long countByCategoryId(Integer categoryId) {
         return productRepository.countByCategoryCategoryId(categoryId);
+    }
+
+    public List<Product> getAllProducts() {
+        return productRepository.findAll();
+    }
+
+    public Optional<Product> getProductById(Integer id) {
+        return productRepository.findById(id);
+    }
+
+    public Product saveProduct(Product product) {
+        if (product.getCreatedAt() == null) {
+            product.setCreatedAt(LocalDateTime.now());
+        }
+        return productRepository.save(product);
+    }
+
+    public Product updateProduct(Integer id, Product product) {
+        Optional<Product> existingProduct = productRepository.findById(id);
+        if (existingProduct.isPresent()) {
+            Product updatedProduct = existingProduct.get();
+            updatedProduct.setCategory(product.getCategory());
+            updatedProduct.setProductName(product.getProductName());
+            updatedProduct.setPrice(product.getPrice());
+            updatedProduct.setImageUrl(product.getImageUrl());
+            updatedProduct.setModel(product.getModel());
+            updatedProduct.setManufactureYear(product.getManufactureYear());
+            updatedProduct.setEngine(product.getEngine());
+            updatedProduct.setMileage(product.getMileage());
+            updatedProduct.setStatus(product.getStatus());
+            updatedProduct.setDescription(product.getDescription());
+            return productRepository.save(updatedProduct);
+        }
+        throw new IllegalArgumentException("Sản phẩm không tồn tại với ID: " + id);
+    }
+
+    public void deleteProduct(Integer id) {
+        if (productRepository.existsById(id)) {
+            productRepository.deleteById(id);
+        } else {
+            throw new IllegalArgumentException("Sản phẩm không tồn tại với ID: " + id);
+        }
     }
 
 }

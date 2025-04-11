@@ -1,17 +1,18 @@
 <!DOCTYPE html>
 <html lang="vi" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - Luxury Auto Gallery</title>
-    
+
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
+
     <style>
         :root {
             --primary-color: #c5a47e;
@@ -250,20 +251,27 @@
         }
     </style>
 </head>
+
 <body>
     <!-- Sidebar -->
     <div class="sidebar">
         <div class="sidebar-brand">LUXURY ADMIN</div>
         <ul class="sidebar-nav">
-            <li><a href="#overview" th:classappend="${activeTab == 'overview' ? 'active' : ''}"><i class="fas fa-tachometer-alt"></i> <span>Tổng quan</span></a></li>
-            <li><a href="#products" th:classappend="${activeTab == 'products' ? 'active' : ''}"><i class="fas fa-car"></i> <span>Quản lý Sản Phẩm</span></a></li>
-            <li><a href="#orders" th:classappend="${activeTab == 'orders' ? 'active' : ''}"><i class="fas fa-shopping-cart"></i> <span>Quản lý đơn hàng</span></a></li>
-            <li><a href="#customers" th:classappend="${activeTab == 'customers' ? 'active' : ''}"><i class="fas fa-users"></i> <span>Quản lý khách hàng</span></a></li>
-            <li><a href="#revenue" th:classappend="${activeTab == 'revenue' ? 'active' : ''}"><i class="fas fa-chart-line"></i> <span>Báo cáo doanh thu</span></a></li>
+            <li><a href="#overview" th:classappend="${activeTab == 'overview' ? 'active' : ''}"><i
+                        class="fas fa-tachometer-alt"></i> <span>Tổng quan</span></a></li>
+            <li><a href="#products" th:classappend="${activeTab == 'products' ? 'active' : ''}"><i
+                        class="fas fa-car"></i> <span>Quản lý Sản Phẩm</span></a></li>
+            <li><a href="#orders" th:classappend="${activeTab == 'orders' ? 'active' : ''}"><i
+                        class="fas fa-shopping-cart"></i> <span>Quản lý đơn hàng</span></a></li>
+            <li><a href="#customers" th:classappend="${activeTab == 'customers' ? 'active' : ''}"><i
+                        class="fas fa-users"></i> <span>Quản lý khách hàng</span></a></li>
+            <li><a href="#revenue" th:classappend="${activeTab == 'revenue' ? 'active' : ''}"><i
+                        class="fas fa-chart-line"></i> <span>Báo cáo doanh thu</span></a></li>
             <li>
                 <form th:action="@{/logout}" method="post" style="display: inline;">
                     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-                    <button type="submit" class="btn-logout"><i class="fas fa-sign-out-alt"></i> <span>Đăng xuất</span></button>
+                    <button type="submit" class="btn-logout"><i class="fas fa-sign-out-alt"></i> <span>Đăng
+                            xuất</span></button>
                 </form>
             </li>
         </ul>
@@ -272,14 +280,17 @@
     <!-- Main Content -->
     <div class="main-content">
         <!-- Quản lý khách hàng -->
-        <div class="table-container" id="customers" th:style="${activeTab == 'customers' ? 'display: block' : 'display: none'}">
+        <div class="table-container" id="customers"
+            th:style="${activeTab == 'customers' ? 'display: block' : 'display: none'}">
             <h2>Quản lý khách hàng</h2>
             <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
             <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
             <div class="search-bar">
-                <input type="text" id="customerSearch" placeholder="Tìm kiếm khách hàng..." onkeyup="searchTable('customerTable', this.value)">
+                <input type="text" id="customerSearch" placeholder="Tìm kiếm khách hàng..."
+                    onkeyup="searchTable('customerTable', this.value)">
             </div>
-            <button class="btn-action btn-add" data-bs-toggle="modal" data-bs-target="#addCustomerModal">Thêm khách hàng</button>
+            <button class="btn-action btn-add" data-bs-toggle="modal" data-bs-target="#addCustomerModal">Thêm khách
+                hàng</button>
             <table class="table">
                 <thead>
                     <tr>
@@ -294,21 +305,29 @@
                         <th>Hành động</th>
                     </tr>
                 </thead>
-                <tbody id="customerTable" th:unless="${users == null or #lists.isEmpty(users)}" th:each="user : ${users}">
+                <tbody id="customerTable" th:unless="${users == null or #lists.isEmpty(users)}"
+                    th:each="user : ${users}">
                     <tr>
                         <td th:text="${user.userId}"></td>
                         <td th:text="${user.phoneNumber}"></td>
                         <td th:text="${user.fullName}"></td>
                         <td th:text="${user.email}"></td>
                         <td th:text="${user.phoneNumber}"></td>
-                        <td th:text="${user.dateOfBirth != null ? #temporals.format(user.dateOfBirth, 'dd/MM/yyyy') : ''}"></td>
+                        <td
+                            th:text="${user.dateOfBirth != null ? #temporals.format(user.dateOfBirth, 'dd/MM/yyyy') : ''}">
+                        </td>
                         <td th:text="${user.role}"></td>
-                        <td th:text="${user.createdAt != null ? #temporals.format(user.createdAt, 'dd/MM/yyyy HH:mm') : ''}"></td>
+                        <td
+                            th:text="${user.createdAt != null ? #temporals.format(user.createdAt, 'dd/MM/yyyy HH:mm') : ''}">
+                        </td>
                         <td>
-                            <button class="btn-action btn-edit" th:data-user-id="${user.userId}" onclick="editCustomer(this)">Sửa</button>
-                            <form th:action="@{/admin/customers/delete/{id}(id=${user.userId})}" method="post" style="display:inline;">
+                            <button class="btn-action btn-edit" th:data-user-id="${user.userId}"
+                                onclick="editCustomer(this)">Sửa</button>
+                            <form th:action="@{/admin/customers/delete/{id}(id=${user.userId})}" method="post"
+                                style="display:inline;">
                                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-                                <button type="submit" class="btn-action btn-delete">Xóa</button>
+                                <button type="submit" class="btn-action btn-delete"
+                                    onclick="return confirmDelete(this.form, event)">Xóa</button>
                             </form>
                         </td>
                     </tr>
@@ -322,31 +341,279 @@
         </div>
 
         <!-- Placeholder cho các section khác -->
-        <div class="table-container" id="overview" th:style="${activeTab == 'overview' ? 'display: block' : 'display: none'}">
+        <div class="table-container" id="overview"
+            th:style="${activeTab == 'overview' ? 'display: block' : 'display: none'}">
             <h2>Tổng quan</h2>
-            <p>Nội dung tổng quan sẽ được thêm sau.</p>
+
+            <!-- Cards thông tin -->
+            <div class="row mb-4">
+                <div class="col-md-3">
+                    <div class="card bg-dark text-white">
+                        <div class="card-body">
+                            <h5 class="card-title">Tổng doanh thu</h5>
+                            <p class="card-text" id="totalRevenue">₫0</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card bg-dark text-white">
+                        <div class="card-body">
+                            <h5 class="card-title">Số đơn hàng</h5>
+                            <p class="card-text" id="totalOrders">0</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card bg-dark text-white">
+                        <div class="card-body">
+                            <h5 class="card-title">Số khách hàng</h5>
+                            <p class="card-text" id="totalCustomers">0</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card bg-dark text-white">
+                        <div class="card-body">
+                            <h5 class="card-title">Sản phẩm trong kho</h5>
+                            <p class="card-text" id="totalInventory">0</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Biểu đồ doanh thu -->
+            <div class="card bg-dark text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Doanh thu theo ngày (7 ngày gần nhất)</h5>
+                    <canvas id="revenueChart" height="100"></canvas>
+                </div>
+            </div>
         </div>
-        <div class="table-container" id="products" th:style="${activeTab == 'products' ? 'display: block' : 'display: none'}">
+
+        <div class="table-container" id="products"
+            th:style="${activeTab == 'products' ? 'display: block' : 'display: none'}">
             <h2>Quản lý Sản Phẩm</h2>
-            <p>Nội dung quản lý Sản Phẩm sẽ được thêm sau.</p>
+            <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+            <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+            <div class="search-bar">
+                <input type="text" id="productSearch" placeholder="Tìm kiếm sản phẩm..."
+                    onkeyup="searchTable('productTable', this.value)">
+            </div>
+            <button class="btn-action btn-add" data-bs-toggle="modal" data-bs-target="#addProductModal">Thêm sản
+                phẩm</button>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Tên sản phẩm</th>
+                        <th>Hình ảnh</th>
+                        <th>Giá</th>
+                        <th>Năm sản xuất</th>
+                        <th>Model</th>
+                        <th>Động cơ</th>
+                        <th>Quãng đường (km)</th>
+                        <th>Trạng thái</th>
+                        <th>Hành động</th>
+                    </tr>
+                </thead>
+                <tbody id="productTable" th:unless="${products == null or #lists.isEmpty(products)}"
+                    th:each="product : ${products}">
+                    <tr th:data-product-id="${product.productId}">
+                        <td th:text="${product.productId}"></td>
+                        <td th:text="${product.productName}"></td>
+                        <td><img th:src="${product.imageUrl} ?: '/images/default.jpg'" alt="Product Image"
+                                style="width: 50px; height: auto;" /></td>
+                        <td th:text="${#numbers.formatDecimal(product.price, 0, 2, 'COMMA')}"></td>
+                        <td th:text="${product.manufactureYear}"></td>
+                        <td th:text="${product.model}"></td>
+                        <td th:text="${product.engine}"></td>
+                        <td th:text="${product.mileage}"></td>
+                        <td th:text="${product.status == 'in_stock' ? 'Có sẵn' : 'Hết hàng'}"></td>
+                        <td>
+                            <button class="btn-action btn-edit" th:data-product-id="${product.productId}"
+                                onclick="editProduct(this)">Sửa</button>
+                            <button class="btn-action btn-delete" th:data-product-id="${product.productId}"
+                                onclick="deleteProduct(this)">Xóa</button>
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody th:if="${products == null or #lists.isEmpty(products)}">
+                    <tr>
+                        <td colspan="10" class="text-center">Không có sản phẩm nào.</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
-        <div class="table-container" id="orders" th:style="${activeTab == 'orders' ? 'display: block' : 'display: none'}">
+        <!-- Modal Thêm Sản phẩm -->
+        <div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addProductModalLabel">Thêm sản phẩm mới</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form th:action="@{/admin/products/add}" th:object="${product}" method="post">
+                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                            <div class="mb-3">
+                                <label for="productName" class="form-label">Tên sản phẩm</label>
+                                <input type="text" class="form-control" id="productName" th:field="*{productName}"
+                                    required>
+                                <div th:errors="*{productName}" class="text-danger"></div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="imageUrl" class="form-label">URL hình ảnh</label>
+                                <input type="text" class="form-control" id="imageUrl" th:field="*{imageUrl}">
+                                <div th:errors="*{imageUrl}" class="text-danger"></div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="price" class="form-label">Giá</label>
+                                <input type="number" step="0.01" class="form-control" id="price" th:field="*{price}"
+                                    required>
+                                <div th:errors="*{price}" class="text-danger"></div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="manufactureYear" class="form-label">Năm sản xuất</label>
+                                <input type="number" class="form-control" id="manufactureYear"
+                                    th:field="*{manufactureYear}" required>
+                                <div th:errors="*{manufactureYear}" class="text-danger"></div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="model" class="form-label">Model</label>
+                                <input type="text" class="form-control" id="model" th:field="*{model}" required>
+                                <div th:errors="*{model}" class="text-danger"></div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="engine" class="form-label">Động cơ</label>
+                                <input type="text" class="form-control" id="engine" th:field="*{engine}">
+                                <div th:errors="*{engine}" class="text-danger"></div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="mileage" class="form-label">Quãng đường (km)</label>
+                                <input type="number" class="form-control" id="mileage" th:field="*{mileage}">
+                                <div th:errors="*{mileage}" class="text-danger"></div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="status" class="form-label">Trạng thái</label>
+                                <select class="form-control" id="status" th:field="*{status}">
+                                    <option value="in_stock">Có sẵn</option>
+                                    <option value="out_of_stock">Hết hàng</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="description" class="form-label">Mô tả</label>
+                                <textarea class="form-control" id="description" th:field="*{description}"
+                                    rows="3"></textarea>
+                                <div th:errors="*{description}" class="text-danger"></div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                                <button type="submit" class="btn btn-primary">Thêm</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Sửa Sản phẩm -->
+        <div class="modal fade" id="editProductModal" tabindex="-1" aria-labelledby="editProductModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editProductModalLabel">Sửa thông tin sản phẩm</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form th:action="@{/admin/products/update}" th:object="${product}" method="post">
+                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                            <input type="hidden" id="editProductId" th:field="*{productId}">
+                            <div class="mb-3">
+                                <label for="editProductName" class="form-label">Tên sản phẩm</label>
+                                <input type="text" class="form-control" id="editProductName" th:field="*{productName}"
+                                    required>
+                                <div th:errors="*{productName}" class="text-danger"></div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="editImageUrl" class="form-label">URL hình ảnh</label>
+                                <input type="text" class="form-control" id="editImageUrl" th:field="*{imageUrl}">
+                                <div th:errors="*{imageUrl}" class="text-danger"></div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="editPrice" class="form-label">Giá</label>
+                                <input type="number" step="0.01" class="form-control" id="editPrice" th:field="*{price}"
+                                    required>
+                                <div th:errors="*{price}" class="text-danger"></div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="editManufactureYear" class="form-label">Năm sản xuất</label>
+                                <input type="number" class="form-control" id="editManufactureYear"
+                                    th:field="*{manufactureYear}" required>
+                                <div th:errors="*{manufactureYear}" class="text-danger"></div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="editModel" class="form-label">Model</label>
+                                <input type="text" class="form-control" id="editModel" th:field="*{model}" required>
+                                <div th:errors="*{model}" class="text-danger"></div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="editEngine" class="form-label">Động cơ</label>
+                                <input type="text" class="form-control" id="editEngine" th:field="*{engine}">
+                                <div th:errors="*{engine}" class="text-danger"></div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="editMileage" class="form-label">Quãng đường (km)</label>
+                                <input type="number" class="form-control" id="editMileage" th:field="*{mileage}">
+                                <div th:errors="*{mileage}" class="text-danger"></div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="editStatus" class="form-label">Trạng thái</label>
+                                <select class="form-control" id="editStatus" th:field="*{status}">
+                                    <option value="in_stock">Có sẵn</option>
+                                    <option value="out_of_stock">Hết hàng</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="editDescription" class="form-label">Mô tả</label>
+                                <textarea class="form-control" id="editDescription" th:field="*{description}"
+                                    rows="3"></textarea>
+                                <div th:errors="*{description}" class="text-danger"></div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                                <button type="submit" class="btn btn-primary">Lưu</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="table-container" id="orders"
+            th:style="${activeTab == 'orders' ? 'display: block' : 'display: none'}">
             <h2>Quản lý đơn hàng</h2>
             <p>Nội dung quản lý đơn hàng sẽ được thêm sau.</p>
         </div>
-        <div class="table-container" id="revenue" th:style="${activeTab == 'revenue' ? 'display: block' : 'display: none'}">
+        <div class="table-container" id="revenue"
+            th:style="${activeTab == 'revenue' ? 'display: block' : 'display: none'}">
             <h2>Báo cáo doanh thu</h2>
             <p>Nội dung báo cáo doanh thu sẽ được thêm sau.</p>
         </div>
     </div>
 
     <!-- Modal Thêm Khách hàng -->
-    <div class="modal fade" id="addCustomerModal" tabindex="-1" aria-labelledby="addCustomerModalLabel" aria-hidden="true">
+    <div class="modal fade" id="addCustomerModal" tabindex="-1" aria-labelledby="addCustomerModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="addCustomerModalLabel">Thêm khách hàng mới</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form th:action="@{/admin/customers/add}" th:object="${userDTO}" method="post">
@@ -394,12 +661,14 @@
     </div>
 
     <!-- Modal Sửa Khách hàng -->
-    <div class="modal fade" id="editCustomerModal" tabindex="-1" aria-labelledby="editCustomerModalLabel" aria-hidden="true">
+    <div class="modal fade" id="editCustomerModal" tabindex="-1" aria-labelledby="editCustomerModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="editCustomerModalLabel">Sửa thông tin khách hàng</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form th:action="@{/admin/customers/update}" th:object="${userDTO}" method="post">
@@ -412,7 +681,8 @@
                         </div>
                         <div class="mb-3">
                             <label for="editPhoneNumber" class="form-label">Số điện thoại</label>
-                            <input type="text" class="form-control" id="editPhoneNumber" th:field="*{phoneNumber}" required>
+                            <input type="text" class="form-control" id="editPhoneNumber" th:field="*{phoneNumber}"
+                                required>
                             <div th:errors="*{phoneNumber}" class="text-danger"></div>
                         </div>
                         <div class="mb-3">
@@ -422,7 +692,8 @@
                         </div>
                         <div class="mb-3">
                             <label for="editDateOfBirth" class="form-label">Ngày sinh</label>
-                            <input type="date" class="form-control" id="editDateOfBirth" th:field="*{dateOfBirth}" required>
+                            <input type="date" class="form-control" id="editDateOfBirth" th:field="*{dateOfBirth}"
+                                required>
                             <div th:errors="*{dateOfBirth}" class="text-danger"></div>
                         </div>
                         <div class="mb-3">
@@ -451,7 +722,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         document.querySelectorAll('.sidebar-nav a').forEach(link => {
-            link.addEventListener('click', function(e) {
+            link.addEventListener('click', function (e) {
                 e.preventDefault();
                 document.querySelectorAll('.sidebar-nav a').forEach(a => a.classList.remove('active'));
                 this.classList.add('active');
@@ -480,6 +751,13 @@
             }
         }
 
+        function confirmDelete(form, event) {
+            event.preventDefault(); // Ngăn hành vi mặc định
+            if (confirm("Bạn có chắc chắn muốn xóa khách hàng này?")) {
+                form.submit(); // Gửi form nếu bấm OK
+            }
+        }
+
         function editCustomer(button) {
             const userId = button.getAttribute('data-user-id');
             const row = button.closest('tr');
@@ -494,6 +772,153 @@
 
             new bootstrap.Modal(document.getElementById('editCustomerModal')).show();
         }
+
+        // Hàm gọi API và cập nhật dữ liệu tổng quan
+        function loadOverviewData() {
+            // Gọi API để lấy báo cáo mới nhất
+            fetch('/api/admin/dashboard/latest')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('totalRevenue').textContent = '₫' + Number(data.totalRevenue || 0).toLocaleString('vi-VN');
+                    document.getElementById('totalOrders').textContent = data.newOrders || 0;
+                    document.getElementById('totalInventory').textContent = data.inventory || 0;
+                })
+                .catch(error => console.error('Lỗi khi lấy dữ liệu tổng quan:', error));
+
+            // Gọi API để lấy số khách hàng
+            fetch('/admin/customers')
+                .then(response => response.text())
+                .then(html => {
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+                    const rows = doc.querySelectorAll('#customerTable tr').length;
+                    document.getElementById('totalCustomers').textContent = rows || 0;
+                })
+                .catch(error => console.error('Lỗi khi đếm khách hàng:', error));
+
+            // Gọi API để lấy doanh thu 7 ngày gần nhất
+            const today = new Date();
+            const endDate = today.toISOString().split('T')[0];
+            const startDate = new Date(today.setDate(today.getDate() - 6)).toISOString().split('T')[0];
+
+            fetch(`/api/admin/dashboard/date-range?startDate=${startDate}&endDate=${endDate}`)
+                .then(response => response.json())
+                .then(data => {
+                    const labels = data.map(report => new Date(report.reportDate).toLocaleDateString('vi-VN'));
+                    const revenues = data.map(report => report.totalRevenue || 0);
+                    drawRevenueChart(labels, revenues);
+                })
+                .catch(error => console.error('Lỗi khi lấy dữ liệu biểu đồ:', error));
+        }
+
+        // Hàm vẽ biểu đồ doanh thu
+        function drawRevenueChart(labels, revenues) {
+            const ctx = document.getElementById('revenueChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Doanh thu (VND)',
+                        data: revenues,
+                        borderColor: '#c5a47e',
+                        backgroundColor: 'rgba(197, 164, 126, 0.2)',
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: { color: '#fff' },
+                            grid: { color: '#444' }
+                        },
+                        x: {
+                            ticks: { color: '#fff' },
+                            grid: { color: '#444' }
+                        }
+                    },
+                    plugins: {
+                        legend: { labels: { color: '#fff' } }
+                    }
+                }
+            });
+        }
+
+        // Gọi hàm load dữ liệu khi tab Tổng quan được chọn
+        document.querySelector('a[href="#overview"]').addEventListener('click', function () {
+            loadOverviewData();
+        });
+
+        // Load dữ liệu ngay nếu tab Tổng quan đang active khi tải trang
+        if (document.querySelector('.sidebar-nav a.active').getAttribute('href') === '#overview') {
+            loadOverviewData();
+        }
+
+        function editProduct(button) {
+            const productId = button.getAttribute('data-product-id');
+            const row = button.closest('tr');
+            const cells = row.getElementsByTagName('td');
+
+            document.getElementById('editProductId').value = cells[0].innerText;
+            document.getElementById('editProductName').value = cells[1].innerText;
+            document.getElementById('editImageUrl').value = cells[2].querySelector('img').src;
+            document.getElementById('editPrice').value = parseFloat(cells[3].innerText.replace(/,/g, ''));
+            document.getElementById('editManufactureYear').value = cells[4].innerText;
+            document.getElementById('editModel').value = cells[5].innerText;
+            document.getElementById('editEngine').value = cells[6].innerText;
+            document.getElementById('editMileage').value = cells[7].innerText;
+            document.getElementById('editStatus').value = cells[8].innerText === 'Có sẵn' ? 'in_stock' : 'out_of_stock';
+            document.getElementById('editDescription').value = '';
+
+            new bootstrap.Modal(document.getElementById('editProductModal')).show();
+        }
+
+        function deleteProduct(button) {
+            const productId = button.getAttribute('data-product-id');
+            if (confirm("Bạn có chắc chắn muốn xóa sản phẩm này?")) {
+                fetch(`/admin/products/delete/${productId}`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="_csrf"]').content
+                    }
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            button.closest('tr').remove();
+                            showSuccessMessage("Xóa sản phẩm thành công!");
+                            if (document.querySelectorAll('#productTable tr').length === 0) {
+                                document.getElementById('productTable').innerHTML = '<tr><td colspan="10" class="text-center">Không có sản phẩm nào.</td></tr>';
+                            }
+                        } else {
+                            throw new Error('Xóa thất bại');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Lỗi:', error);
+                        showErrorMessage("Có lỗi khi xóa sản phẩm.");
+                    });
+            }
+        }
+
+        // Hàm thông báo (đã có từ trước)
+        function showSuccessMessage(message) {
+            const alert = document.createElement('div');
+            alert.className = 'alert alert-success';
+            alert.textContent = message;
+            document.querySelector('#products').insertBefore(alert, document.querySelector('#products .search-bar'));
+            setTimeout(() => alert.remove(), 3000);
+        }
+
+        function showErrorMessage(message) {
+            const alert = document.createElement('div');
+            alert.className = 'alert alert-danger';
+            alert.textContent = message;
+            document.querySelector('#products').insertBefore(alert, document.querySelector('#products .search-bar'));
+            setTimeout(() => alert.remove(), 3000);
+        }
     </script>
 </body>
+
 </html>

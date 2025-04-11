@@ -21,44 +21,44 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .authorizeHttpRequests(authorize -> authorize
-                .requestMatchers("/login", "/register", "/home", "/product-list", "/services", "/news", "/contact", "/css/**", "/js/**").permitAll()
-                .requestMatchers("/payment").authenticated()
-                .requestMatchers("/admin/**").hasRole("ADMIN") // Bảo vệ tất cả endpoint dưới /admin
-                .anyRequest().permitAll()
-            )
-            .formLogin(form -> form
-                .loginPage("/login")
-                .usernameParameter("username")
-                .passwordParameter("password")
-                .successHandler(authenticationSuccessHandler())
-                .failureUrl("/login?error")
-                .permitAll()
-            )
-            .logout(logout -> logout
-                .logoutUrl("/logout")
-                .logoutSuccessUrl("/login?logout")
-                .permitAll()
-            )
-            .rememberMe(remember -> remember
-                .rememberMeParameter("remember-me")
-                .tokenValiditySeconds(86400)
-            )
-            .csrf(csrf -> csrf
-                .ignoringRequestMatchers("/admin/customers/**") // Vô hiệu hóa CSRF cho POST trong admin
-            );
+                .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers("/login", "/register", "/home", "/product-list", "/services", "/news",
+                                "/contact", "/css/**", "/js/**")
+                        .permitAll()
+                        .requestMatchers("/payment").authenticated()
+                        .requestMatchers("/admin/**").hasRole("ADMIN") // Bảo vệ tất cả endpoint dưới /admin
+                        .anyRequest().permitAll())
+                .formLogin(form -> form
+                        .loginPage("/login")
+                        .usernameParameter("username")
+                        .passwordParameter("password")
+                        .successHandler(authenticationSuccessHandler())
+                        .failureUrl("/login?error")
+                        .permitAll())
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessHandler((request, response, authentication) -> {
+                            response.sendRedirect("/login");
+                        })
+                        .permitAll())
+                .rememberMe(remember -> remember
+                        .rememberMeParameter("remember-me")
+                        .tokenValiditySeconds(86400))
+                .csrf(csrf -> csrf
+                        .ignoringRequestMatchers("/admin/customers/**") // Vô hiệu hóa CSRF cho POST trong admin
+                );
         return http.build();
     }
 
     @Bean
     public UserDetailsService userDetailsService() {
         return phoneNumber -> usersService.getUserByPhoneNumber(phoneNumber)
-            .map(user -> org.springframework.security.core.userdetails.User
-                .withUsername(user.getPhoneNumber())
-                .password(user.getPassword())
-                .roles(user.getRole().toUpperCase())
-                .build())
-            .orElseThrow(() -> new UsernameNotFoundException("Số điện thoại hoặc mật khẩu không đúng!"));
+                .map(user -> org.springframework.security.core.userdetails.User
+                        .withUsername(user.getPhoneNumber())
+                        .password(user.getPassword())
+                        .roles(user.getRole().toUpperCase())
+                        .build())
+                .orElseThrow(() -> new UsernameNotFoundException("Số điện thoại hoặc mật khẩu không đúng!"));
     }
 
     @Bean

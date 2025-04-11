@@ -28,11 +28,11 @@ public class Product {
 
     @NotNull(message = "Giá không được để trống!")
     @DecimalMin(value = "0.0", message = "Giá phải lớn hơn hoặc bằng 0!")
+    @DecimalMax(value = "9999999999999999.99", message = "Giá vượt quá giới hạn cho phép!") // Giới hạn cho DECIMAL(18,2)
     @Column(name = "price", nullable = false, precision = 18, scale = 2)
     private BigDecimal price;
 
-    @Size(max = 255, message = "URL hình ảnh không được vượt quá 255 ký tự!")
-    @Column(name = "image_url", length = 255)
+    @Column(name = "image_url", columnDefinition = "NVARCHAR(MAX)")
     private String imageUrl;
 
     @Size(max = 50, message = "Model không được vượt quá 50 ký tự!")
@@ -49,6 +49,7 @@ public class Product {
     private String engine;
 
     @Min(value = 0, message = "Số km đã chạy không được âm!")
+    @Max(value = 2147483647, message = "Số km đã chạy vượt quá giới hạn cho phép!") // Giới hạn INT
     @Column(name = "mileage")
     private Integer mileage = 0;
 
@@ -62,14 +63,10 @@ public class Product {
 
     @Column(name = "created_at")
     private LocalDateTime createdAt = LocalDateTime.now();
-    
-    @Min(value = 0, message = "Số lượng không được âm!")
-    @Column(name = "quantity")
-    private Integer quantity = 0;
 
     @OneToMany(mappedBy = "product")
     private List<ProductOption> options;
 
     @OneToMany(mappedBy = "product")
     private List<OrderDetail> orderDetails;
-} 
+}

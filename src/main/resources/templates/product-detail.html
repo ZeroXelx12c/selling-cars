@@ -386,30 +386,7 @@
     </div>
   </section>
 
-  <!-- Gallery Section -->
-  <section class="gallery">
-    <div class="container">
-      <h2 class="gallery-title" data-aos="fade-up">Hình ảnh chi tiết</h2>
-      <div class="row">
-        <!-- Giả sử bạn lưu thêm ảnh trong database hoặc file hệ thống -->
-        <div class="col-md-4" data-aos="fade-up">
-          <div class="gallery-item">
-            <img th:src="${product.imageUrl + '_interior.jpg'}" th:alt="${product.productName + ' Interior'}" />
-          </div>
-        </div>
-        <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
-          <div class="gallery-item">
-            <img th:src="${product.imageUrl + '_exterior.jpg'}" th:alt="${product.productName + ' Exterior'}" />
-          </div>
-        </div>
-        <div class="col-md-4" data-aos="fade-up" data-aos-delay="400">
-          <div class="gallery-item">
-            <img th:src="${product.imageUrl + '_side.jpg'}" th:alt="${product.productName + ' Side View'}" />
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+
 
   <!-- Detailed Description Section -->
   <section class="detailed-description">

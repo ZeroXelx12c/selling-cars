@@ -25,7 +25,7 @@ public class ProductOptionService {
         return productOptionRepository.findById(id);
     }
 
-    // Lấy tùy chọn theo Sản Phẩm
+    // Lấy tùy chọn theo sản phẩm
     public List<ProductOption> getOptionsByProduct(Integer productId) {
         return productOptionRepository.findByProductProductId(productId);
     }
@@ -35,7 +35,7 @@ public class ProductOptionService {
         return productOptionRepository.findByOptionType(optionType);
     }
 
-    // Lấy tùy chọn theo Sản Phẩm và loại
+    // Lấy tùy chọn theo sản phẩm và loại
     public List<ProductOption> getOptionsByProductAndType(Integer productId, String optionType) {
         return productOptionRepository.findByProductProductIdAndOptionType(productId, optionType);
     }
@@ -45,12 +45,12 @@ public class ProductOptionService {
         return productOptionRepository.findByOptionName(optionName);
     }
 
-    // Lấy tùy chọn theo Sản Phẩm và tên
+    // Lấy tùy chọn theo sản phẩm và tên
     public Optional<ProductOption> getOptionByProductAndName(Integer productId, String optionName) {
         return productOptionRepository.findByProductProductIdAndOptionName(productId, optionName);
     }
 
-    // Lấy danh sách tùy chọn nội thất của Sản Phẩm
+    // Lấy danh sách tùy chọn nội thất của sản phẩm
     public List<ProductOption> getInteriorOptionsByProduct(Integer productId) {
         return productOptionRepository.findByProductProductIdAndOptionTypeOrderByAdditionalPriceAsc(productId, "INTERIOR");
     }
@@ -72,7 +72,7 @@ public class ProductOptionService {
         ProductOption option = productOptionRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Option not found with id: " + id));
 
-        // Kiểm tra tên mới có trùng với tùy chọn khác của cùng Sản Phẩm không
+        // Kiểm tra tên mới có trùng với tùy chọn khác của cùng sản phẩm không
         if (!option.getOptionName().equals(optionDetails.getOptionName()) &&
             productOptionRepository.existsByProductProductIdAndOptionName(
                     option.getProduct().getProductId(), optionDetails.getOptionName())) {
